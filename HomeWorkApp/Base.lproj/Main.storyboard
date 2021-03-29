@@ -48,7 +48,7 @@
                                         <rect key="frame" x="176.66666666666666" y="229" width="37" height="30"/>
                                         <state key="normal" title="Enter"/>
                                         <connections>
-                                            <segue destination="7DD-bE-uKl" kind="presentation" identifier="SegueTabBar" modalPresentationStyle="fullScreen" id="Crj-H0-3O9"/>
+                                            <action selector="enter:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Pf5-3h-Fn1"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f9M-8U-rg4">
@@ -96,10 +96,12 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="enterButton" destination="Cst-eH-vFQ" id="Vd2-fx-i4K"/>
                         <outlet property="eyeButton" destination="PB4-Bg-nAo" id="Opl-dl-zs9"/>
                         <outlet property="loginField" destination="rAh-kz-VC5" id="lUV-pF-pxb"/>
                         <outlet property="passwordField" destination="aj0-Gw-f9S" id="D7l-Ai-I7O"/>
                         <outlet property="scrollView" destination="UiV-Nt-JVU" id="7Z4-sf-lAP"/>
+                        <segue destination="7DD-bE-uKl" kind="presentation" identifier="SegueTabBar" modalPresentationStyle="fullScreen" id="4HD-t7-Zku"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -302,9 +304,7 @@
                             <outlet property="delegate" destination="HE1-oS-VW5" id="ToC-uC-Lp3"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="1wV-Gb-xo2">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="lZY-AW-YFY"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="1wV-Gb-xo2"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lUF-Xx-OXE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

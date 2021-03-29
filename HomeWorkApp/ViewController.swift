@@ -18,6 +18,7 @@ class ViewController: UIViewController {
            let _ = unwindSegue.source as? FriendsTableViewController{
             loginField.text = nil
             passwordField.text = nil
+            enterButton.isEnabled = true
         }
     }
     @IBOutlet weak var loginField: UITextField!
@@ -26,15 +27,17 @@ class ViewController: UIViewController {
     @IBOutlet weak var eyeButton: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
     
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        if identifier == "SegueTabBar" {
-            let login:String = loginField.text!
-            let password:String = passwordField.text!
-            guard login != "" else {return false}
-            guard password != "" else {return false}
-            return true
-        } else {
-            return super.shouldPerformSegue(withIdentifier: identifier, sender: sender)
+    @IBAction func enter(_ sender: Any) {
+        let login:String = loginField.text!
+        let password:String = passwordField.text!
+        guard login != "" else {return}
+        guard password != "" else {return}
+        enterButton.isEnabled = false
+        dotsAnimation()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            self.replicatorLayer.removeFromSuperlayer()
+            self.performSegue(withIdentifier: "SegueTabBar", sender: nil)
+            
         }
     }
     
@@ -72,6 +75,33 @@ class ViewController: UIViewController {
         
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    private let replicatorLayer = CAReplicatorLayer ()
+    private func dotsAnimation () {
+        // replicatorLayer.frame = CGRect (x: 180, y: 215, width: 15, height: 7)
+        replicatorLayer.frame = CGRect(x: scrollView.center.x - 12 /*enterButton.frame.minX*/, y: enterButton.frame.minY - 10, width: 15, height: 7)
+        let dot = CALayer ()
+        dot.frame = CGRect(x: 0, y: 0, width: 7, height: 7)
+        dot.cornerRadius = dot.frame.width / 2
+        dot.backgroundColor = UIColor.black.cgColor
+        replicatorLayer.addSublayer(dot)
+        replicatorLayer.instanceCount = 3
+        replicatorLayer.instanceTransform = CATransform3DMakeTranslation(10, 0, 0)
+        //replicatorLayer.instanceTransform = CATransform3DRotate(CATransform3D(), 90, 0, 0, 0)
+        let anim = CABasicAnimation (keyPath: "opacity")
+        anim.fromValue = 1
+        anim.toValue = 0.3
+        anim.duration = 1
+        anim.repeatCount = .infinity
+        anim.fillMode = .removed
+        dot.add(anim, forKey: nil)
+        replicatorLayer.instanceDelay = anim.duration / Double(replicatorLayer.instanceCount)
+        scrollView.layer.addSublayer(replicatorLayer)
     }
     
 }
