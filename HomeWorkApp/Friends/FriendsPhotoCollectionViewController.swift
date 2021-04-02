@@ -13,6 +13,8 @@ class FriendsPhotoCollectionViewController: UICollectionViewController {
         super.viewDidLoad()
         
     }
+    
+    
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -27,9 +29,15 @@ class FriendsPhotoCollectionViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! FriendsPhotoCollectionViewCell
         
         cell.imageView.image = userPhotos [indexPath.item]
-        cell.imageView.contentMode = .scaleAspectFit
+        cell.imageView.contentMode = .scaleAspectFill
         return cell
     }
     
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedPhoto = indexPath.item
+    }
+    
+    
+
 }
 
