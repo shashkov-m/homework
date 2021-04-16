@@ -20,4 +20,5 @@ class FriendsPhotoCollectionViewCell: UICollectionViewCell {
         likeButton.setImage(UIImage (systemName: "heart.fill"), for: .selected)
         likeButton.setImage(UIImage (systemName: "heart"), for: .normal)
     }
+    
 }

@@ -252,30 +252,30 @@
         <scene sceneID="kqD-3C-YlM">
             <objects>
                 <collectionViewController id="HE1-oS-VW5" customClass="FriendsPhotoCollectionViewController" customModule="HomeWorkApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" id="GOq-eP-H1s">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" alwaysBounceVertical="YES" dataMode="prototypes" id="GOq-eP-H1s">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="XqF-gu-t7p">
-                            <size key="itemSize" width="128" height="128"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="0.0" id="C5C-nU-h5J">
+                            <size key="itemSize" width="90" height="90"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <inset key="sectionInset" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FriendPhotoItem" id="wmg-h1-Qd7" customClass="FriendsPhotoCollectionViewCell" customModule="HomeWorkApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" reuseIdentifier="FriendPhotoItem" id="wmg-h1-Qd7" customClass="FriendsPhotoCollectionViewCell" customModule="HomeWorkApp" customModuleProvider="target">
+                                <rect key="frame" x="5" y="0.0" width="90" height="90"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <collectionViewCellContentView key="contentView" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="GhD-aM-2LK">
-                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="V6M-JU-U6c">
-                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
-                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V6M-JU-U6c">
+                                            <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                         </imageView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y2a-Re-Km8">
-                                            <rect key="frame" x="105" y="108" width="21" height="18"/>
+                                            <rect key="frame" x="67" y="70" width="21" height="18"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="9"/>
                                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <state key="normal" image="heart" catalog="system"/>
@@ -296,6 +296,7 @@
                                 <connections>
                                     <outlet property="imageView" destination="V6M-JU-U6c" id="qKQ-VP-MXO"/>
                                     <outlet property="likeButton" destination="Y2a-Re-Km8" id="rar-Sh-ZUj"/>
+                                    <segue destination="lS9-xG-o7M" kind="show" id="Nqq-SP-2hb"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -309,6 +310,37 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lUF-Xx-OXE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3134" y="-142"/>
+        </scene>
+        <!--Photo View Controller-->
+        <scene sceneID="HVk-8P-la1">
+            <objects>
+                <viewController id="lS9-xG-o7M" customClass="PhotoViewController" customModule="HomeWorkApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aKL-RS-Y6S">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wqg-AC-PjR">
+                                <rect key="frame" x="0.0" y="88" width="390" height="673"/>
+                                <gestureRecognizers/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="DmR-MH-kiR"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="wqg-AC-PjR" firstAttribute="top" secondItem="DmR-MH-kiR" secondAttribute="top" id="Deb-eN-tcE"/>
+                            <constraint firstItem="DmR-MH-kiR" firstAttribute="bottom" secondItem="wqg-AC-PjR" secondAttribute="bottom" id="MbE-ti-EU7"/>
+                            <constraint firstItem="DmR-MH-kiR" firstAttribute="trailing" secondItem="wqg-AC-PjR" secondAttribute="trailing" id="uXO-2a-yi9"/>
+                            <constraint firstItem="wqg-AC-PjR" firstAttribute="leading" secondItem="DmR-MH-kiR" secondAttribute="leading" id="zWp-PX-fbT"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Z0i-Zn-756"/>
+                    <connections>
+                        <outlet property="photoView" destination="wqg-AC-PjR" id="n4C-jK-fsb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mrd-HG-VP4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3906" y="-142"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="MW8-Z4-bc6">

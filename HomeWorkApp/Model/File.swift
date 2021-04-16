@@ -39,7 +39,7 @@ extension CommunityModel:Equatable {
     }
 }
 
-let userPhotos:[UIImage] = [#imageLiteral(resourceName: "PKJHwd"),#imageLiteral(resourceName: "d0311cd8-0115-11e7-a59f-6e714efd800d.800x600")]
+let userPhotos:[UIImage] = [#imageLiteral(resourceName: "PKJHwd"),#imageLiteral(resourceName: "d0311cd8-0115-11e7-a59f-6e714efd800d.800x600"),#imageLiteral(resourceName: "photo_2021-04-01 13.27.34"),#imageLiteral(resourceName: "photo_2021-04-01 13.27.41"),#imageLiteral(resourceName: "photo_2021-04-02 10.13.36")]
 
 var userNameChar:[Character] = []
 func letterCount () {
@@ -60,3 +60,6 @@ let userDictionary = Dictionary(grouping: friendList, by: { $0.userLetter })
 let sortedUserDictionary = userDictionary.sorted {
     $0.key < $1.key
 }
+
+
+var selectedPhoto:Int = 0
