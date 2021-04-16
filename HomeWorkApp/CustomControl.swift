@@ -8,7 +8,7 @@
 import UIKit
 
 class CustomControl: UIControl {
-    var likeCount:Int = 110 {
+    var likeCount:Int = 144 {
         didSet {
             countLabel.text = "\(likeCount)"
         }
@@ -16,6 +16,7 @@ class CustomControl: UIControl {
     var isLikePressed:Bool = false {
         didSet {
             updateLikeImage ()
+            
         }
     }
     var likeImage:UIImage? = nil {
@@ -53,25 +54,33 @@ class CustomControl: UIControl {
         stack.alignment = .center
         stack.distribution = .fill
         countLabel.text = "\(likeCount)"
-        updateLikeImage ()
+        likeImage = isLikePressed ? UIImage (systemName: "heart.fill") : UIImage (systemName: "heart")
+        likeImageView.tintColor = isLikePressed ? .red : .gray
+        //updateLikeImage ()
     }
     private func updateLikeImage () {
         if isLikePressed {
             likeImage = UIImage (systemName: "heart.fill")
             likeImageView.tintColor = .red
             likeCount += 1
+            UIView.transition(with: countLabel, duration: 0.5, options: .transitionFlipFromBottom, animations: {
+                self.countLabel.text = "\(self.likeCount)"
+            })
         } else {
             likeImage = UIImage (systemName: "heart")
             likeImageView.tintColor = .gray
             guard likeCount > 0 else { return }
             likeCount -= 1
+            UIView.transition(with: countLabel, duration: 0.5, options: .transitionFlipFromTop, animations: {
+                self.countLabel.text = "\(self.likeCount)"
+            })
             
         }
 
     }
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         isLikePressed.toggle()
-        sendActions(for: .valueChanged)
+
     }
 
 }
