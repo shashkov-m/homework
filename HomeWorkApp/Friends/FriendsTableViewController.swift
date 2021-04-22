@@ -7,10 +7,12 @@
 
 import UIKit
 class FriendsTableViewController: UITableViewController {
+    let requestManager = RequestManager ()
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(CustomHeaderView.self, forHeaderFooterViewReuseIdentifier: "sectionHeader")
-
+        requestManager.getFriendsList()
+        requestManager.getPhoto()
     }
     override func numberOfSections(in tableView: UITableView) -> Int {
         return userNameChar.count

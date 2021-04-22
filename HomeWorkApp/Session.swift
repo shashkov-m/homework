@@ -16,4 +16,6 @@ class Session {
     
     var token:String = ""
     var userId:Int = 0
+    
+    let urlSession = URLSession (configuration: .default)
 }
