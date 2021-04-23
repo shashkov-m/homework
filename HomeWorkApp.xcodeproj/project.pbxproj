@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		26C039BB2631C9AC0046FB35 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C039BA2631C9AC0046FB35 /* RequestManager.swift */; };
 		9612C93A260BA89C005B70B6 /* CustomHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9612C939260BA89C005B70B6 /* CustomHeaderView.swift */; };
 		9612C945260DE9E3005B70B6 /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9612C943260DE9E3005B70B6 /* FeedTableViewCell.swift */; };
 		9612C946260DE9E3005B70B6 /* FeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9612C944260DE9E3005B70B6 /* FeedTableViewCell.xib */; };
 		9612C94E260DEB62005B70B6 /* FeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9612C94D260DEB62005B70B6 /* FeedTableViewController.swift */; };
 		9612C959260E4EE7005B70B6 /* CustomControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9612C958260E4EE7005B70B6 /* CustomControl.swift */; };
 		9612C96126138F3C005B70B6 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9612C96026138F3B005B70B6 /* PhotoViewController.swift */; };
+		9618F18C262961BC0043081B /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9618F18B262961BC0043081B /* Session.swift */; };
 		964DAF5C26039B8B0016897D /* ViewWithShadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964DAF5B26039B8B0016897D /* ViewWithShadow.swift */; };
 		96AFA2C025F4139300B35CE4 /* FriendsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AFA2BF25F4139300B35CE4 /* FriendsNavigationController.swift */; };
 		96C53E9C25EA2BB500385EE9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C53E9B25EA2BB500385EE9 /* AppDelegate.swift */; };
@@ -50,12 +52,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		26C039BA2631C9AC0046FB35 /* RequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
 		9612C939260BA89C005B70B6 /* CustomHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomHeaderView.swift; sourceTree = "<group>"; };
 		9612C943260DE9E3005B70B6 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
 		9612C944260DE9E3005B70B6 /* FeedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedTableViewCell.xib; sourceTree = "<group>"; };
 		9612C94D260DEB62005B70B6 /* FeedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewController.swift; sourceTree = "<group>"; };
 		9612C958260E4EE7005B70B6 /* CustomControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomControl.swift; sourceTree = "<group>"; };
 		9612C96026138F3B005B70B6 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PhotoViewController.swift; path = HomeWorkApp/PhotoViewController.swift; sourceTree = SOURCE_ROOT; };
+		9618F18B262961BC0043081B /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		964DAF5B26039B8B0016897D /* ViewWithShadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewWithShadow.swift; sourceTree = "<group>"; };
 		96AFA2BF25F4139300B35CE4 /* FriendsNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsNavigationController.swift; sourceTree = "<group>"; };
 		96C53E9825EA2BB500385EE9 /* HomeWorkApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeWorkApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -177,6 +181,8 @@
 				9612C941260DE69D005B70B6 /* Communities */,
 				9612C942260DE9B0005B70B6 /* Feed */,
 				96C53E9F25EA2BB500385EE9 /* ViewController.swift */,
+				26C039BA2631C9AC0046FB35 /* RequestManager.swift */,
+				9618F18B262961BC0043081B /* Session.swift */,
 				9612C958260E4EE7005B70B6 /* CustomControl.swift */,
 				96C53EA125EA2BB500385EE9 /* Main.storyboard */,
 				96AFA2BF25F4139300B35CE4 /* FriendsNavigationController.swift */,
@@ -350,8 +356,10 @@
 				96F37B2725F520FC008B7701 /* AllCommunitiesTableViewController.swift in Sources */,
 				964DAF5C26039B8B0016897D /* ViewWithShadow.swift in Sources */,
 				96C53ED225EEDB3F00385EE9 /* FriendsTableViewController.swift in Sources */,
+				26C039BB2631C9AC0046FB35 /* RequestManager.swift in Sources */,
 				96F37B3725F66D16008B7701 /* ComunitiesTableViewCell.swift in Sources */,
 				9612C94E260DEB62005B70B6 /* FeedTableViewController.swift in Sources */,
+				9618F18C262961BC0043081B /* Session.swift in Sources */,
 				96EAFAEC25FE998B003A4946 /* FriendsPhotoCollectionViewCell.swift in Sources */,
 				9612C93A260BA89C005B70B6 /* CustomHeaderView.swift in Sources */,
 				9612C96126138F3C005B70B6 /* PhotoViewController.swift in Sources */,
