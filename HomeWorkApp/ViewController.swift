@@ -9,7 +9,6 @@ import UIKit
 import WebKit
 
 class ViewController: UIViewController {
-    
     @IBOutlet weak var webView: WKWebView!{
         didSet{
             webView.navigationDelegate = self
@@ -59,13 +58,11 @@ extension ViewController: WKNavigationDelegate {
             return dict
         }
         Session.session.token = params["access_token"] ?? ""
-        //        print ("Params: \(params)")
         print("Access Token: \(Session.session.token)")
         
         decisionHandler(.cancel)
         
         
-        
         performSegue(withIdentifier: "authSuccess", sender: self)
-    }    
+    }
 }
