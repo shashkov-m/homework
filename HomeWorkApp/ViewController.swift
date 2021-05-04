@@ -1,10 +1,3 @@
-//
-//  ViewController.swift
-//  HomeWorkApp
-//
-//  Created by Шашков Максим Алексеевич on 27.02.2021.
-//
-
 import UIKit
 import WebKit
 
@@ -18,7 +11,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         auth()
-        letterCount()
     }
     
     private func auth () {
