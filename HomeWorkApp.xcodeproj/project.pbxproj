@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,8 @@
 		507CC08D263AD77000CD9C6A /* AlbumsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CC08B263AD77000CD9C6A /* AlbumsCollectionViewCell.swift */; };
 		507CC08E263AD77000CD9C6A /* AlbumsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 507CC08C263AD77000CD9C6A /* AlbumsCollectionViewCell.xib */; };
 		507CC093263AD9EA00CD9C6A /* AlbumsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CC092263AD9EA00CD9C6A /* AlbumsCollectionViewController.swift */; };
+		50897279264535AB006080FA /* CommunitiesRealmEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50897278264535AB006080FA /* CommunitiesRealmEntity.swift */; };
+		50D818FA26430F3000A529D5 /* FriendsRealmEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D818F926430F3000A529D5 /* FriendsRealmEntity.swift */; };
 		9612C945260DE9E3005B70B6 /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9612C943260DE9E3005B70B6 /* FeedTableViewCell.swift */; };
 		9612C946260DE9E3005B70B6 /* FeedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9612C944260DE9E3005B70B6 /* FeedTableViewCell.xib */; };
 		9612C94E260DEB62005B70B6 /* FeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9612C94D260DEB62005B70B6 /* FeedTableViewController.swift */; };
@@ -34,6 +36,7 @@
 		96F37B0B25F436F5008B7701 /* FriendsPhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F37B0A25F436F5008B7701 /* FriendsPhotoCollectionViewController.swift */; };
 		96F37B3225F537B7008B7701 /* CommunitiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F37B3125F537B7008B7701 /* CommunitiesTableViewController.swift */; };
 		96F37B3725F66D16008B7701 /* ComunitiesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F37B3625F66D16008B7701 /* ComunitiesTableViewCell.swift */; };
+		FF459056DA7DF4EC033160AC /* Pods_HomeWorkApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF19739269634CFDD85229BA /* Pods_HomeWorkApp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,12 +58,15 @@
 
 /* Begin PBXFileReference section */
 		26C039BA2631C9AC0046FB35 /* RequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
+		4A05BBC863C3007891EC3CE2 /* Pods-HomeWorkApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeWorkApp.release.xcconfig"; path = "Target Support Files/Pods-HomeWorkApp/Pods-HomeWorkApp.release.xcconfig"; sourceTree = "<group>"; };
 		507CC0762639B04700CD9C6A /* CommunitiesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunitiesRequest.swift; sourceTree = "<group>"; };
 		507CC07B2639B25200CD9C6A /* FriendsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsRequest.swift; sourceTree = "<group>"; };
 		507CC083263AB4B000CD9C6A /* AlbumRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumRequest.swift; sourceTree = "<group>"; };
 		507CC08B263AD77000CD9C6A /* AlbumsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsCollectionViewCell.swift; sourceTree = "<group>"; };
 		507CC08C263AD77000CD9C6A /* AlbumsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AlbumsCollectionViewCell.xib; sourceTree = "<group>"; };
 		507CC092263AD9EA00CD9C6A /* AlbumsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsCollectionViewController.swift; sourceTree = "<group>"; };
+		50897278264535AB006080FA /* CommunitiesRealmEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunitiesRealmEntity.swift; sourceTree = "<group>"; };
+		50D818F926430F3000A529D5 /* FriendsRealmEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsRealmEntity.swift; sourceTree = "<group>"; };
 		9612C943260DE9E3005B70B6 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
 		9612C944260DE9E3005B70B6 /* FeedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedTableViewCell.xib; sourceTree = "<group>"; };
 		9612C94D260DEB62005B70B6 /* FeedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewController.swift; sourceTree = "<group>"; };
@@ -87,6 +93,8 @@
 		96F37B0A25F436F5008B7701 /* FriendsPhotoCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsPhotoCollectionViewController.swift; sourceTree = "<group>"; };
 		96F37B3125F537B7008B7701 /* CommunitiesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunitiesTableViewController.swift; sourceTree = "<group>"; };
 		96F37B3625F66D16008B7701 /* ComunitiesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComunitiesTableViewCell.swift; sourceTree = "<group>"; };
+		BF19739269634CFDD85229BA /* Pods_HomeWorkApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HomeWorkApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8ECCA643DC3A7FFF8879770 /* Pods-HomeWorkApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeWorkApp.debug.xcconfig"; path = "Target Support Files/Pods-HomeWorkApp/Pods-HomeWorkApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF459056DA7DF4EC033160AC /* Pods_HomeWorkApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,6 +123,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		399FDB5EB878F0034BBCA874 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BF19739269634CFDD85229BA /* Pods_HomeWorkApp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4A645CF00D377E64A3B4072E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D8ECCA643DC3A7FFF8879770 /* Pods-HomeWorkApp.debug.xcconfig */,
+				4A05BBC863C3007891EC3CE2 /* Pods-HomeWorkApp.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		5028147F263DBBB70023E9AC /* Photos */ = {
 			isa = PBXGroup;
 			children = (
@@ -140,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				507CC07B2639B25200CD9C6A /* FriendsRequest.swift */,
+				50D818F926430F3000A529D5 /* FriendsRealmEntity.swift */,
 				96C53ED125EEDB3F00385EE9 /* FriendsTableViewController.swift */,
 				507CC098263ADA1100CD9C6A /* Albums */,
 			);
@@ -160,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				507CC0762639B04700CD9C6A /* CommunitiesRequest.swift */,
+				50897278264535AB006080FA /* CommunitiesRealmEntity.swift */,
 				96F37B3125F537B7008B7701 /* CommunitiesTableViewController.swift */,
 				96F37B3625F66D16008B7701 /* ComunitiesTableViewCell.swift */,
 			);
@@ -183,6 +211,8 @@
 				96C53EB125EA2BB600385EE9 /* HomeWorkAppTests */,
 				96C53EBC25EA2BB600385EE9 /* HomeWorkAppUITests */,
 				96C53E9925EA2BB500385EE9 /* Products */,
+				4A645CF00D377E64A3B4072E /* Pods */,
+				399FDB5EB878F0034BBCA874 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -240,9 +270,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 96C53EC225EA2BB600385EE9 /* Build configuration list for PBXNativeTarget "HomeWorkApp" */;
 			buildPhases = (
+				FA4D68D5B037ED101B96CB1C /* [CP] Check Pods Manifest.lock */,
 				96C53E9425EA2BB500385EE9 /* Sources */,
 				96C53E9525EA2BB500385EE9 /* Frameworks */,
 				96C53E9625EA2BB500385EE9 /* Resources */,
+				078CB2451DF77CE06DD6A224 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -360,6 +392,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		078CB2451DF77CE06DD6A224 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HomeWorkApp/Pods-HomeWorkApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HomeWorkApp/Pods-HomeWorkApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HomeWorkApp/Pods-HomeWorkApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FA4D68D5B037ED101B96CB1C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HomeWorkApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		96C53E9425EA2BB500385EE9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -381,7 +455,9 @@
 				9612C945260DE9E3005B70B6 /* FeedTableViewCell.swift in Sources */,
 				507CC07C2639B25200CD9C6A /* FriendsRequest.swift in Sources */,
 				96F37B3225F537B7008B7701 /* CommunitiesTableViewController.swift in Sources */,
+				50D818FA26430F3000A529D5 /* FriendsRealmEntity.swift in Sources */,
 				96F37B0B25F436F5008B7701 /* FriendsPhotoCollectionViewController.swift in Sources */,
+				50897279264535AB006080FA /* CommunitiesRealmEntity.swift in Sources */,
 				96AFA2C025F4139300B35CE4 /* FriendsNavigationController.swift in Sources */,
 				96C53E9E25EA2BB500385EE9 /* SceneDelegate.swift in Sources */,
 				507CC08D263AD77000CD9C6A /* AlbumsCollectionViewCell.swift in Sources */,
@@ -557,6 +633,7 @@
 		};
 		96C53EC325EA2BB600385EE9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D8ECCA643DC3A7FFF8879770 /* Pods-HomeWorkApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -575,6 +652,7 @@
 		};
 		96C53EC425EA2BB600385EE9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4A05BBC863C3007891EC3CE2 /* Pods-HomeWorkApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
