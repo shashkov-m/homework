@@ -1,10 +1,3 @@
-//
-//  CommunitiesTableViewController.swift
-//  HomeWorkApp
-//
-//  Created by Шашков Максим Алексеевич on 07.03.2021.
-//
-
 import UIKit
 
 class CommunitiesTableViewController: UITableViewController {
@@ -37,8 +30,6 @@ class CommunitiesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "favoriteCommunityCell", for: indexPath)
-
-        // Configure the cell...
         let community = communitiesRequest.groupsList[indexPath.row]
         cell.textLabel?.numberOfLines = 2
         cell.textLabel?.text = "\(community.name)\n\(community.type)"

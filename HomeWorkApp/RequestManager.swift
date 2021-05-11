@@ -16,7 +16,7 @@ class RequestManager {
         case albumsGet = "/method/photos.getAlbums"
     }
     
-    func vkRequestUrl (path: path,queryItems: [URLQueryItem]) -> URL {
+    func vkRequestUrl (path: path, queryItems: [URLQueryItem]) -> URL {
         var urlComponents = URLComponents ()
         urlComponents.scheme = "https"
         urlComponents.host = "api.vk.com"
