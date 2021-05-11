@@ -8,21 +8,20 @@
 import UIKit
 
 class CommunitiesTableViewController: UITableViewController {
+    let communitiesRequest = CommunitiesRequest()
     
-    var userCommunities: [CommunityModel] = []
-
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        communitiesRequest.getGroupsList()
+        DispatchQueue.main.asyncAfter (deadline: .now() + 0.5) {
+            self.tableView.reloadData()
+        }
     }
     
-
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        tableView.reloadData()
+    }
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -32,7 +31,7 @@ class CommunitiesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return userCommunities.count
+        return communitiesRequest.groupsList.count
     }
 
     
@@ -40,37 +39,16 @@ class CommunitiesTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "favoriteCommunityCell", for: indexPath)
 
         // Configure the cell...
-        let favoriteCommunity = userCommunities [indexPath.row]
+        let community = communitiesRequest.groupsList[indexPath.row]
         cell.textLabel?.numberOfLines = 2
-        cell.textLabel?.text = "\(favoriteCommunity.communityName)\n\(favoriteCommunity.communityType)"
+        cell.textLabel?.text = "\(community.name)\n\(community.type)"
+        cell.textLabel?.font = .systemFont(ofSize: 16)
+        cell.imageView?.image = community.photo
+        cell.imageView?.layer.cornerRadius = 25
+        cell.imageView?.layer.masksToBounds = true
         return cell
     }
-    
-    @IBAction func addCommunity (segue: UIStoryboardSegue) {
-        if segue.identifier == "exitCommunity",
-                  let sourceVC = segue.source as? AllCommunitiesTableViewController,
-                  let selectedCommunity = sourceVC.selectedCommunity {
-            guard !userCommunities.contains(selectedCommunity) else {
-                let alert = UIAlertController (title: "", message: "You already have the \(selectedCommunity.communityName) community", preferredStyle: .alert)
-                let action = UIAlertAction (title: "OK", style: .cancel, handler: nil)
-                alert.addAction(action)
-                present(alert, animated: true, completion: nil)
-                return
-            }
-            userCommunities.append(selectedCommunity)
-            tableView.reloadData()
-        }
-    }
-
-    
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            userCommunities.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50.0
     }
 }
