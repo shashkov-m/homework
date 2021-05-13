@@ -7,10 +7,11 @@ class PhotoViewController: UIViewController {
     var album_id:Int = 0
     var selectedPhoto:Int = 0
     let realm = try! Realm()
-    
+    var photosList:Results<PhotoRealmEntity>?
     override func viewDidLoad() {
         super.viewDidLoad()
-        let photosList = realm.objects(PhotoRealmEntity.self).filter("album_id == \(album_id) AND owner_id == \(user_id)")
+        photosList = realm.objects(PhotoRealmEntity.self).filter("album_id == \(album_id) AND owner_id == \(user_id)")
+        guard let photosList = photosList else { return }
         let url = URL(string: photosList[selectedPhoto].photo)
         photoView.kf.setImage(with: url)
         let rightSwipe = UISwipeGestureRecognizer (target: self, action: #selector(moveToNextItem(_:)))
@@ -26,12 +27,12 @@ class PhotoViewController: UIViewController {
     var animateIsActive:Bool = false
     
     @objc private func moveToNextItem (_ sender: UISwipeGestureRecognizer) {
-        let photosList = realm.objects(PhotoRealmEntity.self).filter("album_id == \(album_id) AND owner_id == \(user_id)")
+        //let photosList = realm.objects(PhotoRealmEntity.self).filter("album_id == \(album_id) AND owner_id == \(user_id)")
         switch sender.direction {
         
         case .left:
             
-            guard selectedPhoto < photosList.count - 1 && !animateIsActive else { return }
+            guard let photosList = photosList, selectedPhoto < photosList.count - 1 && !animateIsActive else { return }
             animateIsActive = true
             selectedPhoto += 1
             let newImage = UIImageView ()
@@ -51,7 +52,7 @@ class PhotoViewController: UIViewController {
             })
             
         case .right:
-            guard selectedPhoto > 0 && !animateIsActive else { return }
+            guard let photosList = photosList, selectedPhoto > 0 && !animateIsActive else { return }
             animateIsActive = true
             selectedPhoto -= 1
             let newImage = UIImageView ()
