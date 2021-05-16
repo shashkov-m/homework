@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		26C039BB2631C9AC0046FB35 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C039BA2631C9AC0046FB35 /* RequestManager.swift */; };
+		2A5BA52D26514208007440C8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2A5BA52C26514208007440C8 /* GoogleService-Info.plist */; };
 		502E4D6F2646B8620020EF92 /* AlbumsRealmEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502E4D6E2646B8620020EF92 /* AlbumsRealmEntity.swift */; };
 		5077273B2647F45F00C4A0D3 /* PhotoRealmEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5077273A2647F45F00C4A0D3 /* PhotoRealmEntity.swift */; };
 		507CC0772639B04700CD9C6A /* CommunitiesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CC0762639B04700CD9C6A /* CommunitiesRequest.swift */; };
@@ -60,6 +61,7 @@
 
 /* Begin PBXFileReference section */
 		26C039BA2631C9AC0046FB35 /* RequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
+		2A5BA52C26514208007440C8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4A05BBC863C3007891EC3CE2 /* Pods-HomeWorkApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeWorkApp.release.xcconfig"; path = "Target Support Files/Pods-HomeWorkApp/Pods-HomeWorkApp.release.xcconfig"; sourceTree = "<group>"; };
 		502E4D6E2646B8620020EF92 /* AlbumsRealmEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsRealmEntity.swift; sourceTree = "<group>"; };
 		5077273A2647F45F00C4A0D3 /* PhotoRealmEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoRealmEntity.swift; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 				96C53EA125EA2BB500385EE9 /* Main.storyboard */,
 				96C53EA425EA2BB600385EE9 /* Assets.xcassets */,
 				96C53EA925EA2BB600385EE9 /* Info.plist */,
+				2A5BA52C26514208007440C8 /* GoogleService-Info.plist */,
 			);
 			path = HomeWorkApp;
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 				96C53EA525EA2BB600385EE9 /* Assets.xcassets in Resources */,
 				507CC08E263AD77000CD9C6A /* AlbumsCollectionViewCell.xib in Resources */,
 				96C53EA325EA2BB500385EE9 /* Main.storyboard in Resources */,
+				2A5BA52D26514208007440C8 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
