@@ -90,14 +90,7 @@ class FriendsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50.0
     }
-    
-    //    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    //        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "sectionHeader") as! CustomHeaderView
-    //        let char = userNameChar [section]
-    //        header.textLabel?.text = String(char)
-    //        header.tintColor = .systemGray5
-    //        return header
-    //    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toAlbums",
            let albumsVC = segue.destination as? AlbumsCollectionViewController {

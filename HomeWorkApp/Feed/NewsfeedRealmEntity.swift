@@ -15,6 +15,7 @@ class NewsfeedRealmEntuty:Object {
 class NewsfeedRealmAttachment:Object {
     @objc dynamic var type:String = ""
     @objc dynamic var source:String?
+    @objc dynamic var preview:String?
 }
 
 class NewsfeedRealmOwner:Object {
