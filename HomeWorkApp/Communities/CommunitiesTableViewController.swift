@@ -1,18 +1,16 @@
 import UIKit
-
+import RealmSwift
+import Kingfisher
 class CommunitiesTableViewController: UITableViewController {
     let communitiesRequest = CommunitiesRequest()
-    
+    let realm = try! Realm ()
     override func viewDidLoad() {
         super.viewDidLoad()
         communitiesRequest.getGroupsList()
-        DispatchQueue.main.asyncAfter (deadline: .now() + 0.5) {
-            self.tableView.reloadData()
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
+        super.viewDidAppear(animated)
         tableView.reloadData()
     }
     // MARK: - Table view data source
@@ -24,17 +22,19 @@ class CommunitiesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return communitiesRequest.groupsList.count
+        let community = realm.objects(CommunitiesRealmEntity.self)
+        return community.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "favoriteCommunityCell", for: indexPath)
-        let community = communitiesRequest.groupsList[indexPath.row]
-        cell.textLabel?.numberOfLines = 2
-        cell.textLabel?.text = "\(community.name)\n\(community.type)"
-        cell.textLabel?.font = .systemFont(ofSize: 16)
-        cell.imageView?.image = community.photo
+        let community = realm.objects(CommunitiesRealmEntity.self)[indexPath.row]
+        cell.textLabel?.numberOfLines = community.type != nil ? 3 : 2
+        cell.textLabel?.text = community.type != nil ? "\(community.name)\n\(community.type!)" : community.name
+        cell.textLabel?.font = .systemFont(ofSize: 13)
+        let url = URL (string: community.photo)
+        cell.imageView?.kf.setImage(with: url)
         cell.imageView?.layer.cornerRadius = 25
         cell.imageView?.layer.masksToBounds = true
         return cell

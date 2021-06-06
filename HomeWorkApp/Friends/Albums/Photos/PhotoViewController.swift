@@ -1,15 +1,18 @@
 import UIKit
-
+import RealmSwift
+import Kingfisher
 class PhotoViewController: UIViewController {
     @IBOutlet weak var photoView: UIImageView!
-    var photosList:[AlbumRequest.Photos] = []
-    var selectedPhoto:Int = 0
+    var user_id:Int = 0
     var album_id:Int = 0
+    var selectedPhoto:Int = 0
+    let realm = try! Realm()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let photo = photosList.filter {$0.album_id == album_id}
-        let image = photo [selectedPhoto].photo
-        photoView.image = image
+        let photosList = realm.objects(PhotoRealmEntity.self).filter("album_id == \(album_id) AND owner_id == \(user_id)")
+        let url = URL(string: photosList[selectedPhoto].photo)
+        photoView.kf.setImage(with: url)
         let rightSwipe = UISwipeGestureRecognizer (target: self, action: #selector(moveToNextItem(_:)))
         let leftSwipe = UISwipeGestureRecognizer (target: self, action: #selector(moveToNextItem(_:)))
         rightSwipe.direction = .right
@@ -23,39 +26,39 @@ class PhotoViewController: UIViewController {
     var animateIsActive:Bool = false
     
     @objc private func moveToNextItem (_ sender: UISwipeGestureRecognizer) {
+        let photosList = realm.objects(PhotoRealmEntity.self).filter("album_id == \(album_id) AND owner_id == \(user_id)")
         switch sender.direction {
         
         case .left:
-            let photo = photosList.filter {$0.album_id == album_id}
-            guard selectedPhoto < photo.count - 1 && !animateIsActive else { return }
+            
+            guard selectedPhoto < photosList.count - 1 && !animateIsActive else { return }
             animateIsActive = true
             selectedPhoto += 1
-            let image = photo [selectedPhoto].photo
             let newImage = UIImageView ()
             newImage.frame = CGRect (x: photoView.layer.frame.origin.x + 420, y: photoView.layer.frame.origin.y, width: photoView.frame.width, height: photoView.frame.height)
             newImage.contentMode = .scaleAspectFit
-            newImage.image = image
+            let url = URL(string: photosList[selectedPhoto].photo)
+            newImage.kf.setImage(with: url)
             view.addSubview(newImage)
             UIView.animate(withDuration: 0.8, delay: 0, options:.transitionCrossDissolve, animations: {
                 self.photoView.transform = CGAffineTransform (translationX: -420, y: 0)
                 newImage.transform = CGAffineTransform (translationX: -420, y: 0)
             }, completion: {finished in
                 self.photoView.transform = .identity
-                self.photoView.image = image
+                self.photoView.kf.setImage(with: url)
                 newImage.removeFromSuperview()
                 self.animateIsActive = false
             })
             
         case .right:
-            let photo = photosList.filter {$0.album_id == album_id}
             guard selectedPhoto > 0 && !animateIsActive else { return }
             animateIsActive = true
             selectedPhoto -= 1
-            let image = photo [selectedPhoto].photo
             let newImage = UIImageView ()
             newImage.frame = CGRect (x: photoView.layer.frame.origin.x - 420, y: photoView.layer.frame.origin.y, width: photoView.frame.width, height: photoView.frame.height)
             newImage.contentMode = .scaleAspectFit
-            newImage.image = image
+            let url = URL(string: photosList[selectedPhoto].photo)
+            newImage.kf.setImage(with: url)
             view.addSubview(newImage)
             UIView.animate(withDuration: 0.8, delay: 0, options:.transitionCrossDissolve, animations: {
 
@@ -64,7 +67,7 @@ class PhotoViewController: UIViewController {
             
             }, completion: {finished in
                 self.photoView.transform = .identity
-                self.photoView.image = image
+                self.photoView.kf.setImage(with: url)
                 newImage.removeFromSuperview()
                 self.animateIsActive = false
             })

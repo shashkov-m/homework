@@ -1,10 +1,6 @@
 import UIKit
-
+import RealmSwift
 class AlbumRequest:RequestManager {
-    
-    var albumsList:[Albums] = []
-    var photosList:[Photos] = []
-    
     func getAlbums (owner_id:Int) {
         let url = vkRequestUrl(path: .albumsGet, queryItems: [
             URLQueryItem.init(name: "owner_id", value: "\(owner_id)"),
@@ -14,14 +10,13 @@ class AlbumRequest:RequestManager {
             guard let data = data else {return}
             let albums = try? JSONDecoder().decode(UserAlbums.self, from: data)
             if let items = albums?.response.items {
-                for i in 0 ..< items.count {
-                    let imageTask = Session.session.urlSession.dataTask(with: URL(string: items[i].thumb_src)!) { (imageData, _, _) in
-                        if let imageData = imageData {
-                            let image = UIImage(data: imageData)!
-                            self.albumsList.append(Albums(name: items[i].title, id: items[i].id, photo: image))
-                        }
-                    }
-                    imageTask.resume()
+                items.forEach() { item in
+                    let album = AlbumsRealmEntity ()
+                    album.id = item.id
+                    album.name = item.title
+                    album.photo = item.thumb_src
+                    album.owner_id = owner_id
+                    self.saveAlbumData(album: album)
                 }
             } else {
                 print ("Wrong JSON")
@@ -44,16 +39,29 @@ class AlbumRequest:RequestManager {
                 items.forEach {item in
                     for i in 0 ..< item.sizes.count {
                         guard item.sizes[i].type == "y" else {continue}
-                        let imageTask = Session.session.urlSession.dataTask(with: URL(string: item.sizes[i].url)!) { (imageData, _, _) in
-                            if let imageData = imageData
-                               ,let image = UIImage(data: imageData) {
-                                    self.photosList.append(.init(album_id: items[0].album_id, photo:image))
-                            }
-                        }
-                        
-                        imageTask.resume()
+                        let photo = PhotoRealmEntity ()
+                        photo.album_id = item.album_id
+                        photo.owner_id = item.owner_id
+                        photo.photo = item.sizes[i].url
+                        self.savePhotoData(photo: photo)
+                        //                    for i in 0 ..< item.sizes.count {
+                        //                        guard item.sizes[i].type == "y" else {continue}
+                        //                        let url = item.sizes[i].url
+                        //                        photo.photo.append(<#T##other: String##String#>)
                     }
+                    
+                    //                    item.sizes.forEach () -> String {size in
+                    //                        guard size.type == "y" else {return}
+                    //                        let photo = size.url
+                    //                        return photo
+                    //                    }
+                    
+                    //                        let imageTask = Session.session.urlSession.dataTask(with: URL(string: item.sizes[i].url)!) { (imageData, _, _) in
+                    //                            if let imageData = imageData
+                    //                               ,let image = UIImage(data: imageData) {
+                    //                                self.photosList.append(.init(album_id: items[0].album_id, photo:image))
                 }
+                //                        imageTask.resume()
             } else {
                 print ("Wrong JSON")
             }
@@ -94,7 +102,7 @@ extension AlbumRequest {
     }
     struct PhotoItems:Decodable {
         let album_id:Int
-        let id:Int
+        let owner_id:Int
         let sizes:[PhotoSizes]
     }
     struct PhotoSizes:Decodable {
@@ -106,4 +114,51 @@ extension AlbumRequest {
         let album_id:Int?
         let photo:UIImage
     }
+}
+
+extension AlbumRequest {
+    func saveAlbumData (album:AlbumsRealmEntity) {
+        do {
+            let realm = try Realm ()
+            try realm.write() {
+                realm.add(album , update: .modified)
+            }
+        } catch {
+            print (error.localizedDescription)
+        }
+    }
+}
+
+extension AlbumRequest {
+    func savePhotoData (photo: PhotoRealmEntity) {
+        do {
+            let realm = try Realm()
+            try realm.write() {
+                realm.add(photo, update: .modified)
+            }
+        }catch {
+            print (error.localizedDescription)
+        }
+    }
+    
+//    func loadPhoto (owner_id:Int, album_id:Int) {
+//        
+//        let realm = try! Realm ()
+//        let photos = realm.objects(PhotoRealmEntity.self).filter("owner_id == \(owner_id) AND album_id == \(album_id)")
+//        var photosList = [UIImage()]
+//            for i in 0 ..< photos.count {
+//            let url = URL(string: photos[i].photo)
+//            let imageTask = Session.session.urlSession.dataTask(with: url!) { (imageData, _, _) in
+//                if let imageData = imageData ,let image = UIImage(data: imageData) {
+//                    print (photosList.count)
+//                    photosList.append(image)
+//                    
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+//                    return print (photosList)
+//                    }
+//                }
+//            }
+//            imageTask.resume()
+//        }
+//    }
 }
