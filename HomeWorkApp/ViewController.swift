@@ -1,7 +1,18 @@
 import UIKit
 import WebKit
 
+struct Scope:OptionSet {
+    
+    let rawValue:Int
+    static let friends = Scope (rawValue: 1 << 1)
+    static let photos = Scope (rawValue: 1 << 2)
+    static let wall = Scope (rawValue: 1 << 13)
+    static let groups = Scope (rawValue: 1 << 18)
+    static let audio = Scope (rawValue: 1 << 3)
+}
+
 class ViewController: UIViewController {
+    let scope:Scope = [.friends, .photos, .audio, .wall, .groups]
     @IBOutlet weak var webView: WKWebView!{
         didSet{
             webView.navigationDelegate = self
@@ -22,7 +33,7 @@ class ViewController: UIViewController {
         urlComponents.queryItems = [
             URLQueryItem (name: "client_id", value: "7830063"),
             URLQueryItem(name: "redirect_uri", value: "https://oauth.vk.com/blank.html"),
-            URLQueryItem(name: "scope", value: "262150"),
+            URLQueryItem(name: "scope", value: "\(scope.rawValue)"),
             URLQueryItem(name: "display", value: "mobile"),
             URLQueryItem(name: "response_type", value: "token"),
             URLQueryItem(name: "v", value: "5.130")

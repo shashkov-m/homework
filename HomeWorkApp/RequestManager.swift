@@ -14,6 +14,7 @@ class RequestManager {
         case photosGet = "/method/photos.get"
         case groupsGet = "/method/groups.get"
         case albumsGet = "/method/photos.getAlbums"
+        case newsFeedGet = "/method/newsfeed.get"
     }
     
     func vkRequestUrl (path: path, queryItems: [URLQueryItem]) -> URL {

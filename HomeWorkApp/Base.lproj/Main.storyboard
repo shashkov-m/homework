@@ -68,7 +68,9 @@
                             <outlet property="delegate" destination="ZV9-Ps-pD6" id="wGb-Dr-IaK"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Communities" id="jKS-AT-aoQ"/>
+                    <navigationItem key="navigationItem" title="Communities" id="jKS-AT-aoQ">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="ylL-Ei-KGa"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l2u-uN-uSH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -304,22 +306,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="feedCell" id="035-2A-6wP">
-                                <rect key="frame" x="0.0" y="24.333333969116211" width="390" height="43.666667938232422"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="035-2A-6wP" id="SLa-6M-feE">
-                                    <rect key="frame" x="0.0" y="0.0" width="390" height="43.666667938232422"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="Brz-0x-nA4" id="TYc-uS-Fg6"/>
                             <outlet property="delegate" destination="Brz-0x-nA4" id="4nz-T2-PqL"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Feed" id="BtZ-xD-TVN"/>
+                    <navigationItem key="navigationItem" title="Feed" id="BtZ-xD-TVN">
+                        <barButtonItem key="rightBarButtonItem" title="Reload Data" id="ltJ-g8-exn">
+                            <connections>
+                                <action selector="reloadButton:" destination="Brz-0x-nA4" id="XEO-uf-hJz"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hCp-iw-75h" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
