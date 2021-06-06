@@ -12,14 +12,29 @@ class FriendsTableViewController: UITableViewController {
     let albumRequest = AlbumRequest()
     var user_id:Int = 0
     let realm = try! Realm ()
+    var friends:Results<FriendsRealmEntity>?
+    var token :NotificationToken?
     
     @IBAction func reloadButton(_ sender: Any) {
+        friendsRequest.getFriendsList()
         tableView.reloadData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         friendsRequest.getFriendsList()
+        friends = realm.objects(FriendsRealmEntity.self)
+        print("Realm path = \(String(describing: realm.configuration.fileURL))")
+        token = friends?.observe {[weak self] changes in
+            switch changes {
+            case .initial:
+                self?.tableView.reloadData()
+            case .update(_, deletions: _, insertions: _, modifications: _):
+                self?.tableView.reloadData()
+            case .error(let error):
+                print (error.localizedDescription)
+            }
+        }
         
     }
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -27,16 +42,16 @@ class FriendsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let friends = realm.objects(FriendsRealmEntity.self)
-        return friends.count
+        return friends?.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FriendsCell", for: indexPath)
-        let user = realm.objects(FriendsRealmEntity.self) [indexPath.row] //sortedUserDictionary[indexPath.section].value [indexPath.row]
-//        let paragraphStyle = NSMutableParagraphStyle()
- //       paragraphStyle.firstLineHeadIndent = 55
- //       let attributes = [NSAttributedString.Key.paragraphStyle: paragraphStyle]
+        guard let friends = friends else {return cell}
+        let user = friends [indexPath.row] //sortedUserDictionary[indexPath.section].value [indexPath.row]
+        //        let paragraphStyle = NSMutableParagraphStyle()
+        //       paragraphStyle.firstLineHeadIndent = 55
+        //       let attributes = [NSAttributedString.Key.paragraphStyle: paragraphStyle]
         cell.textLabel?.numberOfLines = user.city != "" ? 2 : 1
         let text = user.city != "" ? "\(user.name)\n\(user.city!)" : "\(user.name)"
         cell.textLabel?.text = text
@@ -44,14 +59,14 @@ class FriendsTableViewController: UITableViewController {
         cell.imageView?.kf.setImage(with: url)
         cell.imageView?.layer.cornerRadius = 25
         cell.imageView?.layer.masksToBounds = true
- //       cell.textLabel?.attributedText = NSAttributedString (string: text, attributes: attributes)
+        //       cell.textLabel?.attributedText = NSAttributedString (string: text, attributes: attributes)
         return cell
     }
     
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let user = realm.objects(FriendsRealmEntity.self) [indexPath.row]
+        let user = friends![indexPath.row]
         user_id = user.id
         performSegue(withIdentifier: "toAlbums", sender: self)
     }
@@ -64,17 +79,21 @@ class FriendsTableViewController: UITableViewController {
         return 50.0
     }
     
-//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "sectionHeader") as! CustomHeaderView
-//        let char = userNameChar [section]
-//        header.textLabel?.text = String(char)
-//        header.tintColor = .systemGray5
-//        return header
-//    }
+    //    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    //        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "sectionHeader") as! CustomHeaderView
+    //        let char = userNameChar [section]
+    //        header.textLabel?.text = String(char)
+    //        header.tintColor = .systemGray5
+    //        return header
+    //    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toAlbums",
            let albumsVC = segue.destination as? AlbumsCollectionViewController {
             albumsVC.user_id = user_id
         }
+    }
+    
+    deinit {
+        token?.invalidate()
     }
 }

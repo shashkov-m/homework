@@ -8,9 +8,26 @@ class FriendsPhotoCollectionViewController: UICollectionViewController {
     var user_id:Int = 0
     var album_id:Int = 0
     var indexPath:Int = 0
+    var albumName:String = ""
+    var photos:Results<PhotoRealmEntity>?
+    var token:NotificationToken?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         albumRequest.getPhotos(owner_id: user_id, album_id: album_id)
+        photos = realm.objects(PhotoRealmEntity.self).filter("album_id == \(album_id) AND owner_id == \(user_id)")
+        self.title = albumName
+        token = photos?.observe {[weak self] changes in
+            switch changes {
+            
+            case .initial(_):
+                self?.collectionView.reloadData()
+            case .update(_, deletions: _, insertions: _, modifications: _):
+                self?.collectionView.reloadData()
+            case .error(let error):
+                print (error.localizedDescription)
+            }
+        }
     }
     
     
@@ -19,13 +36,13 @@ class FriendsPhotoCollectionViewController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let photos = realm.objects(PhotoRealmEntity.self).filter("album_id == \(album_id) AND owner_id == \(user_id)")
-        return photos.count
+        return photos?.count ?? 0
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! FriendsPhotoCollectionViewCell
-        let photos = realm.objects(PhotoRealmEntity.self).filter("album_id == \(album_id) AND owner_id == \(user_id)") [indexPath.row]
-        let url = URL(string: photos.photo)
+        guard let photos = photos else { return cell }
+        let photo = photos [indexPath.row]
+        let url = URL(string: photo.photo)
         cell.imageView.kf.setImage(with: url)
         cell.imageView.contentMode = .scaleAspectFill
         return cell
@@ -50,6 +67,10 @@ class FriendsPhotoCollectionViewController: UICollectionViewController {
             photosVC.user_id = self.user_id
         }
     }
-
+    
+    deinit {
+        token?.invalidate()
+    }
+    
 }
 
