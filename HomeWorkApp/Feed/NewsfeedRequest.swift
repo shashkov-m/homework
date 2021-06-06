@@ -2,15 +2,28 @@ import Foundation
 import RealmSwift
 class NewsfeedRequest {
     let requestManager = RequestManager()
+    let queue = DispatchQueue (label: "NewsfeedQueue", qos: .utility)
+    let dispatchGroup = DispatchGroup ()
     
     func getNewsfeed () {
-        let url = requestManager.vkRequestUrl(path: .newsFeedGet,queryItems: [
-            URLQueryItem.init(name: "filters", value: "post")
-        ])
-        let task = Session.session.urlSession.dataTask(with: url) {data, response, error in
-            guard let data = data else {return}
-            let newsfeed = try? JSONDecoder().decode(Newsfeed.self, from: data)
-            if let response = newsfeed?.response {
+        var dataResponce:NewsfeedRequest.Response?
+        queue.async (group: dispatchGroup) {
+            let url = self.requestManager.vkRequestUrl(path: .newsFeedGet,queryItems: [
+                URLQueryItem.init(name: "filters", value: "post")
+            ])
+            self.dispatchGroup.enter()
+            let task = Session.session.urlSession.dataTask(with: url) {data, response, error in
+                guard let data = data else {return self.dispatchGroup.leave()}
+                let newsfeed = try? JSONDecoder().decode(Newsfeed.self, from: data)
+                dataResponce = newsfeed?.response
+                print (data )
+                self.dispatchGroup.leave()
+            }
+            task.resume()
+        }
+        
+        dispatchGroup.notify(queue: queue) {
+            if let response = dataResponce {
                 self.deleteNewsfeed()
                 response.items.forEach() { item in
                     guard item.marked_as_ads == 0 else {return}
@@ -41,7 +54,7 @@ class NewsfeedRequest {
                                 break
                             }
                             
-
+                            
                             news.attachments.append(attach)
                         }
                     }
@@ -65,7 +78,6 @@ class NewsfeedRequest {
                 print ("Wrong JSON")
             }
         }
-        task.resume()
     }
 }
 

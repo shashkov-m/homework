@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import SDWebImage
 class FeedTableViewCell: UITableViewCell {
     
     @IBOutlet weak var avatarView: UIImageView!
@@ -25,6 +26,7 @@ class FeedTableViewCell: UITableViewCell {
     
     //MARK: - Images
     let firstImg = UIImageView ()
+    let gifImg = SDAnimatedImageView ()
     let secondImg = UIImageView ()
     let thirdImg = UIImageView ()
     let fourthImg = UIImageView ()
@@ -44,7 +46,9 @@ class FeedTableViewCell: UITableViewCell {
         secondImg.contentMode = .scaleToFill
         thirdImg.contentMode = .scaleToFill
         fourthImg.contentMode = .scaleToFill
+        gifImg.contentMode = .scaleToFill
         
+        gifImg.sd_imageIndicator = SDWebImageActivityIndicator.gray
         firstImg.kf.indicatorType = .activity
         countLabel.font = UIFont.boldSystemFont(ofSize: 40)
         countLabel.textAlignment = .center
@@ -60,11 +64,14 @@ class FeedTableViewCell: UITableViewCell {
         secondImg.kf.cancelDownloadTask()
         thirdImg.kf.cancelDownloadTask()
         fourthImg.kf.cancelDownloadTask()
+        gifImg.sd_cancelCurrentImageLoad()
         
         firstImg.image = nil
         secondImg.image = nil
         thirdImg.image = nil
         fourthImg.image = nil
+        gifImg.image = nil
+        
     }
     
     //    @objc private func onTap () {

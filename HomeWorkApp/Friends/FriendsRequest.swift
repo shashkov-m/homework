@@ -2,18 +2,26 @@ import UIKit
 import RealmSwift
 class FriendsRequest {
     let requestManager = RequestManager ()
-        
+    let queue = DispatchQueue (label: "FriendsRequestDataLoadQueue", qos: .userInteractive)
+    let dispatchGroup = DispatchGroup ()
     func getFriendsList () {
-        let url = requestManager.vkRequestUrl(path: .friendsGet,queryItems: [
-            URLQueryItem.init(name: "fields", value: "city,photo_100"),
-            URLQueryItem.init(name: "order", value: "hints")
-        ])
-       
-        let task = Session.session.urlSession.dataTask(with: url) {data, response, error in
-            guard let data = data else {return}
-            
-            let friends = try? JSONDecoder().decode(UserFriends.self, from: data)
-            if let items = friends?.response.items {
+        var friendsItems:[FriendsRequest.Items]?
+        queue.async(group: dispatchGroup) {
+            let url = self.requestManager.vkRequestUrl(path: .friendsGet,queryItems: [
+                URLQueryItem.init(name: "fields", value: "city,photo_100"),
+                URLQueryItem.init(name: "order", value: "hints")
+            ])
+            self.dispatchGroup.enter()
+            let task = Session.session.urlSession.dataTask(with: url) {data, response, error in
+                guard let data = data else { return self.dispatchGroup.leave() }
+                let friends = try? JSONDecoder().decode(UserFriends.self, from: data)
+                friendsItems = friends?.response.items
+                self.dispatchGroup.leave()
+            }
+            task.resume()
+        }
+        self.dispatchGroup.notify(queue: self.queue) {
+            if let items = friendsItems {
                 self.countCheck(friendCount: items.count)
                 items.forEach { item in
                     let friend = FriendsRealmEntity()
@@ -27,7 +35,6 @@ class FriendsRequest {
                 print ("Wrong JSON")
             }
         }
-        task.resume()
     }
 }
 
@@ -66,9 +73,9 @@ extension FriendsRequest {
             let realm = try Realm ()
             let obj = realm.objects(FriendsRealmEntity.self)
             if friendCount < obj.count {
-            realm.beginWrite()
-            realm.delete(obj)
-            try realm.commitWrite()
+                realm.beginWrite()
+                realm.delete(obj)
+                try realm.commitWrite()
             }
         } catch {
             print (error.localizedDescription)
