@@ -7,6 +7,7 @@
 import UIKit
 import RealmSwift
 import Kingfisher
+import FirebaseFirestore
 class FriendsTableViewController: UITableViewController {
     let friendsRequest = FriendsRequest()
     let albumRequest = AlbumRequest()
@@ -14,7 +15,9 @@ class FriendsTableViewController: UITableViewController {
     let realm = try! Realm ()
     var friends:Results<FriendsRealmEntity>?
     var token :NotificationToken?
-    
+    let firestore = Firestore.firestore()
+    let date = Date ()
+    let df = DateFormatter ()
     @IBAction func reloadButton(_ sender: Any) {
         friendsRequest.getFriendsList()
         tableView.reloadData()
@@ -33,6 +36,15 @@ class FriendsTableViewController: UITableViewController {
                 self?.tableView.reloadData()
             case .error(let error):
                 print (error.localizedDescription)
+            }
+        }
+        df.dateFormat = "dd-MM-yyyy HH:mm:ss"
+        let dateString = df.string(from: date)
+        firestore.collection("users").document(Session.session.userId).setData(["last auth":"\(dateString)"]) { error in
+            if let error = error {
+                print ("firestore error: \(error)")
+            } else {
+                print ("firestore success")
             }
         }
         

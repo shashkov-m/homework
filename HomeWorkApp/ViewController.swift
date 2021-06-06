@@ -49,7 +49,9 @@ extension ViewController: WKNavigationDelegate {
             dict[key] = value
             return dict
         }
+
         Session.session.token = params["access_token"] ?? ""
+        Session.session.userId = params["user_id"] ?? ""
         print("Access Token: \(Session.session.token)")
         
         decisionHandler(.cancel)
