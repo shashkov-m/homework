@@ -1,6 +1,7 @@
 import UIKit
 import RealmSwift
 import Kingfisher
+
 class FeedTableViewController: UITableViewController {
     let date = Date ()
     let df = DateFormatter ()
@@ -14,7 +15,6 @@ class FeedTableViewController: UITableViewController {
         newsfeedRequest.getNewsfeed()
         news = realm.objects(NewsfeedRealmEntuty.self)
         df.dateFormat = "dd.MM.yyyy HH:mm"
-        //        let dateString = df.string(from: date)
         tableView.allowsSelection = false
         token = news?.observe {[weak self] changes in
             switch changes {
@@ -42,7 +42,6 @@ class FeedTableViewController: UITableViewController {
         return news?.count ?? 0
     }
     
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedTableViewCell
         guard let UserNews = news else {return cell}
@@ -57,9 +56,122 @@ class FeedTableViewController: UITableViewController {
         let dateString = df.string(from: date)
         cell.dateLabel.text = "\(dateString)"
         cell.newsTextLabel.text = news.text
-        let contentUrl = URL (string: news.attachments[0].source!)
-        cell.newsContentView.kf.setImage(with: contentUrl)
-        cell.newsContentView.contentMode = .scaleToFill
+        
+        let superview_Width = cell.newsContentView.frame.width
+        let superview_Heigh = cell.newsContentView.frame.height
+        
+        // 1 Image or GIF
+        if news.attachments.count == 1, news.attachments[0].type == "doc" || news.attachments[0].type == "photo" {
+            guard let source = news.attachments[0].source else { return cell }
+            let url = URL(string: source)
+            cell.firstImg.frame = CGRect (x: 0, y: 0, width: superview_Width, height: superview_Heigh)
+            cell.firstImg.kf.setImage(with: url, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
+            cell.newsContentView.addSubview(cell.firstImg)
+
+            // 2 Images
+        } else if news.attachments.count == 2, news.attachments.allSatisfy({$0.type == "photo"}) {
+            guard let fsource = news.attachments[0].source, let ssource = news.attachments[1].source else { return cell }
+            let fUrl = URL(string: fsource)
+            let sUrl = URL(string: ssource)
+            cell.firstImg.frame = CGRect (x: 0, y: 0, width: superview_Width / 2, height: superview_Heigh)
+            cell.secondImg.frame = CGRect (x: cell.firstImg.frame.maxX, y: 0, width: superview_Width - cell.firstImg.frame.width , height: superview_Heigh)
+            cell.firstImg.kf.setImage(with: fUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
+            cell.secondImg.kf.setImage(with: sUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
+
+            cell.newsContentView.addSubview(cell.firstImg)
+            cell.newsContentView.addSubview(cell.secondImg)
+
+            //3 Images
+        } else if news.attachments.count == 3, news.attachments.allSatisfy({$0.type == "photo"}){
+            guard let fsource = news.attachments[0].source, let ssource = news.attachments[1].source, let tsource = news.attachments[2].source else { return cell }
+            let fUrl = URL(string: fsource)
+            let sUrl = URL(string: ssource)
+            let tUrl = URL(string: tsource)
+            cell.firstImg.frame = CGRect (x: 0, y: 0, width: superview_Width * 0.7, height: superview_Heigh)
+            cell.secondImg.frame = CGRect (x: cell.firstImg.frame.maxX, y: 0, width: superview_Width - cell.firstImg.frame.width , height: superview_Heigh / 2)
+            cell.thirdImg.frame = CGRect (x: cell.firstImg.frame.maxX, y: cell.secondImg.frame.maxY, width: superview_Width - cell.firstImg.frame.width, height: superview_Heigh / 2)
+
+            cell.firstImg.kf.setImage(with: fUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
+            cell.secondImg.kf.setImage(with: sUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
+            cell.thirdImg.kf.setImage(with: tUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
+
+            cell.newsContentView.addSubview(cell.firstImg)
+            cell.newsContentView.addSubview(cell.secondImg)
+            cell.newsContentView.addSubview(cell.thirdImg)
+
+            //4 Images
+        } else if news.attachments.count == 4, news.attachments.allSatisfy({$0.type == "photo"}){
+            guard let fsource = news.attachments[0].source, let ssource = news.attachments[1].source, let tsource = news.attachments[2].source, let frthsource = news.attachments[3].source else { return cell }
+            let fUrl = URL(string: fsource)
+            let sUrl = URL(string: ssource)
+            let tUrl = URL(string: tsource)
+            let frthUrl = URL(string: frthsource)
+
+            cell.firstImg.frame = CGRect (x: 0, y: 0, width: superview_Width * 0.7, height: superview_Heigh)
+            cell.secondImg.frame = CGRect (x: cell.firstImg.frame.maxX, y: 0, width: superview_Width - cell.firstImg.frame.width , height: superview_Heigh / 3)
+            cell.thirdImg.frame = CGRect (x: cell.firstImg.frame.maxX, y: cell.secondImg.frame.maxY, width: superview_Width - cell.firstImg.frame.width, height: superview_Heigh / 3)
+            cell.fourthImg.frame = CGRect (x: cell.firstImg.frame.maxX, y: cell.thirdImg.frame.maxY, width: superview_Width - cell.firstImg.frame.width, height: superview_Heigh / 3)
+
+            cell.firstImg.kf.setImage(with: fUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
+            cell.secondImg.kf.setImage(with: sUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
+            cell.thirdImg.kf.setImage(with: tUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
+            cell.fourthImg.kf.setImage(with: frthUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
+
+            cell.newsContentView.addSubview(cell.firstImg)
+            cell.newsContentView.addSubview(cell.secondImg)
+            cell.newsContentView.addSubview(cell.thirdImg)
+            cell.newsContentView.addSubview(cell.fourthImg)
+
+            // More than 4 images
+        } else if news.attachments.count > 4, news.attachments.allSatisfy({$0.type == "photo"}){
+            
+            guard let fsource = news.attachments[0].source, let ssource = news.attachments[1].source, let tsource = news.attachments[2].source, let frthsource = news.attachments[3].source else { return cell }
+            let fUrl = URL(string: fsource)
+            let sUrl = URL(string: ssource)
+            let tUrl = URL(string: tsource)
+            let frthUrl = URL(string: frthsource)
+
+            cell.firstImg.frame = CGRect (x: 0, y: 0, width: superview_Width * 0.7, height: superview_Heigh)
+            cell.secondImg.frame = CGRect (x: cell.firstImg.frame.maxX, y: 0, width: superview_Width - cell.firstImg.frame.width , height: superview_Heigh / 3)
+            cell.thirdImg.frame = CGRect (x: cell.firstImg.frame.maxX, y: cell.secondImg.frame.maxY, width: superview_Width - cell.firstImg.frame.width, height: superview_Heigh / 3)
+            cell.fourthImg.frame = CGRect (x: cell.firstImg.frame.maxX, y: cell.thirdImg.frame.maxY, width: superview_Width - cell.firstImg.frame.width, height: superview_Heigh / 3)
+            cell.countLabel.frame = cell.fourthImg.frame
+            cell.fourthImg.alpha = 0.35
+            cell.firstImg.kf.setImage(with: fUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
+            cell.secondImg.kf.setImage(with: sUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
+            cell.thirdImg.kf.setImage(with: tUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
+            cell.fourthImg.kf.setImage(with: frthUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
+            cell.countLabel.text = "+\(news.attachments.count - 3)"
+
+            cell.newsContentView.addSubview(cell.firstImg)
+            cell.newsContentView.addSubview(cell.secondImg)
+            cell.newsContentView.addSubview(cell.thirdImg)
+            cell.newsContentView.addSubview(cell.fourthImg)
+            cell.newsContentView.addSubview(cell.countLabel)
+
+        } else {
+            print ("The cell wasn't configure.\nAttach element count = \(news.attachments.count)\nNews id = \(news.id)" )
+        }
+        
+//        let firstImage = #imageLiteral(resourceName: "photo_2021-05-25 21.31.48")
+//        let secImg = #imageLiteral(resourceName: "photo_2021-05-25 21.31.36")
+//        let thirdImg = #imageLiteral(resourceName: "photo_2021-05-25 21.31.48")
+//        cell.firstImg.frame = CGRect (x: 0, y: 0, width: superview_Width * 0.7 - 2, height: superview_Heigh)
+//        cell.secondImg.frame = CGRect (x: cell.firstImg.frame.maxX + 2, y: 0, width: superview_Width - cell.firstImg.frame.width , height: superview_Heigh / 3 - 1)
+//        cell.thirdImg.frame = CGRect (x: cell.firstImg.frame.maxX + 2, y: cell.secondImg.frame.maxY + 2, width: superview_Width - cell.firstImg.frame.width - 1, height: superview_Heigh / 3 - 1)
+//        cell.fourthImg.frame = CGRect (x: cell.firstImg.frame.maxX + 2, y: cell.thirdImg.frame.maxY + 2, width: superview_Width - cell.firstImg.frame.width, height: superview_Heigh / 3 - 1)
+//        cell.countLabel.frame = cell.fourthImg.frame
+//        cell.firstImg.image = firstImage
+//        cell.secondImg.image = secImg
+//        cell.thirdImg.image = thirdImg
+//        cell.fourthImg.image = secImg
+//        cell.countLabel.text = "+5"
+//        cell.fourthImg.alpha = 0.35
+//        cell.newsContentView.addSubview(cell.firstImg)
+//        cell.newsContentView.addSubview(cell.secondImg)
+//        cell.newsContentView.addSubview(cell.thirdImg)
+//        cell.newsContentView.addSubview(cell.fourthImg)
+//        cell.newsContentView.addSubview(cell.countLabel)
         
         cell.likeImage.image = news.user_likes == 0 ? UIImage (systemName: "heart") : UIImage (systemName: "heart.fill")
         cell.likeCount.text = "\(news.likes)"
@@ -68,7 +180,6 @@ class FeedTableViewController: UITableViewController {
         cell.commentCount.text = "\(news.comments)"
         return cell
     }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         tableView.reloadData()
@@ -77,48 +188,4 @@ class FeedTableViewController: UITableViewController {
     deinit {
         token?.invalidate()
     }
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
 }

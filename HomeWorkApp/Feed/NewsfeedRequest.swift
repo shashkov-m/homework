@@ -36,6 +36,7 @@ class NewsfeedRequest {
                                 }
                             case "doc":
                                 attach.source = attachments[i].doc?.url
+                                attach.preview = attachments[i].doc?.preview.photo.sizes[0].src
                             default:
                                 break
                             }
@@ -114,6 +115,16 @@ extension NewsfeedRequest {
     }
     struct Doc:Codable {
         let url:String
+        let preview:Preview
+    }
+    struct Preview:Codable {
+        let photo:PreviewSizes
+    }
+    struct PreviewSizes:Codable {
+        let sizes:[Src]
+    }
+    struct Src:Codable {
+        let src:String
     }
     struct Sizes:Codable{
         let type:String

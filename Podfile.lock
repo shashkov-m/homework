@@ -278,6 +278,7 @@ PODS:
     - GoogleUtilities/Environment (~> 7.4)
     - GoogleUtilities/UserDefaults (~> 7.4)
     - PromisesObjC (~> 1.2)
+  - Gifu (3.3)
   - GoogleAppMeasurement (8.0.0):
     - GoogleAppMeasurement/AdIdSupport (= 8.0.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.4)
@@ -355,6 +356,7 @@ PODS:
 DEPENDENCIES:
   - Firebase/Analytics
   - FirebaseFirestore (~> 8.0)
+  - Gifu (~> 3.3)
   - Kingfisher (~> 6.3)
   - RealmSwift (~> 10.7)
 
@@ -368,6 +370,7 @@ SPEC REPOS:
     - FirebaseCoreDiagnostics
     - FirebaseFirestore
     - FirebaseInstallations
+    - Gifu
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUtilities
@@ -389,6 +392,7 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnostics: a31d987ba0fe16d59886a5dbadc2f1de871f88c8
   FirebaseFirestore: 7f6576eaca9f821e864c3e917d68aa99f4e6b613
   FirebaseInstallations: c4aab1005d6547b00a7529777fe52f5d4d45165b
+  Gifu: 97c2a3c3865fbc834ab13f797e2e8e7729a1853c
   GoogleAppMeasurement: c6bbc9753d046b5456dd4f940057fbad2c28419e
   GoogleDataTransport: 11e3a5f2c190327df1a4a5d7e7ae3d4d5b9c9e4c
   GoogleUtilities: f8a43108b38a68eebe8b3540e1f4f2d28843ce20
@@ -401,6 +405,6 @@ SPEC CHECKSUMS:
   Realm: ed860452717c8db8f4bf832b6807f7f2ce708839
   RealmSwift: e31c4ddbcc42ac879313d656b86f9ca539f6f4f4
 
-PODFILE CHECKSUM: 8da27d3dce6631dc3b3af80d5c74ff6081d73a9f
+PODFILE CHECKSUM: c12b1fde5e32de08b38a1059a0f8249a09e56da4
 
 COCOAPODS: 1.10.1

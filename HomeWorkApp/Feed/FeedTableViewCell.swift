@@ -6,22 +6,29 @@
 //
 
 import UIKit
-
+import Kingfisher
 class FeedTableViewCell: UITableViewCell {
     
     @IBOutlet weak var avatarView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var newsTextLabel: UILabel!
-    @IBOutlet weak var newsContentView: UIImageView!
+    @IBOutlet weak var newsContentView: UIView!
     @IBOutlet weak var likeImage: UIImageView!
     @IBOutlet weak var likeCount:UILabel!
-    @IBOutlet weak var commentImage:UIImageView! //(image: UIImage(systemName: "bubble.left"))
+    @IBOutlet weak var commentImage:UIImageView!
     @IBOutlet weak var commentCount:UILabel!
-    @IBOutlet weak var repostImage:UIImageView! //(image: UIImage(systemName: "arrowshape.turn.up.right"))
+    @IBOutlet weak var repostImage:UIImageView!
     @IBOutlet weak var repostCount:UILabel!
-    @IBOutlet weak var viewsImage:UIImageView! //(image: UIImage (systemName: "eye"))
+    @IBOutlet weak var viewsImage:UIImageView!
     @IBOutlet weak var viewsCount:UILabel!
+    
+    //MARK: - Images
+    let firstImg = UIImageView ()
+    let secondImg = UIImageView ()
+    let thirdImg = UIImageView ()
+    let fourthImg = UIImageView ()
+    let countLabel = UILabel ()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -29,19 +36,35 @@ class FeedTableViewCell: UITableViewCell {
         viewsImage.tintColor = .gray
         commentImage.tintColor = .gray
         likeImage.tintColor = .gray
-        
-        commentImage.image = UIImage(systemName: "bubble.left")
-        repostImage.image = UIImage(systemName: "arrowshape.turn.up.right")
+        commentImage.image = UIImage (systemName: "bubble.left")
+        repostImage.image = UIImage (systemName: "arrowshape.turn.up.right")
         viewsImage.image = UIImage (systemName: "eye")
-       // likeImage.image = UIImage (systemName: "heart.fill")
-        //        userImage.image = #imageLiteral(resourceName: "unnamed")
-        //        userImage.layer.masksToBounds = true
-        //        userImage.layer.cornerRadius = 20
-        //        feedLabel.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        //        feedImage.image = #imageLiteral(resourceName: "d0311cd8-0115-11e7-a59f-6e714efd800d.800x600")
-        //        feedImage.contentMode = .scaleAspectFill
-        //        let onImageTap = UITapGestureRecognizer (target: self, action: #selector(onTap))
-        //        userImage.addGestureRecognizer(onImageTap)
+        
+        firstImg.contentMode = .scaleToFill
+        secondImg.contentMode = .scaleToFill
+        thirdImg.contentMode = .scaleToFill
+        fourthImg.contentMode = .scaleToFill
+        
+        firstImg.kf.indicatorType = .activity
+        countLabel.font = UIFont.boldSystemFont(ofSize: 40)
+        countLabel.textAlignment = .center
+    }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        newsContentView.subviews.forEach {subview in
+            subview.removeFromSuperview()
+        }
+        
+        firstImg.kf.cancelDownloadTask()
+        secondImg.kf.cancelDownloadTask()
+        thirdImg.kf.cancelDownloadTask()
+        fourthImg.kf.cancelDownloadTask()
+        
+        firstImg.image = nil
+        secondImg.image = nil
+        thirdImg.image = nil
+        fourthImg.image = nil
     }
     
     //    @objc private func onTap () {
