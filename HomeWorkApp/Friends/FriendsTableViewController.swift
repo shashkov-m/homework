@@ -6,9 +6,10 @@
 //
 import UIKit
 import RealmSwift
-import Kingfisher
+import SDWebImage
 import FirebaseFirestore
 class FriendsTableViewController: UITableViewController {
+    
     let friendsRequest = FriendsRequest()
     let albumRequest = AlbumRequest()
     var user_id:Int = 0
@@ -18,6 +19,7 @@ class FriendsTableViewController: UITableViewController {
     let firestore = Firestore.firestore()
     let date = Date ()
     let df = DateFormatter ()
+    
     @IBAction func reloadButton(_ sender: Any) {
         friendsRequest.getFriendsList()
         tableView.reloadData()
@@ -68,7 +70,7 @@ class FriendsTableViewController: UITableViewController {
         let text = user.city != "" ? "\(user.name)\n\(user.city!)" : "\(user.name)"
         cell.textLabel?.text = text
         let url = URL(string: user.photo)
-        cell.imageView?.kf.setImage(with: url)
+        cell.imageView?.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "photo_2021-05-25 21.31.48"))
         cell.imageView?.layer.cornerRadius = 25
         cell.imageView?.layer.masksToBounds = true
         //       cell.textLabel?.attributedText = NSAttributedString (string: text, attributes: attributes)

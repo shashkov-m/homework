@@ -7,5 +7,5 @@ pod 'RealmSwift', '~> 10.7'
 pod 'Kingfisher', '~> 6.3'
 pod 'Firebase/Analytics'
 pod 'FirebaseFirestore', '~> 8.0'
-pod 'Gifu', '~> 3.3'
+pod 'SDWebImage', '~> 5.11'
 end

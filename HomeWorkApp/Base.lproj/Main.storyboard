@@ -68,9 +68,7 @@
                             <outlet property="delegate" destination="ZV9-Ps-pD6" id="wGb-Dr-IaK"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Communities" id="jKS-AT-aoQ">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="ylL-Ei-KGa"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Communities" id="jKS-AT-aoQ"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l2u-uN-uSH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -252,8 +250,8 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="cte-cc-sJK" kind="relationship" relationship="viewControllers" id="NbB-r4-nLf"/>
                         <segue destination="sLq-hc-W7X" kind="relationship" relationship="viewControllers" id="Pmb-1R-jeI"/>
+                        <segue destination="cte-cc-sJK" kind="relationship" relationship="viewControllers" id="NbB-r4-nLf"/>
                         <segue destination="cIQ-0Y-Cwe" kind="relationship" relationship="viewControllers" id="ZrL-GV-7sA"/>
                     </connections>
                 </tabBarController>
