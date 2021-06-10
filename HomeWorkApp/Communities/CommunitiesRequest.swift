@@ -1,18 +1,28 @@
 import UIKit
 import RealmSwift
 class CommunitiesRequest {
-    
     let requestManager = RequestManager ()
+    let queue = DispatchQueue (label: "CommunitiesRequestQueue", qos: .utility, attributes: .concurrent)
+    let dispatchGroup = DispatchGroup ()
     
     func getGroupsList () {
-        let url = requestManager.vkRequestUrl(path: .groupsGet, queryItems: [
-            URLQueryItem.init(name: "extended", value: "1"),
-            URLQueryItem.init(name: "fields", value: "activity")
-        ])
-        let task = Session.session.urlSession.dataTask(with: url) {data, responce, error in
-            guard let data = data else {return}
-            let groups = try? JSONDecoder().decode(UserGroups.self, from: data)
+        var groups:CommunitiesRequest.UserGroups?
+        queue.async (group: dispatchGroup) { [weak self] in
+            let url = self?.requestManager.vkRequestUrl(path: .groupsGet, queryItems: [
+                URLQueryItem.init(name: "extended", value: "1"),
+                URLQueryItem.init(name: "fields", value: "activity")
+            ])
+            self?.dispatchGroup.enter()
+            let task = Session.session.urlSession.dataTask(with: url!) {data, responce, error in
+                guard let data = data else {return}
+                groups = try? JSONDecoder().decode(UserGroups.self, from: data)
+                self?.dispatchGroup.leave()
+            }
+            task.resume()
+        }
+        dispatchGroup.notify(queue: queue) {
             if let items = groups?.response.items {
+                self.countCheck (communitiesCount: items.count)
                 items.forEach() {item in
                     let community = CommunitiesRealmEntity ()
                     community.id = item.id
@@ -25,10 +35,8 @@ class CommunitiesRequest {
                 print ("Wrong JSON")
             }
         }
-        task.resume()
     }
 }
-
 extension CommunitiesRequest {
     
     struct UserGroups:Decodable {
@@ -53,6 +61,20 @@ extension CommunitiesRequest {
 }
 
 extension CommunitiesRequest {
+    func countCheck (communitiesCount:Int) {
+        do {
+            let realm = try Realm ()
+            let obj = realm.objects(CommunitiesRealmEntity.self)
+            if communitiesCount < obj.count {
+                realm.beginWrite()
+                realm.delete(obj)
+                try realm.commitWrite()
+            }
+        } catch {
+            print (error.localizedDescription)
+        }
+    }
+    
     func saveCommunitiesData (community: CommunitiesRealmEntity) {
         do {
             let realm = try Realm ()
