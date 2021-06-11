@@ -26,10 +26,10 @@
 		9612C94E260DEB62005B70B6 /* FeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9612C94D260DEB62005B70B6 /* FeedTableViewController.swift */; };
 		9612C96126138F3C005B70B6 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9612C96026138F3B005B70B6 /* PhotoViewController.swift */; };
 		9618F18C262961BC0043081B /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9618F18B262961BC0043081B /* Session.swift */; };
-		96AFA2C025F4139300B35CE4 /* FriendsNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AFA2BF25F4139300B35CE4 /* FriendsNavigationController.swift */; };
+		96AFA2C025F4139300B35CE4 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AFA2BF25F4139300B35CE4 /* NavigationController.swift */; };
 		96C53E9C25EA2BB500385EE9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C53E9B25EA2BB500385EE9 /* AppDelegate.swift */; };
 		96C53E9E25EA2BB500385EE9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C53E9D25EA2BB500385EE9 /* SceneDelegate.swift */; };
-		96C53EA025EA2BB500385EE9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C53E9F25EA2BB500385EE9 /* ViewController.swift */; };
+		96C53EA025EA2BB500385EE9 /* VkAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C53E9F25EA2BB500385EE9 /* VkAuth.swift */; };
 		96C53EA325EA2BB500385EE9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96C53EA125EA2BB500385EE9 /* Main.storyboard */; };
 		96C53EA525EA2BB600385EE9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96C53EA425EA2BB600385EE9 /* Assets.xcassets */; };
 		96C53EA825EA2BB600385EE9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 96C53EA625EA2BB600385EE9 /* LaunchScreen.storyboard */; };
@@ -81,11 +81,11 @@
 		9612C94D260DEB62005B70B6 /* FeedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewController.swift; sourceTree = "<group>"; };
 		9612C96026138F3B005B70B6 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PhotoViewController.swift; path = HomeWorkApp/Friends/Albums/Photos/PhotoViewController.swift; sourceTree = SOURCE_ROOT; };
 		9618F18B262961BC0043081B /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
-		96AFA2BF25F4139300B35CE4 /* FriendsNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsNavigationController.swift; sourceTree = "<group>"; };
+		96AFA2BF25F4139300B35CE4 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		96C53E9825EA2BB500385EE9 /* HomeWorkApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeWorkApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96C53E9B25EA2BB500385EE9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		96C53E9D25EA2BB500385EE9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		96C53E9F25EA2BB500385EE9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		96C53E9F25EA2BB500385EE9 /* VkAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VkAuth.swift; sourceTree = "<group>"; };
 		96C53EA225EA2BB500385EE9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		96C53EA425EA2BB600385EE9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		96C53EA725EA2BB600385EE9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -242,13 +242,10 @@
 			isa = PBXGroup;
 			children = (
 				9612C940260DE665005B70B6 /* Main */,
+				D20971452673F4950001095C /* AppConfigure */,
 				9612C93F260DE5FD005B70B6 /* Friends */,
 				9612C942260DE9B0005B70B6 /* Feed */,
 				9612C941260DE69D005B70B6 /* Communities */,
-				96C53E9F25EA2BB500385EE9 /* ViewController.swift */,
-				26C039BA2631C9AC0046FB35 /* RequestManager.swift */,
-				9618F18B262961BC0043081B /* Session.swift */,
-				96AFA2BF25F4139300B35CE4 /* FriendsNavigationController.swift */,
 				96C53EA125EA2BB500385EE9 /* Main.storyboard */,
 				96C53EA425EA2BB600385EE9 /* Assets.xcassets */,
 				96C53EA925EA2BB600385EE9 /* Info.plist */,
@@ -273,6 +270,18 @@
 				96C53EBF25EA2BB600385EE9 /* Info.plist */,
 			);
 			path = HomeWorkAppUITests;
+			sourceTree = "<group>";
+		};
+		D20971452673F4950001095C /* AppConfigure */ = {
+			isa = PBXGroup;
+			children = (
+				96C53E9F25EA2BB500385EE9 /* VkAuth.swift */,
+				26C039BA2631C9AC0046FB35 /* RequestManager.swift */,
+				9618F18B262961BC0043081B /* Session.swift */,
+				96AFA2BF25F4139300B35CE4 /* NavigationController.swift */,
+			);
+			name = AppConfigure;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -452,7 +461,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96C53EA025EA2BB500385EE9 /* ViewController.swift in Sources */,
+				96C53EA025EA2BB500385EE9 /* VkAuth.swift in Sources */,
 				507CC0772639B04700CD9C6A /* CommunitiesRequest.swift in Sources */,
 				96C53E9C25EA2BB500385EE9 /* AppDelegate.swift in Sources */,
 				507CC084263AB4B000CD9C6A /* AlbumRequest.swift in Sources */,
@@ -474,7 +483,7 @@
 				2A4C79672653D82400A0B495 /* NewsfeedRequest.swift in Sources */,
 				96F37B0B25F436F5008B7701 /* FriendsPhotoCollectionViewController.swift in Sources */,
 				50897279264535AB006080FA /* CommunitiesRealmEntity.swift in Sources */,
-				96AFA2C025F4139300B35CE4 /* FriendsNavigationController.swift in Sources */,
+				96AFA2C025F4139300B35CE4 /* NavigationController.swift in Sources */,
 				96C53E9E25EA2BB500385EE9 /* SceneDelegate.swift in Sources */,
 				507CC08D263AD77000CD9C6A /* AlbumsCollectionViewCell.swift in Sources */,
 			);

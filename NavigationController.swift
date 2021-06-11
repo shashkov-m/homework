@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FriendsNavigationController: UINavigationController {
+class NavigationController: UINavigationController {
     
 
 
