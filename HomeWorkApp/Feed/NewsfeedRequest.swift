@@ -25,31 +25,31 @@ class NewsfeedRequest {
         dispatchGroup.notify(queue: queue) {
             if let response = dataResponce {
                 self.deleteNewsfeed()
-                response.items.forEach() { item in
+                response.items?.forEach() { item in
                     guard item.marked_as_ads == 0 else {return}
                     let news = NewsfeedRealmEntuty ()
-                    news.id = abs(item.source_id)
-                    news.date = item.date
+                    news.id = abs(item.source_id ?? 0)
+                    news.date = item.date ?? 0
                     news.text = item.text
-                    news.marked_as_ads = item.marked_as_ads
-                    news.likes = item.likes.count
-                    news.user_likes = item.likes.user_likes
-                    news.comments = item.comments.count
-                    news.reposts = item.reposts.count
-                    news.views = item.views.count
+                    news.marked_as_ads = item.marked_as_ads ?? 0
+                    news.likes = item.likes?.count ?? 0
+                    news.user_likes = item.likes?.user_likes ?? 0
+                    news.comments = item.comments?.count ?? 0
+                    news.reposts = item.reposts?.count ?? 0
+                    news.views = item.views?.count ?? 0
                     if let attachments = item.attachments {
                         for i in 0 ..< attachments.count {
                             let attach = NewsfeedRealmAttachment ()
-                            attach.type = attachments[i].type
+                            attach.type = attachments[i].type ?? "nil"
                             switch attach.type {
                             case "photo":
-                                attachments[i].photo?.sizes.forEach { size in
+                                attachments[i].photo?.sizes?.forEach { size in
                                     guard size.type == "q" else { return }
                                     attach.source = size.url
                                 }
                             case "doc":
                                 attach.source = attachments[i].doc?.url
-                                attach.preview = attachments[i].doc?.preview.photo.sizes[0].src
+                                attach.preview = attachments[i].doc?.preview?.photo?.sizes?[0].src
                             default:
                                 break
                             }
@@ -60,14 +60,14 @@ class NewsfeedRequest {
                     }
                     self.saveNewsData(news: news)
                 }
-                response.groups.forEach() {item in
+                response.groups?.forEach() {item in
                     let group = NewsfeedRealmOwner ()
                     group.id = item.id
                     group.name = item.name
                     group.photo = item.photo_50
                     self.saveOwnerData(owner: group)
                 }
-                response.profiles.forEach() {item in
+                response.profiles?.forEach() {item in
                     let profile = NewsfeedRealmOwner ()
                     profile.id = item.id
                     profile.name = "\(item.first_name) \(item.last_name ?? "")"
@@ -86,10 +86,10 @@ extension NewsfeedRequest {
         let response:Response
     }
     struct Response:Codable {
-        let items:[Items]
-        let profiles:[Profiles]
-        let groups:[Groups]
-        let next_from:String
+        let items:[Items]?
+        let profiles:[Profiles]?
+        let groups:[Groups]?
+        let next_from:String?
     }
     struct Profiles:Codable {
         let id:Int
@@ -104,57 +104,57 @@ extension NewsfeedRequest {
         
     }
     struct Items:Codable {
-        let source_id:Int
-        let date:Int
+        let source_id:Int?
+        let date:Int?
         let text:String?
-        let marked_as_ads:Int
+        let marked_as_ads:Int?
         let attachments:[Attachments]?
-        let comments:Comments
-        let likes:Likes
-        let reposts:Reposts
-        let views:Views
+        let comments:Comments?
+        let likes:Likes?
+        let reposts:Reposts?
+        let views:Views?
     }
     struct Attachments:Codable {
-        let type:String
+        let type:String?
         let photo:Photo?
         let doc:Doc?
         //let video:Video?
         // let link:Link?
     }
     struct Photo:Codable {
-        let owner_id:Int
-        let sizes:[Sizes]
+        let owner_id:Int?
+        let sizes:[Sizes]?
     }
     struct Doc:Codable {
-        let url:String
-        let preview:Preview
+        let url:String?
+        let preview:Preview?
     }
     struct Preview:Codable {
-        let photo:PreviewSizes
+        let photo:PreviewSizes?
     }
     struct PreviewSizes:Codable {
-        let sizes:[Src]
+        let sizes:[Src]?
     }
     struct Src:Codable {
-        let src:String
+        let src:String?
     }
     struct Sizes:Codable{
-        let type:String
-        let url:String
+        let type:String?
+        let url:String?
     }
     
     struct Comments:Codable {
-        let count:Int
+        let count:Int?
     }
     struct Likes:Codable {
-        let count:Int
-        let user_likes:Int
+        let count:Int?
+        let user_likes:Int?
     }
     struct Reposts:Codable {
-        let count:Int
+        let count:Int?
     }
     struct Views:Codable {
-        let count:Int
+        let count:Int?
     }
     //    struct Video:Codable {
     //        let duration:Int

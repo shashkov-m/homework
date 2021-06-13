@@ -11,7 +11,7 @@ struct Scope:OptionSet {
     static let audio = Scope (rawValue: 1 << 3)
 }
 
-class ViewController: UIViewController {
+class VkAuth: UIViewController {
     let scope:Scope = [.friends, .photos, .audio, .wall, .groups]
     @IBOutlet weak var webView: WKWebView!{
         didSet{
@@ -46,7 +46,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: WKNavigationDelegate {
+extension VkAuth: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
         guard let url = navigationResponse.response.url, url.path == "/blank.html", let fragment = url.fragment  else {

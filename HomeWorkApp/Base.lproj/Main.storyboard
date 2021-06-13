@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Vk Auth-->
         <scene sceneID="1v9-5v-Gxn">
             <objects>
-                <viewController id="jQt-C5-H9q" customClass="ViewController" customModule="HomeWorkApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="jQt-C5-H9q" customClass="VkAuth" customModule="HomeWorkApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="636-TO-Goc">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -262,7 +262,7 @@
         <!--Friends-->
         <scene sceneID="Hwm-23-LRy">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cte-cc-sJK" customClass="FriendsNavigationController" customModule="HomeWorkApp" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cte-cc-sJK" customClass="NavigationController" customModule="HomeWorkApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Friends" image="person.fill" catalog="system" selectedImage="person.fill" id="oQu-lQ-WdA"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="0Ux-Su-J5p"/>
@@ -282,7 +282,7 @@
         <!--Feed-->
         <scene sceneID="Drz-Z2-pAG">
             <objects>
-                <navigationController id="sLq-hc-W7X" customClass="FriendsNavigationController" customModule="HomeWorkApp" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController id="sLq-hc-W7X" customClass="NavigationController" customModule="HomeWorkApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Feed" image="house.fill" catalog="system" selectedImage="house.fill" id="E33-OI-9bf"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="PDV-gH-O7q">
                         <rect key="frame" x="0.0" y="44" width="390" height="44"/>
@@ -324,7 +324,7 @@
         <!--Communities-->
         <scene sceneID="l2f-8A-fgb">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cIQ-0Y-Cwe" customClass="FriendsNavigationController" customModule="HomeWorkApp" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cIQ-0Y-Cwe" customClass="NavigationController" customModule="HomeWorkApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Communities" image="person.3.fill" catalog="system" selectedImage="person.3.fill" id="dyY-zn-7Qb"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="bRE-6c-Mx1">

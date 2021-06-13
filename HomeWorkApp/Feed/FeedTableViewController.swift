@@ -34,7 +34,6 @@ class FeedTableViewController: UITableViewController {
         newsfeedRequest.getNewsfeed()
         tableView.reloadData()
     }
-    // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -181,26 +180,6 @@ class FeedTableViewController: UITableViewController {
         } else {
             print ("The cell wasn't configure.\nAttach element count = \(news.attachments.count)\nNews id = \(news.id)" )
         }
-        
-        //        let firstImage = #imageLiteral(resourceName: "photo_2021-05-25 21.31.48")
-        //        let secImg = #imageLiteral(resourceName: "photo_2021-05-25 21.31.36")
-        //        let thirdImg = #imageLiteral(resourceName: "photo_2021-05-25 21.31.48")
-        //        cell.firstImg.frame = CGRect (x: 0, y: 0, width: superview_Width * 0.7 - 2, height: superview_Heigh)
-        //        cell.secondImg.frame = CGRect (x: cell.firstImg.frame.maxX + 2, y: 0, width: superview_Width - cell.firstImg.frame.width , height: superview_Heigh / 3 - 1)
-        //        cell.thirdImg.frame = CGRect (x: cell.firstImg.frame.maxX + 2, y: cell.secondImg.frame.maxY + 2, width: superview_Width - cell.firstImg.frame.width - 1, height: superview_Heigh / 3 - 1)
-        //        cell.fourthImg.frame = CGRect (x: cell.firstImg.frame.maxX + 2, y: cell.thirdImg.frame.maxY + 2, width: superview_Width - cell.firstImg.frame.width, height: superview_Heigh / 3 - 1)
-        //        cell.countLabel.frame = cell.fourthImg.frame
-        //        cell.firstImg.image = firstImage
-        //        cell.secondImg.image = secImg
-        //        cell.thirdImg.image = thirdImg
-        //        cell.fourthImg.image = secImg
-        //        cell.countLabel.text = "+5"
-        //        cell.fourthImg.alpha = 0.35
-        //        cell.newsContentView.addSubview(cell.firstImg)
-        //        cell.newsContentView.addSubview(cell.secondImg)
-        //        cell.newsContentView.addSubview(cell.thirdImg)
-        //        cell.newsContentView.addSubview(cell.fourthImg)
-        //        cell.newsContentView.addSubview(cell.countLabel)
         
         cell.likeImage.image = news.user_likes == 0 ? UIImage (systemName: "heart") : UIImage (systemName: "heart.fill")
         cell.likeCount.text = "\(news.likes)"
