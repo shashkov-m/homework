@@ -1,23 +1,24 @@
 import UIKit
 import RealmSwift
-import Kingfisher
 import SDWebImage
 class FeedTableViewController: UITableViewController {
-    let date = Date ()
-    let df = DateFormatter ()
+        
     let newsfeedRequest = NewsfeedRequest ()
     var news:Results<NewsfeedRealmEntuty>?
-    let realm = try! Realm ()
     var token:NotificationToken?
     let queue = DispatchQueue (label: "NewsFeedCellQueue", qos: .userInteractive, attributes: .concurrent)
-    let dispatchGroup = DispatchGroup ()
+    var realm = try? Realm ()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(UINib(nibName: "FeedTableViewCell", bundle: nil), forCellReuseIdentifier: "feedCell")
-        newsfeedRequest.getNewsfeed()
-        news = realm.objects(NewsfeedRealmEntuty.self)
-        df.dateFormat = "dd.MM.yyyy HH:mm"
         tableView.allowsSelection = false
+        newsfeedRequest.getNewsfeed()
+        do {
+            realm = try Realm ()
+            news = realm?.objects(NewsfeedRealmEntuty.self)
+        } catch {
+            print (error.localizedDescription)
+        }
         token = news?.observe {[weak self] changes in
             switch changes {
             case .initial:
@@ -30,11 +31,6 @@ class FeedTableViewController: UITableViewController {
         }
     }
     
-    @IBAction func reloadButton(_ sender: Any) {
-        newsfeedRequest.getNewsfeed()
-        tableView.reloadData()
-    }
-    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -44,156 +40,156 @@ class FeedTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "feedCell", for: indexPath) as! FeedTableViewCell
-        guard let userNews = news else {return cell}
+        guard let userNews = news else {return UITableViewCell ()}
+        
         let news = userNews [indexPath.row]
-        let owner = realm.objects(NewsfeedRealmOwner.self).filter("id == \(news.id)")
-        let groupPhoto = owner.first?.photo ?? ""
-        let groupName = owner.first?.name ?? ""
-        
-        let avatarUrl = URL(string: groupPhoto)
-        cell.avatarView.layer.masksToBounds = true
-        cell.avatarView.layer.cornerRadius = 20
-        
-        let date = Date(timeIntervalSince1970: Double(news.date))
-        let dateString = df.string(from: date)
-        
-        cell.dateLabel.text = "\(dateString)"
-        cell.newsTextLabel.text = news.text
-        cell.nameLabel.text = groupName
-        cell.avatarView.kf.setImage(with: avatarUrl)
-
-        let superview_Width = cell.newsContentView.frame.width
-        let superview_Heigh = cell.newsContentView.frame.height
-        
         
         // GIF
         if news.attachments.count == 1, news.attachments[0].type == "doc" {
-            guard let source = news.attachments[0].source else { return cell }
+            tableView.register(UINib (nibName: "GifTableViewCell", bundle: nil),forCellReuseIdentifier: "gifCell") // MARK: - Норм ли так делать? Не происходит ли постоянная регистрация при формировании каждой ячейки? Или зарегать все сразу в didLoad, даже при условии что ячейка может и не использваться?
+            let cell = tableView.dequeueReusableCell(withIdentifier: "gifCell", for: indexPath) as! GifTableViewCell
+            guard let source = news.attachments.first?.source else { return cell }
+            cell.gifView.frame = cell.view.bounds
+            cell.view.addSubview(cell.gifView)
             let url = URL(string: source)
-            cell.gifImg.frame = CGRect (x: 0, y: 0, width: superview_Width, height: superview_Heigh)
-            
             queue.async {
                 if let data = try? Data(contentsOf: url!) {
                     if let image = SDAnimatedImage (data: data) {
                         DispatchQueue.main.async {
-                            cell.gifImg.image = image
+                            cell.gifView.image = image
+                        }
+                    }
+                }
+            }
+            cellConfigure(cell: cell, indexPath: indexPath)
+            return cell
+            
+            //1 Image
+        } else if news.attachments.count == 1, news.attachments[0].type == "photo"{
+            tableView.register(UINib (nibName: "OneImgTableViewCell", bundle: nil),forCellReuseIdentifier: "oneImg")
+            let cell = tableView.dequeueReusableCell(withIdentifier: "oneImg", for: indexPath) as! OneImgTableViewCell
+            guard let source = news.attachments.first?.source else { return cell }
+            let url = URL(string: source) ?? URL (string: "")
+            
+            queue.async {
+                if let data = try? Data (contentsOf: url!) {
+                    if let image = UIImage (data: data) {
+                        DispatchQueue.main.async {
+                            cell.imgView.image = image
                         }
                     }
                 }
             }
             
-            cell.newsContentView.addSubview(cell.gifImg)
-            //1 Image
-        } else if news.attachments.count == 1, news.attachments[0].type == "photo"{
-            guard let source = news.attachments[0].source else { return cell }
-            let url = URL(string: source) ?? URL (string: "")
-            cell.firstImg.frame = CGRect (x: 0, y: 0, width: superview_Width, height: superview_Heigh)
-            cell.firstImg.kf.setImage(with: url)
-            cell.newsContentView.addSubview(cell.firstImg)
+            cellConfigure(cell: cell, indexPath: indexPath)
+            return cell
             
             // 2 Images
         } else if news.attachments.count == 2, news.attachments.allSatisfy({$0.type == "photo"}) {
+            tableView.register(UINib (nibName: "TwoImgTableViewCell", bundle: nil),forCellReuseIdentifier: "twoImg")
+            let cell = tableView.dequeueReusableCell(withIdentifier: "twoImg", for: indexPath) as! TwoImgTableViewCell
             guard let fsource = news.attachments[0].source, let ssource = news.attachments[1].source else { return cell }
             let fUrl = URL(string: fsource)
             let sUrl = URL(string: ssource)
-            cell.firstImg.frame = CGRect (x: 0, y: 0, width: superview_Width / 2, height: superview_Heigh)
-            cell.secondImg.frame = CGRect (x: cell.firstImg.frame.maxX, y: 0, width: superview_Width - cell.firstImg.frame.width , height: superview_Heigh)
-            cell.firstImg.kf.setImage(with: fUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
-            cell.secondImg.kf.setImage(with: sUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
             
-            cell.newsContentView.addSubview(cell.firstImg)
-            cell.newsContentView.addSubview(cell.secondImg)
+            queue.async {
+                if let data = try? Data (contentsOf: fUrl!) {
+                    if let image = UIImage (data: data) {
+                        DispatchQueue.main.async {
+                            cell.firstImg.image = image
+                        }
+                    }
+                }
+            }
+            
+            queue.async {
+                if let data = try? Data (contentsOf: sUrl!) {
+                    if let image = UIImage (data: data) {
+                        DispatchQueue.main.async {
+                            cell.secondImg.image = image
+                        }
+                    }
+                }
+            }
+            
+            cellConfigure(cell: cell, indexPath: indexPath)
+            
+            return cell
             
             //3 Images
         } else if news.attachments.count == 3, news.attachments.allSatisfy({$0.type == "photo"}){
+            tableView.register(UINib (nibName: "ThreeImgTableViewCell", bundle: nil),forCellReuseIdentifier: "threeImg")
+            let cell = tableView.dequeueReusableCell(withIdentifier: "threeImg", for: indexPath) as! ThreeImgTableViewCell
             guard let fsource = news.attachments[0].source, let ssource = news.attachments[1].source, let tsource = news.attachments[2].source else { return cell }
-            let fUrl = URL(string: fsource)
-            let sUrl = URL(string: ssource)
-            let tUrl = URL(string: tsource)
-            cell.firstImg.frame = CGRect (x: 0, y: 0, width: superview_Width * 0.7, height: superview_Heigh)
-            cell.secondImg.frame = CGRect (x: cell.firstImg.frame.maxX, y: 0, width: superview_Width - cell.firstImg.frame.width , height: superview_Heigh / 2)
-            cell.thirdImg.frame = CGRect (x: cell.firstImg.frame.maxX, y: cell.secondImg.frame.maxY, width: superview_Width - cell.firstImg.frame.width, height: superview_Heigh / 2)
+            let fUrl = URL(string: fsource) ?? URL(string: "")!
+            let sUrl = URL(string: ssource) ?? URL(string: "")!
+            let tUrl = URL(string: tsource) ?? URL(string: "")!
             
-            cell.firstImg.kf.setImage(with: fUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
-            cell.secondImg.kf.setImage(with: sUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
-            cell.thirdImg.kf.setImage(with: tUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
-            
-            cell.newsContentView.addSubview(cell.firstImg)
-            cell.newsContentView.addSubview(cell.secondImg)
-            cell.newsContentView.addSubview(cell.thirdImg)
-            
-            //4 Images
-        } else if news.attachments.count == 4, news.attachments.allSatisfy({$0.type == "photo"}){
-            guard let fsource = news.attachments[0].source, let ssource = news.attachments[1].source, let tsource = news.attachments[2].source, let frthsource = news.attachments[3].source else { return cell }
-            let fUrl = URL(string: fsource)
-            let sUrl = URL(string: ssource)
-            let tUrl = URL(string: tsource)
-            let frthUrl = URL(string: frthsource)
-            
-            cell.firstImg.frame = CGRect (x: 0, y: 0, width: superview_Width * 0.7, height: superview_Heigh)
-            cell.secondImg.frame = CGRect (x: cell.firstImg.frame.maxX, y: 0, width: superview_Width - cell.firstImg.frame.width , height: superview_Heigh / 3)
-            cell.thirdImg.frame = CGRect (x: cell.firstImg.frame.maxX, y: cell.secondImg.frame.maxY, width: superview_Width - cell.firstImg.frame.width, height: superview_Heigh / 3)
-            cell.fourthImg.frame = CGRect (x: cell.firstImg.frame.maxX, y: cell.thirdImg.frame.maxY, width: superview_Width - cell.firstImg.frame.width, height: superview_Heigh / 3)
-            
-            queue.async (group:dispatchGroup) {
-                
+            asyncImageLoad(url: fUrl) { image in
+                cell.firstImg.image = image
             }
             
-            cell.firstImg.kf.setImage(with: fUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
-            cell.secondImg.kf.setImage(with: sUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
-            cell.thirdImg.kf.setImage(with: tUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
-            cell.fourthImg.kf.setImage(with: frthUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
+            asyncImageLoad(url: sUrl) { image in
+                cell.secondImg.image = image
+            }
             
-            cell.newsContentView.addSubview(cell.firstImg)
-            cell.newsContentView.addSubview(cell.secondImg)
-            cell.newsContentView.addSubview(cell.thirdImg)
-            cell.newsContentView.addSubview(cell.fourthImg)
+            asyncImageLoad(url: tUrl) { image in
+                cell.thirdImg.image = image
+            }
             
-            // More than 4 images
-        } else if news.attachments.count > 4, news.attachments.allSatisfy({$0.type == "photo"}){
+            cellConfigure(cell: cell, indexPath: indexPath)
+            return cell
+            
+            //4 and more Images
+        } else if news.attachments.count >= 4, news.attachments.allSatisfy({$0.type == "photo"}){
+            
+            tableView.register(UINib (nibName: "FourImgTableViewCell", bundle: nil),forCellReuseIdentifier: "fourImg")
+            let cell = tableView.dequeueReusableCell(withIdentifier: "fourImg", for: indexPath) as! FourImgTableViewCell
             
             guard let fsource = news.attachments[0].source, let ssource = news.attachments[1].source, let tsource = news.attachments[2].source, let frthsource = news.attachments[3].source else { return cell }
-            let fUrl = URL(string: fsource)
-            let sUrl = URL(string: ssource)
-            let tUrl = URL(string: tsource)
-            let frthUrl = URL(string: frthsource)
             
-            cell.firstImg.frame = CGRect (x: 0, y: 0, width: superview_Width * 0.7, height: superview_Heigh)
-            cell.secondImg.frame = CGRect (x: cell.firstImg.frame.maxX, y: 0, width: superview_Width - cell.firstImg.frame.width , height: superview_Heigh / 3)
-            cell.thirdImg.frame = CGRect (x: cell.firstImg.frame.maxX, y: cell.secondImg.frame.maxY, width: superview_Width - cell.firstImg.frame.width, height: superview_Heigh / 3)
-            cell.fourthImg.frame = CGRect (x: cell.firstImg.frame.maxX, y: cell.thirdImg.frame.maxY, width: superview_Width - cell.firstImg.frame.width, height: superview_Heigh / 3)
-            cell.countLabel.frame = cell.fourthImg.frame
-            cell.fourthImg.alpha = 0.35
-            cell.firstImg.kf.setImage(with: fUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
-            cell.secondImg.kf.setImage(with: sUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
-            cell.thirdImg.kf.setImage(with: tUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
-            cell.fourthImg.kf.setImage(with: frthUrl, options: [.cacheMemoryOnly,.keepCurrentImageWhileLoading])
-            cell.countLabel.text = "+\(news.attachments.count - 3)"
+            let fUrl = URL(string: fsource) ?? URL(string: "")!
+            let sUrl = URL(string: ssource) ?? URL(string: "")!
+            let tUrl = URL(string: tsource) ?? URL(string: "")!
+            let frthUrl = URL(string: frthsource) ?? URL(string: "")!
             
-            cell.newsContentView.addSubview(cell.firstImg)
-            cell.newsContentView.addSubview(cell.secondImg)
-            cell.newsContentView.addSubview(cell.thirdImg)
-            cell.newsContentView.addSubview(cell.fourthImg)
-            cell.newsContentView.addSubview(cell.countLabel)
+            asyncImageLoad(url: fUrl) { image in //MARK: - Как лучше сократить код в подобном случае?
+                cell.firstImg.image = image
+            }
+            asyncImageLoad(url: sUrl) { image in
+                cell.secondImg.image = image
+            }
+            asyncImageLoad(url: tUrl) { image in
+                cell.thirdImg.image = image
+            }
+            asyncImageLoad(url: frthUrl) { image in
+                cell.fourthImg.image = image
+            }
+            
+            cellConfigure(cell: cell, indexPath: indexPath)
+            
+            if news.attachments.count > 4 {
+                cell.countLabel.frame = cell.fourthImg.frame
+                cell.fourthImg.alpha = 0.35
+                cell.countLabel.text = "+\(news.attachments.count - 3)"
+                
+                cell.imageContainer.addSubview(cell.countLabel)
+            }
+            return cell
             
         } else {
             print ("The cell wasn't configure.\nAttach element count = \(news.attachments.count)\nNews id = \(news.id)" )
         }
-        
-        cell.likeImage.image = news.user_likes == 0 ? UIImage (systemName: "heart") : UIImage (systemName: "heart.fill")
-        cell.likeCount.text = "\(news.likes)"
-        cell.viewsCount.text = "\(news.views)"
-        cell.repostCount.text = "\(news.reposts)"
-        cell.commentCount.text = "\(news.comments)"
-        return cell
+        return UITableViewCell ()
     }
     
-    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath)  {
-        if let myCell = cell as? FeedTableViewCell {
-            myCell.gifImg.sd_cancelCurrentImageLoad()
-        }
-    }
+    //    //Отменяет загрузку GIF когда быстро пролистывается лента и GIF пропадает из вида, так и не загрузившись
+    //    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath)  {
+    //        if let cell = cell as? GifTableViewCell {
+    //            cell.gifView.sd_cancelCurrentImageLoad()
+    //        }
+    //    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         tableView.reloadData()
@@ -201,5 +197,58 @@ class FeedTableViewController: UITableViewController {
     
     deinit {
         token?.invalidate()
+    }
+    
+    func cellConfigure (cell: NewsfeedCell, indexPath:IndexPath) {
+        guard let userNews = news else { return }
+        let news = userNews [indexPath.row]
+        
+        cell.likeView.image = news.user_likes == 0 ? UIImage (systemName: "heart") : UIImage (systemName: "heart.fill")
+        cell.commentView.image = UIImage (systemName: "bubble.left")
+        cell.repostView.image = UIImage (systemName: "arrowshape.turn.up.right")
+        cell.viewsView.image = UIImage (systemName: "eye")
+        cell.likeLabel.text = "\(news.likes)"
+        cell.viewsLabel.text = "\(news.views)"
+        cell.repostLabel.text = "\(news.reposts)"
+        cell.commentLabel.text = "\(news.comments)"
+        cell.repostView.tintColor = .gray
+        cell.viewsView.tintColor = .gray
+        cell.commentView.tintColor = .gray
+        cell.likeView.tintColor = .gray
+        
+        let owner = realm?.objects(NewsfeedRealmOwner.self).filter("id == \(news.id)")
+        let groupPhoto = owner?.first?.photo ?? ""
+        let groupName = owner?.first?.name ?? ""
+        
+        let avatarUrl = URL(string: groupPhoto)
+        
+        cell.avatarView.layer.masksToBounds = true
+        cell.avatarView.layer.cornerRadius = 20
+        
+        let date = Date(timeIntervalSince1970: Double(news.date))
+        let df = DateFormatter ()
+        df.dateFormat = "dd.MM.yyyy HH:mm"
+        let dateString = df.string(from: date)
+        
+        cell.dateLabel.text = "\(dateString)"
+        cell.postLabel.text = news.text
+        cell.nameLabel.text = groupName
+        cell.avatarView.sd_setImage(with: avatarUrl)
+        
+    }
+    
+    func asyncImageLoad (url:URL, completion: @escaping (UIImage) -> Void) {
+        
+        queue.async {
+            
+            if let data = try? Data (contentsOf: url) {
+                
+                if let image = UIImage (data: data) {
+                    DispatchQueue.main.async {
+                        completion (image)
+                    }
+                }
+            }
+        }
     }
 }
