@@ -8,4 +8,5 @@ pod 'Kingfisher', '~> 6.3'
 pod 'Firebase/Analytics'
 pod 'FirebaseFirestore', '~> 8.0'
 pod 'SDWebImage', '~> 5.11'
+pod "PromiseKit", "~> 6.8"
 end
