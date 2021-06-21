@@ -309,13 +309,7 @@
                             <outlet property="delegate" destination="Brz-0x-nA4" id="4nz-T2-PqL"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Feed" id="BtZ-xD-TVN">
-                        <barButtonItem key="rightBarButtonItem" title="Reload Data" id="ltJ-g8-exn">
-                            <connections>
-                                <action selector="reloadButton:" destination="Brz-0x-nA4" id="XEO-uf-hJz"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Feed" id="BtZ-xD-TVN"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hCp-iw-75h" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

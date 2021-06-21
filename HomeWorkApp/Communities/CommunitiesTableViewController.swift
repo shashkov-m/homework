@@ -1,6 +1,5 @@
 import UIKit
 import RealmSwift
-import Kingfisher
 class CommunitiesTableViewController: UITableViewController {
     let communitiesRequest = CommunitiesRequest()
     let realm = try! Realm ()
@@ -21,6 +20,7 @@ class CommunitiesTableViewController: UITableViewController {
             }
             
         }
+        tableView.allowsSelection = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,7 +47,7 @@ class CommunitiesTableViewController: UITableViewController {
         cell.textLabel?.text = community.type != nil ? "\(community.name)\n\(community.type!)" : community.name
         cell.textLabel?.font = .systemFont(ofSize: 13)
         let url = URL (string: community.photo)
-        cell.imageView?.kf.setImage(with: url)
+        cell.imageView?.sd_setImage(with: url)
         cell.imageView?.layer.cornerRadius = 25
         cell.imageView?.layer.masksToBounds = true
         return cell

@@ -1,43 +1,69 @@
 import UIKit
 import RealmSwift
+import PromiseKit
 class FriendsRequest {
     let requestManager = RequestManager ()
     let queue = DispatchQueue (label: "FriendsRequestDataLoadQueue", qos: .userInteractive)
     let dispatchGroup = DispatchGroup ()
-    func getFriendsList () {
-        var friendsItems:[FriendsRequest.Items]?
-        queue.async(group: dispatchGroup) {
-            let url = self.requestManager.vkRequestUrl(path: .friendsGet,queryItems: [
-                URLQueryItem.init(name: "fields", value: "city,photo_100"),
-                URLQueryItem.init(name: "order", value: "hints")
-            ])
-            self.dispatchGroup.enter()
+    
+    func getFriendsListData () -> Promise <Data> {
+        
+        let url = self.requestManager.vkRequestUrl(path: .friendsGet,queryItems: [
+            URLQueryItem.init(name: "fields", value: "city,photo_100"),
+            URLQueryItem.init(name: "order", value: "hints")
+        ])
+        let promise = Promise<Data> { seal in
             let task = Session.session.urlSession.dataTask(with: url) {data, response, error in
-                guard let data = data else { return self.dispatchGroup.leave() }
-                let friends = try? JSONDecoder().decode(UserFriends.self, from: data)
-                friendsItems = friends?.response.items
-                self.dispatchGroup.leave()
+                
+                if let data = data {
+                    seal.resolve(.fulfilled(data))
+                }
+                if let error = error {
+                    seal.reject(error)
+                }
             }
             task.resume()
         }
-        self.dispatchGroup.notify(queue: self.queue) {
-            if let items = friendsItems {
-                self.countCheck(friendCount: items.count)
-                items.forEach { item in
-                    let friend = FriendsRealmEntity()
-                    friend.name = "\(item.first_name) \(item.last_name)"
-                    friend.city = "\(item.city?.title ?? "")"
-                    friend.id = item.id
-                    friend.photo = item.photo_100
-                    self.saveFriendsData(friend: friend)
-                }
+        return promise
+    }
+    
+    func parseFriendsListData (data:Data) -> Promise <[FriendsRequest.Items]> {
+        let promise = Promise <[Items]> {seal in
+            let friends = try? JSONDecoder().decode(UserFriends.self, from: data)
+            
+            if let friendsItems = friends?.response.items {
+                seal.resolve(.fulfilled(friendsItems))
             } else {
-                print ("Wrong JSON")
+                seal.reject(PromiseError.error)
             }
+        }
+        return promise
+    }
+    
+    func saveFriendsListData (items:[Items]) {
+        self.countCheck(friendCount: items.count)
+        items.forEach { item in
+            let friend = FriendsRealmEntity()
+            friend.name = "\(item.first_name) \(item.last_name)"
+            friend.city = "\(item.city?.title ?? "")"
+            friend.id = item.id
+            friend.photo = item.photo_100
+            self.saveFriendsData(friend: friend)
+        }
+    }
+    
+    func getFriendsList () {
+        firstly {
+            getFriendsListData()
+        }.then {data in
+            self.parseFriendsListData(data: data)
+        }.done {items in
+            self.saveFriendsListData(items: items)
+        }.catch {error in
+            print (error)
         }
     }
 }
-
 extension FriendsRequest {
     
     struct UserFriends:Decodable {
@@ -63,6 +89,10 @@ extension FriendsRequest {
         let city:String
         let id:Int
         let photo:UIImage
+    }
+    
+    enum PromiseError:Error {
+        case error
     }
 }
 
