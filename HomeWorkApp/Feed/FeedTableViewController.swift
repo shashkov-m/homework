@@ -9,6 +9,8 @@ class FeedTableViewController: UITableViewController {
     let queue = DispatchQueue (label: "NewsFeedCellQueue", qos: .userInteractive, attributes: .concurrent)
     var realm = try? Realm ()
     
+    let cache = NSCache <NSString, UIImage> ()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.allowsSelection = false
@@ -29,6 +31,8 @@ class FeedTableViewController: UITableViewController {
                 print (error.localizedDescription)
             }
         }
+        cache.name = "Newsfeed cache"
+        cache.countLimit = 50
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -46,19 +50,14 @@ class FeedTableViewController: UITableViewController {
         
         // GIF
         if news.attachments.count == 1, news.attachments[0].type == "doc" {
-            tableView.register(UINib (nibName: "GifTableViewCell", bundle: nil),forCellReuseIdentifier: "gifCell") // MARK: - Норм ли так делать? Не происходит ли постоянная регистрация при формировании каждой ячейки? Или зарегать все сразу в didLoad, даже при условии что ячейка может и не использваться?
+            tableView.register(UINib (nibName: "GifTableViewCell", bundle: nil),forCellReuseIdentifier: "gifCell")
             let cell = tableView.dequeueReusableCell(withIdentifier: "gifCell", for: indexPath) as! GifTableViewCell
             guard let source = news.attachments.first?.source else { return cell }
             cell.gifView.frame = cell.view.bounds
             cell.view.addSubview(cell.gifView)
-            let url = URL(string: source)
-            queue.async {
-                if let data = try? Data(contentsOf: url!) {
-                    if let image = SDAnimatedImage (data: data) {
-                        DispatchQueue.main.async {
-                            cell.gifView.image = image
-                        }
-                    }
+            getImage(GIF: source) {image in
+                DispatchQueue.main.async {
+                    cell.gifView.image = image
                 }
             }
             cellConfigure(cell: cell, indexPath: indexPath)
@@ -153,7 +152,7 @@ class FeedTableViewController: UITableViewController {
             let tUrl = URL(string: tsource) ?? URL(string: "")!
             let frthUrl = URL(string: frthsource) ?? URL(string: "")!
             
-            asyncImageLoad(url: fUrl) { image in //MARK: - Как лучше сократить код в подобном случае?
+            asyncImageLoad(url: fUrl) { image in
                 cell.firstImg.image = image
             }
             asyncImageLoad(url: sUrl) { image in
@@ -234,7 +233,6 @@ class FeedTableViewController: UITableViewController {
         cell.postLabel.text = news.text
         cell.nameLabel.text = groupName
         cell.avatarView.sd_setImage(with: avatarUrl)
-        
     }
     
     func asyncImageLoad (url:URL, completion: @escaping (UIImage) -> Void) {
@@ -245,6 +243,33 @@ class FeedTableViewController: UITableViewController {
                 
                 if let image = UIImage (data: data) {
                     DispatchQueue.main.async {
+                        completion (image)
+                    }
+                }
+            }
+        }
+    }
+}
+
+extension FeedTableViewController {
+    
+    func getImage (GIF url:String, completion: @escaping (UIImage) -> Void) {
+        let key = NSString(string: url)
+        let url = URL(string: url)
+        
+        if let image = cache.object(forKey: key) {
+            print ("Картинка из кэша 🧤")
+            completion (image)
+        } else {
+            guard let url = url else {
+                print ("URL is empty")
+                return completion (SDAnimatedImage ())
+            }
+            print ("Грузим гифку 🎒")
+            queue.async { [weak self] in
+                if let data = try? Data(contentsOf: url) {
+                    if let image = SDAnimatedImage (data: data) {
+                        self?.cache.setObject(image, forKey: key)
                         completion (image)
                     }
                 }
