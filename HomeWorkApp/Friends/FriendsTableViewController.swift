@@ -9,9 +9,7 @@ import RealmSwift
 import SDWebImage
 import FirebaseFirestore
 class FriendsTableViewController: UITableViewController {
-    
-    let cashe = Cache ()
-    
+
     let friendsRequest = FriendsRequest()
     let albumRequest = AlbumRequest()
     var user_id:Int = 0
@@ -29,7 +27,6 @@ class FriendsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        cashe.cashes()
         friendsRequest.getFriendsList()
         friends = realm.objects(FriendsRealmEntity.self)
         print("Realm path = \(String(describing: realm.configuration.fileURL))")

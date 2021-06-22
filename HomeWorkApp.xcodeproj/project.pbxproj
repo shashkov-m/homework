@@ -38,7 +38,6 @@
 		96F37B0B25F436F5008B7701 /* FriendsPhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F37B0A25F436F5008B7701 /* FriendsPhotoCollectionViewController.swift */; };
 		96F37B3225F537B7008B7701 /* CommunitiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F37B3125F537B7008B7701 /* CommunitiesTableViewController.swift */; };
 		96F37B3725F66D16008B7701 /* ComunitiesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F37B3625F66D16008B7701 /* ComunitiesTableViewCell.swift */; };
-		D2DA48DF267E629A000A3528 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DA48DE267E629A000A3528 /* CacheManager.swift */; };
 		D2F9D8F126753312006EE834 /* GifTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F9D8EF26753312006EE834 /* GifTableViewCell.swift */; };
 		D2F9D8F226753312006EE834 /* GifTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D2F9D8F026753312006EE834 /* GifTableViewCell.xib */; };
 		D2F9D8F5267538DC006EE834 /* OneImgTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F9D8F3267538DC006EE834 /* OneImgTableViewCell.swift */; };
@@ -110,7 +109,6 @@
 		96F37B3125F537B7008B7701 /* CommunitiesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunitiesTableViewController.swift; sourceTree = "<group>"; };
 		96F37B3625F66D16008B7701 /* ComunitiesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComunitiesTableViewCell.swift; sourceTree = "<group>"; };
 		BF19739269634CFDD85229BA /* Pods_HomeWorkApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HomeWorkApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D2DA48DE267E629A000A3528 /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		D2F9D8EF26753312006EE834 /* GifTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifTableViewCell.swift; sourceTree = "<group>"; };
 		D2F9D8F026753312006EE834 /* GifTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GifTableViewCell.xib; sourceTree = "<group>"; };
 		D2F9D8F3267538DC006EE834 /* OneImgTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneImgTableViewCell.swift; sourceTree = "<group>"; };
@@ -298,7 +296,6 @@
 				26C039BA2631C9AC0046FB35 /* RequestManager.swift */,
 				9618F18B262961BC0043081B /* Session.swift */,
 				96AFA2BF25F4139300B35CE4 /* NavigationController.swift */,
-				D2DA48DE267E629A000A3528 /* CacheManager.swift */,
 			);
 			name = AppConfigure;
 			path = ..;
@@ -514,7 +511,6 @@
 				502E4D6F2646B8620020EF92 /* AlbumsRealmEntity.swift in Sources */,
 				96C53ED225EEDB3F00385EE9 /* FriendsTableViewController.swift in Sources */,
 				D2F9D8F5267538DC006EE834 /* OneImgTableViewCell.swift in Sources */,
-				D2DA48DF267E629A000A3528 /* CacheManager.swift in Sources */,
 				26C039BB2631C9AC0046FB35 /* RequestManager.swift in Sources */,
 				96F37B3725F66D16008B7701 /* ComunitiesTableViewCell.swift in Sources */,
 				9612C94E260DEB62005B70B6 /* FeedTableViewController.swift in Sources */,
