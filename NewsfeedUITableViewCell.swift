@@ -1,10 +1,3 @@
-//
-//  NewsfeedUITableViewCell.swift
-//  HomeWorkApp
-//
-//  Created by 18261451 on 22.06.2021.
-//
-
 import UIKit
 
 class NewsfeedUITableViewCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource {
@@ -13,15 +6,15 @@ class NewsfeedUITableViewCell: UITableViewCell, UICollectionViewDelegate, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "newsFeedCollectionViewCell", for: indexPath)
-        cell.backgroundColor = .blue
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "newsfeedCollectionViewCell", for: indexPath)
         return cell
     }
-    
     @IBOutlet weak var collectionView: UICollectionView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        collectionView.register(UINib (nibName: "NewsfeedCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "newsfeedCollectionViewCell")
         collectionView.delegate = self
         collectionView.dataSource = self
     }

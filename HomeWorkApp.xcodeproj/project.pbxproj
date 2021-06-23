@@ -21,6 +21,9 @@
 		507CC093263AD9EA00CD9C6A /* AlbumsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CC092263AD9EA00CD9C6A /* AlbumsCollectionViewController.swift */; };
 		50897279264535AB006080FA /* CommunitiesRealmEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50897278264535AB006080FA /* CommunitiesRealmEntity.swift */; };
 		50D818FA26430F3000A529D5 /* FriendsRealmEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D818F926430F3000A529D5 /* FriendsRealmEntity.swift */; };
+		50F441A426832B3D00126A58 /* NewsfeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F441A226832B3D00126A58 /* NewsfeedCollectionViewCell.swift */; };
+		50F441A526832B3D00126A58 /* NewsfeedCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F441A326832B3D00126A58 /* NewsfeedCollectionViewCell.xib */; };
+		50F441A82683456700126A58 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F441A72683456700126A58 /* Utilities.swift */; };
 		9612C94E260DEB62005B70B6 /* FeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9612C94D260DEB62005B70B6 /* FeedTableViewController.swift */; };
 		9612C96126138F3C005B70B6 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9612C96026138F3B005B70B6 /* PhotoViewController.swift */; };
 		9618F18C262961BC0043081B /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9618F18B262961BC0043081B /* Session.swift */; };
@@ -88,6 +91,9 @@
 		507CC092263AD9EA00CD9C6A /* AlbumsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsCollectionViewController.swift; sourceTree = "<group>"; };
 		50897278264535AB006080FA /* CommunitiesRealmEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunitiesRealmEntity.swift; sourceTree = "<group>"; };
 		50D818F926430F3000A529D5 /* FriendsRealmEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsRealmEntity.swift; sourceTree = "<group>"; };
+		50F441A226832B3D00126A58 /* NewsfeedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsfeedCollectionViewCell.swift; sourceTree = "<group>"; };
+		50F441A326832B3D00126A58 /* NewsfeedCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsfeedCollectionViewCell.xib; sourceTree = "<group>"; };
+		50F441A72683456700126A58 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		9612C94D260DEB62005B70B6 /* FeedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewController.swift; sourceTree = "<group>"; };
 		9612C96026138F3B005B70B6 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PhotoViewController.swift; path = HomeWorkApp/Friends/Albums/Photos/PhotoViewController.swift; sourceTree = SOURCE_ROOT; };
 		9618F18B262961BC0043081B /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
@@ -196,6 +202,20 @@
 			path = Albums;
 			sourceTree = "<group>";
 		};
+		50F441A626832B5000126A58 /* feature */ = {
+			isa = PBXGroup;
+			children = (
+				D2E7F0E426826EA000569A54 /* NewsfeedTableViewController.swift */,
+				D2E7F0E626826EE500569A54 /* NewsfeedUITableViewCell.swift */,
+				50F441A226832B3D00126A58 /* NewsfeedCollectionViewCell.swift */,
+				50F441A326832B3D00126A58 /* NewsfeedCollectionViewCell.xib */,
+				D2E7F0E82682709000569A54 /* NewsfeedCollectionViewLayout.swift */,
+				50F441A72683456700126A58 /* Utilities.swift */,
+			);
+			name = feature;
+			path = ../..;
+			sourceTree = "<group>";
+		};
 		9612C93F260DE5FD005B70B6 /* Friends */ = {
 			isa = PBXGroup;
 			children = (
@@ -231,13 +251,11 @@
 		9612C942260DE9B0005B70B6 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				50F441A626832B5000126A58 /* feature */,
 				D2F9D8EE267532F0006EE834 /* FeedCells */,
 				2A4C79662653D82400A0B495 /* NewsfeedRequest.swift */,
 				2A4C79682655711500A0B495 /* NewsfeedRealmEntity.swift */,
 				9612C94D260DEB62005B70B6 /* FeedTableViewController.swift */,
-				D2E7F0E426826EA000569A54 /* NewsfeedTableViewController.swift */,
-				D2E7F0E626826EE500569A54 /* NewsfeedUITableViewCell.swift */,
-				D2E7F0E82682709000569A54 /* NewsfeedCollectionViewLayout.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -438,6 +456,7 @@
 				96C53EA825EA2BB600385EE9 /* LaunchScreen.storyboard in Resources */,
 				D2F9D8FE26767B63006EE834 /* TwoImgTableViewCell.xib in Resources */,
 				D2F9D8F6267538DC006EE834 /* OneImgTableViewCell.xib in Resources */,
+				50F441A526832B3D00126A58 /* NewsfeedCollectionViewCell.xib in Resources */,
 				D2F9D8F226753312006EE834 /* GifTableViewCell.xib in Resources */,
 				96C53EA525EA2BB600385EE9 /* Assets.xcassets in Resources */,
 				507CC08E263AD77000CD9C6A /* AlbumsCollectionViewCell.xib in Resources */,
@@ -523,6 +542,7 @@
 				D2F9D8F5267538DC006EE834 /* OneImgTableViewCell.swift in Sources */,
 				26C039BB2631C9AC0046FB35 /* RequestManager.swift in Sources */,
 				96F37B3725F66D16008B7701 /* ComunitiesTableViewCell.swift in Sources */,
+				50F441A426832B3D00126A58 /* NewsfeedCollectionViewCell.swift in Sources */,
 				9612C94E260DEB62005B70B6 /* FeedTableViewController.swift in Sources */,
 				D2F9D90126768C18006EE834 /* ThreeImgTableViewCell.swift in Sources */,
 				9618F18C262961BC0043081B /* Session.swift in Sources */,
@@ -531,6 +551,7 @@
 				507CC07C2639B25200CD9C6A /* FriendsRequest.swift in Sources */,
 				D2F9D8FA26760376006EE834 /* NewsfeedCell.swift in Sources */,
 				96F37B3225F537B7008B7701 /* CommunitiesTableViewController.swift in Sources */,
+				50F441A82683456700126A58 /* Utilities.swift in Sources */,
 				D2E7F0E92682709000569A54 /* NewsfeedCollectionViewLayout.swift in Sources */,
 				D2E7F0E526826EA000569A54 /* NewsfeedTableViewController.swift in Sources */,
 				5077273B2647F45F00C4A0D3 /* PhotoRealmEntity.swift in Sources */,

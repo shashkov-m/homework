@@ -8,6 +8,9 @@ class FeedTableViewController: UITableViewController {
     var token:NotificationToken?
     let queue = DispatchQueue (label: "NewsFeedCellQueue", qos: .userInteractive, attributes: .concurrent)
     var realm = try? Realm ()
+    var date = Date()
+    var df = DateFormatter ()
+    
     
     let cache = NSCache <NSString, UIImage> ()
     
@@ -33,6 +36,7 @@ class FeedTableViewController: UITableViewController {
         }
         cache.name = "Newsfeed cache"
         cache.countLimit = 500
+        df.dateFormat = "dd.MM.yyyy HH:mm"
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -161,7 +165,6 @@ class FeedTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if let cell = tableView.cellForRow(at: indexPath) as? GifTableViewCell {
-            print ("Start GIF!!")
             if cell.gifView.isAnimating != true {
                 cell.gifView.startAnimating()
                 
@@ -205,9 +208,7 @@ class FeedTableViewController: UITableViewController {
         cell.avatarView.layer.masksToBounds = true
         cell.avatarView.layer.cornerRadius = 20
         
-        let date = Date(timeIntervalSince1970: Double(news.date))
-        let df = DateFormatter ()
-        df.dateFormat = "dd.MM.yyyy HH:mm"
+        date = Date(timeIntervalSince1970: Double(news.date))
         let dateString = df.string(from: date)
         
         cell.dateLabel.text = "\(dateString)"

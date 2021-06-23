@@ -325,38 +325,26 @@
         <scene sceneID="7od-G0-HDD">
             <objects>
                 <tableViewController id="Mea-H6-rN0" customClass="NewsfeedTableViewController" customModule="HomeWorkApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="vES-Xp-jKl">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" sectionFooterHeight="-1" id="vES-Xp-jKl">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="newsfeedTableViewCell" rowHeight="283" id="a2r-yg-7WX" customClass="NewsfeedUITableViewCell" customModule="HomeWorkApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="24.333333969116211" width="390" height="283"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="newsfeedTableViewCell" id="a2r-yg-7WX" customClass="NewsfeedUITableViewCell" customModule="HomeWorkApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="24.333333969116211" width="390" height="400.33334350585938"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="a2r-yg-7WX" id="uyk-Ey-yUB">
-                                    <rect key="frame" x="0.0" y="0.0" width="390" height="283"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="390" height="400.33334350585938"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="eNg-f3-GQS">
-                                            <rect key="frame" x="0.0" y="0.0" width="390" height="283"/>
+                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="eNg-f3-GQS">
+                                            <rect key="frame" x="0.0" y="0.0" width="390" height="400"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="XZl-dh-lJH">
-                                                <size key="itemSize" width="128" height="128"/>
-                                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                            </collectionViewFlowLayout>
-                                            <cells>
-                                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="newsFeedCollectionViewCell" id="zIC-TC-Urw">
-                                                    <rect key="frame" x="0.0" y="0.0" width="103" height="103"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="S6I-F7-kp9">
-                                                        <rect key="frame" x="0.0" y="0.0" width="103" height="103"/>
-                                                        <autoresizingMask key="autoresizingMask"/>
-                                                    </collectionViewCellContentView>
-                                                    <size key="customSize" width="103" height="103"/>
-                                                </collectionViewCell>
-                                            </cells>
+                                            <viewLayoutGuide key="contentLayoutGuide" id="lbS-qW-O7T"/>
+                                            <viewLayoutGuide key="frameLayoutGuide" id="ZW2-nG-S3b"/>
+                                            <collectionViewLayout key="collectionViewLayout" id="j02-ii-eQn" customClass="NewsfeedCollectionViewLayout" customModule="HomeWorkApp" customModuleProvider="target"/>
+                                            <cells/>
                                         </collectionView>
                                     </subviews>
                                     <constraints>

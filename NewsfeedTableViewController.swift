@@ -1,10 +1,3 @@
-//
-//  NewsfeedTableViewController.swift
-//  HomeWorkApp
-//
-//  Created by 18261451 on 22.06.2021.
-//
-
 import UIKit
 import RealmSwift
 import SDWebImage
@@ -49,9 +42,6 @@ class NewsfeedTableViewController: UITableViewController {
        // guard let userNews = news else {return UITableViewCell ()}
        // let news = userNews [indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsfeedTableViewCell", for: indexPath) as! NewsfeedUITableViewCell
-        cell.backgroundColor = .black
-        cell.layer.backgroundColor = UIColor.black.cgColor
-        print (cell)
         return cell
     }
 }
