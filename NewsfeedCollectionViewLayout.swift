@@ -7,10 +7,24 @@ enum MosaicPhotoStyle {
     //case fourPhotos
 }
 
+protocol CustomCollectionViewLayoutDelegate : AnyObject {
+    func collectionView(_ collectionView : UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath)-> CGFloat
+}
+
 class NewsfeedCollectionViewLayout: UICollectionViewLayout {
+    weak var delegate: CustomCollectionViewLayoutDelegate?
+    private var cachedAttributes = [UICollectionViewLayoutAttributes] ()
     
-    var contentBounds = CGRect.zero
-    var cachedAttributes = [UICollectionViewLayoutAttributes] ()
+    private var contentWidth: CGFloat{
+        guard let collectionView = collectionView else{ return 0 }
+        return collectionView.bounds.width - (collectionView.contentInset.left + collectionView.contentInset.right)
+    }
+    
+    private var contentBounds = CGRect.zero
+    
+    override var collectionViewContentSize: CGSize{
+        return contentBounds.size
+    }
     
     override func prepare() {
         super.prepare()
@@ -18,41 +32,36 @@ class NewsfeedCollectionViewLayout: UICollectionViewLayout {
         guard let collectionView = collectionView else { return }
         
         cachedAttributes.removeAll()
-        contentBounds = CGRect (origin: .zero, size: collectionView.bounds.size)
+        contentBounds = CGRect(origin: .zero, size: collectionView.bounds.size)
         
-        let count = collectionView.numberOfItems(inSection: 0)
+        var yOrigin : CGFloat = 0
+        var xOrigin : CGFloat = 0
         
-        var currentIndex = 0
-        var segment:MosaicPhotoStyle = .onePhoto
-        var lastFrame:CGRect = .zero
-        
-        let cvWidth = collectionView.bounds.size.width
-        
-        while currentIndex < count {
-            let segmentFrame = CGRect(x: 0, y: lastFrame.maxY + 1.0, width: cvWidth, height: 200.0)
-            var segmentRects = [CGRect]()
+        let cvWidth = collectionView.bounds.size.width / 2
+        for item in 0..<collectionView.numberOfItems(inSection: 0){
+            let indexPath = IndexPath(item: item, section: 0)
+            let photoHeight:CGFloat = 400 //delegate?.collectionView(collectionView, heightForPhotoAtIndexPath: indexPath) ?? 400
             
-            switch segment {
-            case .onePhoto:
-                segmentRects = [segmentFrame]
-            case .twoPhotos:
-                let horizontalSlices = segmentFrame.dividedIntegral(fraction: 0.5, from: .minXEdge)
-                segmentRects = [horizontalSlices.first, horizontalSlices.second]
-            case .threePhotos:
-                let horizontalSlices = segmentFrame.dividedIntegral(fraction: 1.0 / 3.0, from: .minXEdge)
-                let verticalSlices = horizontalSlices.first.dividedIntegral(fraction: 0.5, from: .minYEdge)
-                segmentRects = [verticalSlices.first, verticalSlices.second, horizontalSlices.second]
-            }
+            let frame = CGRect (x: xOrigin, y: yOrigin, width: cvWidth, height: photoHeight)
             
-            for rect in segmentRects {
-                let attributes = UICollectionViewLayoutAttributes (forCellWith: IndexPath (item: currentIndex, section: 0))
-                attributes.frame = rect
-                
-                cachedAttributes.append(attributes)
-                contentBounds = contentBounds.union(lastFrame)
-                currentIndex += 1
-                lastFrame = rect
-            }
+            let attributes = UICollectionViewLayoutAttributes (forCellWith: indexPath)
+            attributes.frame = frame
+            
+            cachedAttributes.append(attributes)
         }
+    }
+    override func layoutAttributesForElements(in rect: CGRect)
+        -> [UICollectionViewLayoutAttributes]? {
+      var visibleLayoutAttributes: [UICollectionViewLayoutAttributes] = []
+      for attributes in cachedAttributes {
+        if attributes.frame.intersects(rect) {
+          visibleLayoutAttributes.append(attributes)
+        }
+      }
+      return visibleLayoutAttributes
+    }
+    
+    override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        return cachedAttributes[indexPath.item]
     }
 }

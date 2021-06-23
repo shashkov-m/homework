@@ -8,10 +8,11 @@
 import UIKit
 
 class NewsfeedCollectionViewCell: UICollectionViewCell {
-
+    @IBOutlet weak var image: UIImageView!
+    @IBOutlet weak var label: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
 }

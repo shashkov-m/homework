@@ -11,6 +11,7 @@ class NewsfeedTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         do {
             realm = try Realm ()
             news = realm?.objects(NewsfeedRealmEntuty.self)
@@ -32,16 +33,22 @@ class NewsfeedTableViewController: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return news?.count ?? 0
     }
-
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       // guard let userNews = news else {return UITableViewCell ()}
-       // let news = userNews [indexPath.row]
+        // guard let userNews = news else {return UITableViewCell ()}
+        // let news = userNews [indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "newsfeedTableViewCell", for: indexPath) as! NewsfeedUITableViewCell
-        return cell
+        guard let userNews = news else {return UITableViewCell ()}
+        let news = userNews [indexPath.row]
+        if news.attachments.count == 1, news.attachments[0].type == "photo"{
+            cell.currentIndex = indexPath.row
+            return cell
+        }
+        return UITableViewCell ()
     }
 }

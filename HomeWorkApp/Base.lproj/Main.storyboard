@@ -337,25 +337,25 @@
                                     <rect key="frame" x="0.0" y="0.0" width="390" height="400.33334350585938"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="eNg-f3-GQS">
-                                            <rect key="frame" x="0.0" y="0.0" width="390" height="400"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="eNg-f3-GQS">
+                                            <rect key="frame" x="0.0" y="0.0" width="390" height="400.33333333333331"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                            <viewLayoutGuide key="contentLayoutGuide" id="lbS-qW-O7T"/>
-                                            <viewLayoutGuide key="frameLayoutGuide" id="ZW2-nG-S3b"/>
-                                            <collectionViewLayout key="collectionViewLayout" id="j02-ii-eQn" customClass="NewsfeedCollectionViewLayout" customModule="HomeWorkApp" customModuleProvider="target"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="400" id="dtu-37-bDH"/>
+                                            </constraints>
+                                            <collectionViewLayout key="collectionViewLayout" id="tE1-QS-r4H" customClass="NewsfeedCollectionViewLayout" customModule="HomeWorkApp" customModuleProvider="target"/>
                                             <cells/>
                                         </collectionView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="eNg-f3-GQS" firstAttribute="leading" secondItem="uyk-Ey-yUB" secondAttribute="leading" id="0AO-GI-hzp"/>
-                                        <constraint firstAttribute="bottom" secondItem="eNg-f3-GQS" secondAttribute="bottom" id="Tod-q4-dVd"/>
-                                        <constraint firstItem="eNg-f3-GQS" firstAttribute="top" secondItem="uyk-Ey-yUB" secondAttribute="top" id="oO5-gq-C8o"/>
-                                        <constraint firstAttribute="trailing" secondItem="eNg-f3-GQS" secondAttribute="trailing" id="zid-kp-KD4"/>
+                                        <constraint firstAttribute="bottom" secondItem="eNg-f3-GQS" secondAttribute="bottom" id="3F0-uN-v3C"/>
+                                        <constraint firstItem="eNg-f3-GQS" firstAttribute="top" secondItem="uyk-Ey-yUB" secondAttribute="top" id="ccP-k4-2aG"/>
+                                        <constraint firstAttribute="trailing" secondItem="eNg-f3-GQS" secondAttribute="trailing" id="fqa-Ii-98Q"/>
+                                        <constraint firstItem="eNg-f3-GQS" firstAttribute="leading" secondItem="uyk-Ey-yUB" secondAttribute="leading" id="rrU-Ng-qyi"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="collectionView" destination="eNg-f3-GQS" id="uTU-XB-BfU"/>
+                                    <outlet property="collectionView" destination="eNg-f3-GQS" id="L1T-Tl-4UX"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -368,7 +368,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VOQ-wf-ogB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3100" y="1140"/>
+            <point key="canvasLocation" x="3100" y="1139.5734597156397"/>
         </scene>
         <!--Communities-->
         <scene sceneID="l2f-8A-fgb">

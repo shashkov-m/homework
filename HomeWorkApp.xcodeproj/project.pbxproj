@@ -23,7 +23,6 @@
 		50D818FA26430F3000A529D5 /* FriendsRealmEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D818F926430F3000A529D5 /* FriendsRealmEntity.swift */; };
 		50F441A426832B3D00126A58 /* NewsfeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F441A226832B3D00126A58 /* NewsfeedCollectionViewCell.swift */; };
 		50F441A526832B3D00126A58 /* NewsfeedCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F441A326832B3D00126A58 /* NewsfeedCollectionViewCell.xib */; };
-		50F441A82683456700126A58 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F441A72683456700126A58 /* Utilities.swift */; };
 		9612C94E260DEB62005B70B6 /* FeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9612C94D260DEB62005B70B6 /* FeedTableViewController.swift */; };
 		9612C96126138F3C005B70B6 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9612C96026138F3B005B70B6 /* PhotoViewController.swift */; };
 		9618F18C262961BC0043081B /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9618F18B262961BC0043081B /* Session.swift */; };
@@ -93,7 +92,6 @@
 		50D818F926430F3000A529D5 /* FriendsRealmEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsRealmEntity.swift; sourceTree = "<group>"; };
 		50F441A226832B3D00126A58 /* NewsfeedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsfeedCollectionViewCell.swift; sourceTree = "<group>"; };
 		50F441A326832B3D00126A58 /* NewsfeedCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewsfeedCollectionViewCell.xib; sourceTree = "<group>"; };
-		50F441A72683456700126A58 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		9612C94D260DEB62005B70B6 /* FeedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewController.swift; sourceTree = "<group>"; };
 		9612C96026138F3B005B70B6 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PhotoViewController.swift; path = HomeWorkApp/Friends/Albums/Photos/PhotoViewController.swift; sourceTree = SOURCE_ROOT; };
 		9618F18B262961BC0043081B /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
@@ -210,7 +208,6 @@
 				50F441A226832B3D00126A58 /* NewsfeedCollectionViewCell.swift */,
 				50F441A326832B3D00126A58 /* NewsfeedCollectionViewCell.xib */,
 				D2E7F0E82682709000569A54 /* NewsfeedCollectionViewLayout.swift */,
-				50F441A72683456700126A58 /* Utilities.swift */,
 			);
 			name = feature;
 			path = ../..;
@@ -551,7 +548,6 @@
 				507CC07C2639B25200CD9C6A /* FriendsRequest.swift in Sources */,
 				D2F9D8FA26760376006EE834 /* NewsfeedCell.swift in Sources */,
 				96F37B3225F537B7008B7701 /* CommunitiesTableViewController.swift in Sources */,
-				50F441A82683456700126A58 /* Utilities.swift in Sources */,
 				D2E7F0E92682709000569A54 /* NewsfeedCollectionViewLayout.swift in Sources */,
 				D2E7F0E526826EA000569A54 /* NewsfeedTableViewController.swift in Sources */,
 				5077273B2647F45F00C4A0D3 /* PhotoRealmEntity.swift in Sources */,

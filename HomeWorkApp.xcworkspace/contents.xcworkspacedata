@@ -3,10 +3,6 @@
    version = "1.0">
    <Group
       location = "container:"
-      name = "New Group">
-   </Group>
-   <Group
-      location = "container:"
       name = "AppConfigure">
    </Group>
    <FileRef
