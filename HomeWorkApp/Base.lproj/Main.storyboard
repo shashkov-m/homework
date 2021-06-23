@@ -309,11 +309,78 @@
                             <outlet property="delegate" destination="Brz-0x-nA4" id="4nz-T2-PqL"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Feed" id="BtZ-xD-TVN"/>
+                    <navigationItem key="navigationItem" title="Feed" id="BtZ-xD-TVN">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="76L-DG-vLa">
+                            <connections>
+                                <segue destination="Mea-H6-rN0" kind="show" id="DiV-Oz-AQe"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hCp-iw-75h" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2334" y="1140"/>
+        </scene>
+        <!--Newsfeed Table View Controller-->
+        <scene sceneID="7od-G0-HDD">
+            <objects>
+                <tableViewController id="Mea-H6-rN0" customClass="NewsfeedTableViewController" customModule="HomeWorkApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="vES-Xp-jKl">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="newsfeedTableViewCell" rowHeight="283" id="a2r-yg-7WX" customClass="NewsfeedUITableViewCell" customModule="HomeWorkApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="24.333333969116211" width="390" height="283"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="a2r-yg-7WX" id="uyk-Ey-yUB">
+                                    <rect key="frame" x="0.0" y="0.0" width="390" height="283"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="eNg-f3-GQS">
+                                            <rect key="frame" x="0.0" y="0.0" width="390" height="283"/>
+                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="XZl-dh-lJH">
+                                                <size key="itemSize" width="128" height="128"/>
+                                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                            </collectionViewFlowLayout>
+                                            <cells>
+                                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="newsFeedCollectionViewCell" id="zIC-TC-Urw">
+                                                    <rect key="frame" x="0.0" y="0.0" width="103" height="103"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="S6I-F7-kp9">
+                                                        <rect key="frame" x="0.0" y="0.0" width="103" height="103"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                    </collectionViewCellContentView>
+                                                    <size key="customSize" width="103" height="103"/>
+                                                </collectionViewCell>
+                                            </cells>
+                                        </collectionView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="eNg-f3-GQS" firstAttribute="leading" secondItem="uyk-Ey-yUB" secondAttribute="leading" id="0AO-GI-hzp"/>
+                                        <constraint firstAttribute="bottom" secondItem="eNg-f3-GQS" secondAttribute="bottom" id="Tod-q4-dVd"/>
+                                        <constraint firstItem="eNg-f3-GQS" firstAttribute="top" secondItem="uyk-Ey-yUB" secondAttribute="top" id="oO5-gq-C8o"/>
+                                        <constraint firstAttribute="trailing" secondItem="eNg-f3-GQS" secondAttribute="trailing" id="zid-kp-KD4"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="collectionView" destination="eNg-f3-GQS" id="uTU-XB-BfU"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Mea-H6-rN0" id="2ua-21-8N8"/>
+                            <outlet property="delegate" destination="Mea-H6-rN0" id="rRq-Bh-xvQ"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="Qe2-eK-VoK"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VOQ-wf-ogB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3100" y="1140"/>
         </scene>
         <!--Communities-->
         <scene sceneID="l2f-8A-fgb">
