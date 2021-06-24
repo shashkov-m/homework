@@ -76,7 +76,7 @@ class NewsfeedTableViewController: UITableViewController {
             cellConfigure(cell: cell, indexPath: indexPath)
             return cell
             
-        } else if news.attachments.count == 1, news.attachments[0].type == "photo"{
+        } else if news.attachments.count >= 1, news.attachments[0].type == "photo"{
             let cell = tableView.dequeueReusableCell(withIdentifier: "newsfeedTableViewCell", for: indexPath) as! NewsfeedUITableViewCell
             return cell
         }
@@ -162,6 +162,12 @@ extension NewsfeedTableViewController: UICollectionViewDelegate, UICollectionVie
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "newsfeedCollectionViewCell", for: indexPath) as! NewsfeedCollectionViewCell
         cell.backgroundColor = .black
         return cell
+    }
+}
+
+extension NewsfeedTableViewController: CustomCollectionViewLayoutDelegate {
+    func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
+        return 400.0
     }
     
     
