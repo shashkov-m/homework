@@ -3,7 +3,7 @@ import RealmSwift
 import SDWebImage
 class FeedTableViewController: UITableViewController {
     
-    let newsfeedRequest = NewsfeedRequest ()
+    //let newsfeedRequest = NewsfeedRequest ()
     var news:Results<NewsfeedRealmEntuty>?
     var token:NotificationToken?
     let queue = DispatchQueue (label: "NewsFeedCellQueue", qos: .userInteractive, attributes: .concurrent)
@@ -17,7 +17,7 @@ class FeedTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.allowsSelection = true
-        newsfeedRequest.getNewsfeed()
+        //newsfeedRequest.getNewsfeed()
         do {
             realm = try Realm ()
             news = realm?.objects(NewsfeedRealmEntuty.self)
