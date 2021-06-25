@@ -6,15 +6,9 @@ enum MosaicPhotoStyle {
     case oneHalf
     case oneThirds
     case moreThanExpected
-    //case fourPhotos
-}
-
-protocol CustomCollectionViewLayoutDelegate : AnyObject {
-    func collectionView(_ collectionView : UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath)-> CGFloat
 }
 
 class NewsfeedCollectionViewLayout: UICollectionViewLayout {
-    weak var delegate: CustomCollectionViewLayoutDelegate?
     private var cachedAttributes = [UICollectionViewLayoutAttributes] ()
     
     private var contentWidth: CGFloat{
@@ -23,18 +17,13 @@ class NewsfeedCollectionViewLayout: UICollectionViewLayout {
     }
     
     private var contentBounds = CGRect.zero
-    
-    override var collectionViewContentSize: CGSize{
-        return contentBounds.size
-    }
-    
+
     override func prepare() {
         super.prepare()
         
         guard let collectionView = collectionView else { return }
         
         cachedAttributes.removeAll()
-        contentBounds = CGRect(origin: .zero, size: collectionView.bounds.size)
         var style:MosaicPhotoStyle
         var currentIndex = 0
         let count = collectionView.numberOfItems(inSection: 0)
@@ -51,44 +40,43 @@ class NewsfeedCollectionViewLayout: UICollectionViewLayout {
         default:
             style = .moreThanExpected
         }
-        let yOrigin : CGFloat = 0
-        let xOrigin : CGFloat = 0
-        let cvWidth = collectionView.bounds.size.width
+        let y : CGFloat = .zero
+        let x : CGFloat = .zero
+        let height: CGFloat = 400.0
+        let width = collectionView.bounds.size.width
+        let size = CGSize (width: width, height: height)
+        contentBounds = CGRect(origin: .zero, size: size)
         
-        
-        print (count,style)
         while currentIndex < count {
-            //let indexPath = IndexPath(item: item, section: 0)
-            let segmentFrame = CGRect(x: 0, y: 0, width: cvWidth, height: 400.0)
             var segmentRects = [CGRect]()
             // MARK:- TO DO
-            //let photoHeight:CGFloat = delegate?.collectionView(collectionView, heightForPhotoAtIndexPath: indexPath) ?? 400
-            
-            
+            //let indexPath = IndexPath(item: item, section: 0)
             switch style {
+            
             case .fullWidth:
-                segmentRects = [segmentFrame]
+                let fullFrame = CGRect(x: x, y: y, width: width, height: height)
+                segmentRects = [fullFrame]
+                
             case .halfWidth:
-                let firstSlice = CGRect (x: 0, y: 0, width: cvWidth / 2, height: 400)
-                let secondSlice = CGRect (x: firstSlice.width, y: 0, width: cvWidth / 2, height: 400)
+                let firstSlice = CGRect (x: x, y: y, width: width / 2 - 1, height: height)
+                let secondSlice = CGRect (x: firstSlice.maxX + 2, y: y, width: width / 2 - 1, height: height)
                 segmentRects = [firstSlice, secondSlice]
+                
             case .oneHalf:
-                let firstSlice = CGRect (x: 0, y: 0, width: cvWidth / 2, height: 400)
-                let secondSlice = CGRect (x: firstSlice.width, y: 0, width: cvWidth / 2, height: 400 / 2)
-                let thirdSlice = CGRect (x: firstSlice.width, y: secondSlice.height, width: cvWidth / 2, height: 400 / 2)
+                let firstSlice = CGRect (x: x, y: y, width: width / 1.5 - 1, height: height)
+                let secondSlice = CGRect (x: firstSlice.maxX + 2, y: y, width: width / 3 - 1, height: height / 2 - 1)
+                let thirdSlice = CGRect (x: firstSlice.maxX + 2, y: secondSlice.maxY + 2, width: width / 3, height: height / 2 - 1)
                 segmentRects = [firstSlice, secondSlice, thirdSlice]
-            case .oneThirds:
-                let firstSlice = CGRect (x: 0, y: 0, width: cvWidth / 2, height: 400)
-                let secondSlice = CGRect (x: firstSlice.width, y: 0, width: cvWidth / 2, height: 400 / 3)
-                let thirdSlice = CGRect (x: firstSlice.width, y: secondSlice.height, width: cvWidth / 2, height: 400 / 3)
-                let fourthSlice = CGRect (x: firstSlice.width, y: 300, width: cvWidth / 2, height: 100)
-                segmentRects = [firstSlice, secondSlice, thirdSlice, fourthSlice]
+                
             case .moreThanExpected:
+                fallthrough
+                
+            case .oneThirds:
                 ///MARK: TO DO
-                let firstSlice = CGRect (x: 0, y: 0, width: cvWidth / 2, height: 400)
-                let secondSlice = CGRect (x: firstSlice.width, y: 0, width: cvWidth / 2, height: 400 / 3)
-                let thirdSlice = CGRect (x: firstSlice.width, y: secondSlice.height, width: cvWidth / 2, height: 400 / 3)
-                let fourthSlice = CGRect (x: firstSlice.width, y: 300, width: cvWidth / 2, height: 100)
+                let firstSlice = CGRect (x: x, y: y, width: width / 1.5 - 1, height: height)
+                let secondSlice = CGRect (x: firstSlice.maxX + 2, y: y, width: width / 3 - 1, height: height / 3 - 1)
+                let thirdSlice = CGRect (x: firstSlice.maxX + 2, y: secondSlice.maxY + 2, width: width / 3 - 1, height: height / 3 - 1)
+                let fourthSlice = CGRect (x: firstSlice.maxX + 2, y: thirdSlice.maxY + 2, width: width / 3 - 1, height: height / 3 - 1)
                 segmentRects = [firstSlice, secondSlice, thirdSlice, fourthSlice]
             }
             
@@ -106,6 +94,11 @@ class NewsfeedCollectionViewLayout: UICollectionViewLayout {
             
         }
     }
+    
+    override var collectionViewContentSize: CGSize{
+        return contentBounds.size
+    }
+    
     override func layoutAttributesForElements(in rect: CGRect)
     -> [UICollectionViewLayoutAttributes]? {
         var visibleLayoutAttributes: [UICollectionViewLayoutAttributes] = []
@@ -120,4 +113,5 @@ class NewsfeedCollectionViewLayout: UICollectionViewLayout {
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return cachedAttributes[indexPath.item]
     }
+    
 }

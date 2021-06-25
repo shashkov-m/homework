@@ -331,31 +331,41 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="newsfeedTableViewCell" id="a2r-yg-7WX" customClass="NewsfeedUITableViewCell" customModule="HomeWorkApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="24.333333969116211" width="390" height="400.33334350585938"/>
+                                <rect key="frame" x="0.0" y="24.333333969116211" width="390" height="432.66665649414062"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="a2r-yg-7WX" id="uyk-Ey-yUB">
-                                    <rect key="frame" x="0.0" y="0.0" width="390" height="400.33334350585938"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="390" height="432.66665649414062"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wid-V3-KSD">
+                                            <rect key="frame" x="8" y="6.0000000000000018" width="374" height="20.666666666666671"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="eNg-f3-GQS">
-                                            <rect key="frame" x="0.0" y="0.0" width="390" height="400.33333333333331"/>
+                                            <rect key="frame" x="0.0" y="32.666666666666657" width="390" height="400"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="400" id="dtu-37-bDH"/>
+                                                <constraint firstAttribute="height" constant="400" id="LTK-al-DyZ"/>
                                             </constraints>
                                             <collectionViewLayout key="collectionViewLayout" id="tE1-QS-r4H" customClass="NewsfeedCollectionViewLayout" customModule="HomeWorkApp" customModuleProvider="target"/>
                                             <cells/>
                                         </collectionView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottom" secondItem="eNg-f3-GQS" secondAttribute="bottom" id="3F0-uN-v3C"/>
-                                        <constraint firstItem="eNg-f3-GQS" firstAttribute="top" secondItem="uyk-Ey-yUB" secondAttribute="top" id="ccP-k4-2aG"/>
-                                        <constraint firstAttribute="trailing" secondItem="eNg-f3-GQS" secondAttribute="trailing" id="fqa-Ii-98Q"/>
-                                        <constraint firstItem="eNg-f3-GQS" firstAttribute="leading" secondItem="uyk-Ey-yUB" secondAttribute="leading" id="rrU-Ng-qyi"/>
+                                        <constraint firstAttribute="bottom" secondItem="eNg-f3-GQS" secondAttribute="bottom" id="JLK-MT-jMD"/>
+                                        <constraint firstAttribute="trailing" secondItem="eNg-f3-GQS" secondAttribute="trailing" id="LyD-PO-sZE"/>
+                                        <constraint firstItem="wid-V3-KSD" firstAttribute="leading" secondItem="uyk-Ey-yUB" secondAttribute="leading" constant="8" id="SK0-GO-aCj"/>
+                                        <constraint firstItem="wid-V3-KSD" firstAttribute="top" secondItem="uyk-Ey-yUB" secondAttribute="top" constant="6" id="TvL-ER-KOc"/>
+                                        <constraint firstAttribute="trailing" secondItem="wid-V3-KSD" secondAttribute="trailing" constant="8" id="WDp-Za-0hZ"/>
+                                        <constraint firstItem="eNg-f3-GQS" firstAttribute="top" secondItem="wid-V3-KSD" secondAttribute="bottom" constant="6" id="h3O-m2-j5I"/>
+                                        <constraint firstItem="eNg-f3-GQS" firstAttribute="leading" secondItem="uyk-Ey-yUB" secondAttribute="leading" id="uQx-ox-LOn"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="collectionView" destination="eNg-f3-GQS" id="L1T-Tl-4UX"/>
+                                    <outlet property="postLabel" destination="wid-V3-KSD" id="Sa0-7W-Rb6"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

@@ -3,6 +3,7 @@ import UIKit
 class NewsfeedUITableViewCell: UITableViewCell {
     
     @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet weak var postLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -17,6 +18,10 @@ class NewsfeedUITableViewCell: UITableViewCell {
         collectionView.dataSource = dataSourceDelegate
         collectionView.tag = row
         collectionView.reloadData()
+    }
+    
+    override func prepareForReuse() {
+        postLabel.text = nil
     }
     
 }

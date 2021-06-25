@@ -78,6 +78,7 @@ class NewsfeedTableViewController: UITableViewController {
             
         } else if news.attachments.count >= 1, news.attachments[0].type == "photo"{
             let cell = tableView.dequeueReusableCell(withIdentifier: "newsfeedTableViewCell", for: indexPath) as! NewsfeedUITableViewCell
+            cell.postLabel.text = news.text
             return cell
         }
         return UITableViewCell ()
@@ -150,25 +151,25 @@ class NewsfeedTableViewController: UITableViewController {
         cell.avatarView.sd_setImage(with: avatarUrl)
     }
 }
-
 extension NewsfeedTableViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let userNews = news? [collectionView.tag]
-        return userNews?.attachments.count ?? 0
+        if let attachmentsCount:Int = userNews?.attachments.count {
+            return attachmentsCount > 4 ? 4 : attachmentsCount
+        }
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         collectionView.register(UINib (nibName: "NewsfeedCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "newsfeedCollectionViewCell")
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "newsfeedCollectionViewCell", for: indexPath) as! NewsfeedCollectionViewCell
-        cell.backgroundColor = .black
+        guard let userNews = news? [collectionView.tag] else {return cell}
+        let url = URL(string: userNews.attachments[indexPath.item].source ?? "")
+        cell.image.sd_setImage(with: url) {image, error, cache, url in
+            print (url, indexPath.item)
+        }
+        
         return cell
     }
-}
 
-extension NewsfeedTableViewController: CustomCollectionViewLayoutDelegate {
-    func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
-        return 400.0
-    }
-    
-    
 }
