@@ -72,7 +72,6 @@ class NewsfeedCollectionViewLayout: UICollectionViewLayout {
                 fallthrough
                 
             case .oneThirds:
-                ///MARK: TO DO
                 let firstSlice = CGRect (x: x, y: y, width: width / 1.5 - 1, height: height)
                 let secondSlice = CGRect (x: firstSlice.maxX + 2, y: y, width: width / 3 - 1, height: height / 3 - 1)
                 let thirdSlice = CGRect (x: firstSlice.maxX + 2, y: secondSlice.maxY + 2, width: width / 3 - 1, height: height / 3 - 1)
