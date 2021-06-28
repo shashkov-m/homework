@@ -184,6 +184,17 @@
 			path = Albums;
 			sourceTree = "<group>";
 		};
+		50BB78B2268A044D008BE09D /* AppConfigure */ = {
+			isa = PBXGroup;
+			children = (
+				96C53E9F25EA2BB500385EE9 /* VkAuth.swift */,
+				26C039BA2631C9AC0046FB35 /* RequestManager.swift */,
+				9618F18B262961BC0043081B /* Session.swift */,
+				96AFA2BF25F4139300B35CE4 /* NavigationController.swift */,
+			);
+			path = AppConfigure;
+			sourceTree = "<group>";
+		};
 		9612C93F260DE5FD005B70B6 /* Friends */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,8 +263,8 @@
 		96C53E9A25EA2BB500385EE9 /* HomeWorkApp */ = {
 			isa = PBXGroup;
 			children = (
+				50BB78B2268A044D008BE09D /* AppConfigure */,
 				9612C940260DE665005B70B6 /* Main */,
-				D20971452673F4950001095C /* AppConfigure */,
 				9612C93F260DE5FD005B70B6 /* Friends */,
 				9612C942260DE9B0005B70B6 /* Feed */,
 				9612C941260DE69D005B70B6 /* Communities */,
@@ -281,18 +292,6 @@
 				96C53EBF25EA2BB600385EE9 /* Info.plist */,
 			);
 			path = HomeWorkAppUITests;
-			sourceTree = "<group>";
-		};
-		D20971452673F4950001095C /* AppConfigure */ = {
-			isa = PBXGroup;
-			children = (
-				96C53E9F25EA2BB500385EE9 /* VkAuth.swift */,
-				26C039BA2631C9AC0046FB35 /* RequestManager.swift */,
-				9618F18B262961BC0043081B /* Session.swift */,
-				96AFA2BF25F4139300B35CE4 /* NavigationController.swift */,
-			);
-			name = AppConfigure;
-			path = ..;
 			sourceTree = "<group>";
 		};
 		D2F9D8EE267532F0006EE834 /* Newsfeed cells */ = {

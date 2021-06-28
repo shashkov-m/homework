@@ -93,6 +93,7 @@ class NewsfeedTableViewController: UITableViewController {
         } else {
             tableView.register(UINib (nibName: "DefaultTableViewCell", bundle: nil),forCellReuseIdentifier: "defaultCell")
             let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell", for: indexPath) as! DefaultTableViewCell
+            cell.selectedBackgroundView = bgColorView
             cell.postLabel.text = news.text
             return cell
         }
