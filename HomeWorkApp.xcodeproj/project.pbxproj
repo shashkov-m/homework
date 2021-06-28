@@ -39,6 +39,8 @@
 		96F37B0B25F436F5008B7701 /* FriendsPhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F37B0A25F436F5008B7701 /* FriendsPhotoCollectionViewController.swift */; };
 		96F37B3225F537B7008B7701 /* CommunitiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F37B3125F537B7008B7701 /* CommunitiesTableViewController.swift */; };
 		96F37B3725F66D16008B7701 /* ComunitiesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F37B3625F66D16008B7701 /* ComunitiesTableViewCell.swift */; };
+		D298247F268A7FF5009C937B /* FriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D298247E268A7FF5009C937B /* FriendsTableViewCell.swift */; };
+		D2982481268A8002009C937B /* FriendsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D2982480268A8002009C937B /* FriendsTableViewCell.xib */; };
 		D2E7F0E526826EA000569A54 /* NewsfeedTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E7F0E426826EA000569A54 /* NewsfeedTableViewController.swift */; };
 		D2E7F0E726826EE500569A54 /* NewsfeedUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E7F0E626826EE500569A54 /* NewsfeedUITableViewCell.swift */; };
 		D2E7F0E92682709000569A54 /* NewsfeedCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E7F0E82682709000569A54 /* NewsfeedCollectionViewLayout.swift */; };
@@ -107,6 +109,8 @@
 		96F37B3125F537B7008B7701 /* CommunitiesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunitiesTableViewController.swift; sourceTree = "<group>"; };
 		96F37B3625F66D16008B7701 /* ComunitiesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComunitiesTableViewCell.swift; sourceTree = "<group>"; };
 		BF19739269634CFDD85229BA /* Pods_HomeWorkApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HomeWorkApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D298247E268A7FF5009C937B /* FriendsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FriendsTableViewCell.swift; path = ../../../Friends/FriendsTableViewCell.swift; sourceTree = "<group>"; };
+		D2982480268A8002009C937B /* FriendsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FriendsTableViewCell.xib; path = ../../../Friends/FriendsTableViewCell.xib; sourceTree = "<group>"; };
 		D2E7F0E426826EA000569A54 /* NewsfeedTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsfeedTableViewController.swift; sourceTree = "<group>"; };
 		D2E7F0E626826EE500569A54 /* NewsfeedUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsfeedUITableViewCell.swift; sourceTree = "<group>"; };
 		D2E7F0E82682709000569A54 /* NewsfeedCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsfeedCollectionViewLayout.swift; sourceTree = "<group>"; };
@@ -201,6 +205,8 @@
 				507CC07B2639B25200CD9C6A /* FriendsRequest.swift */,
 				50D818F926430F3000A529D5 /* FriendsRealmEntity.swift */,
 				96C53ED125EEDB3F00385EE9 /* FriendsTableViewController.swift */,
+				D298247E268A7FF5009C937B /* FriendsTableViewCell.swift */,
+				D2982480268A8002009C937B /* FriendsTableViewCell.xib */,
 				507CC098263ADA1100CD9C6A /* Albums */,
 			);
 			path = Friends;
@@ -422,6 +428,7 @@
 				96C53EA325EA2BB500385EE9 /* Main.storyboard in Resources */,
 				D2E8182C26877B2200C664D5 /* GifTableViewCell.xib in Resources */,
 				2A5BA52D26514208007440C8 /* GoogleService-Info.plist in Resources */,
+				D2982481268A8002009C937B /* FriendsTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,6 +498,7 @@
 				96C53EA025EA2BB500385EE9 /* VkAuth.swift in Sources */,
 				507CC0772639B04700CD9C6A /* CommunitiesRequest.swift in Sources */,
 				D2E8182B26877B2200C664D5 /* GifTableViewCell.swift in Sources */,
+				D298247F268A7FF5009C937B /* FriendsTableViewCell.swift in Sources */,
 				96C53E9C25EA2BB500385EE9 /* AppDelegate.swift in Sources */,
 				507CC084263AB4B000CD9C6A /* AlbumRequest.swift in Sources */,
 				507CC093263AD9EA00CD9C6A /* AlbumsCollectionViewController.swift in Sources */,
