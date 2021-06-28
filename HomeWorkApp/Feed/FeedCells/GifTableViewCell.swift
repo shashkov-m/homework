@@ -25,6 +25,8 @@ class GifTableViewCell: UITableViewCell, NewsfeedCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         gifView.sd_imageIndicator = SDWebImageActivityIndicator.gray
+        gifView.autoPlayAnimatedImage = false
+        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

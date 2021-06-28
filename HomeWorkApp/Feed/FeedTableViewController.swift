@@ -2,16 +2,18 @@ import UIKit
 import RealmSwift
 import SDWebImage
 class FeedTableViewController: UITableViewController {
-        
+    
     let newsfeedRequest = NewsfeedRequest ()
     var news:Results<NewsfeedRealmEntuty>?
     var token:NotificationToken?
     let queue = DispatchQueue (label: "NewsFeedCellQueue", qos: .userInteractive, attributes: .concurrent)
     var realm = try? Realm ()
     
+    let cache = NSCache <NSString, UIImage> ()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.allowsSelection = false
+        tableView.allowsSelection = true
         newsfeedRequest.getNewsfeed()
         do {
             realm = try Realm ()
@@ -29,6 +31,8 @@ class FeedTableViewController: UITableViewController {
                 print (error.localizedDescription)
             }
         }
+        cache.name = "Newsfeed cache"
+        cache.countLimit = 500
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -44,103 +48,70 @@ class FeedTableViewController: UITableViewController {
         
         let news = userNews [indexPath.row]
         
-        // GIF
+        //MARK:- GIF
         if news.attachments.count == 1, news.attachments[0].type == "doc" {
-            tableView.register(UINib (nibName: "GifTableViewCell", bundle: nil),forCellReuseIdentifier: "gifCell") // MARK: - Норм ли так делать? Не происходит ли постоянная регистрация при формировании каждой ячейки? Или зарегать все сразу в didLoad, даже при условии что ячейка может и не использваться?
+            tableView.register(UINib (nibName: "GifTableViewCell", bundle: nil),forCellReuseIdentifier: "gifCell")
             let cell = tableView.dequeueReusableCell(withIdentifier: "gifCell", for: indexPath) as! GifTableViewCell
             guard let source = news.attachments.first?.source else { return cell }
             cell.gifView.frame = cell.view.bounds
             cell.view.addSubview(cell.gifView)
-            let url = URL(string: source)
-            queue.async {
-                if let data = try? Data(contentsOf: url!) {
-                    if let image = SDAnimatedImage (data: data) {
-                        DispatchQueue.main.async {
-                            cell.gifView.image = image
-                        }
-                    }
+            cell.gifView.sd_setImage(with: URL(string: source), placeholderImage: nil) {image,error,cacheType,url  in
+                if image != nil {
+                    cell.gifView.startAnimating()
+                } else {
+                    guard error != nil else {return}
+                    cell.gifView.sd_cancelCurrentImageLoad()
                 }
             }
             cellConfigure(cell: cell, indexPath: indexPath)
             return cell
             
-            //1 Image
+            //MARK:- 1 Image
         } else if news.attachments.count == 1, news.attachments[0].type == "photo"{
             tableView.register(UINib (nibName: "OneImgTableViewCell", bundle: nil),forCellReuseIdentifier: "oneImg")
             let cell = tableView.dequeueReusableCell(withIdentifier: "oneImg", for: indexPath) as! OneImgTableViewCell
             guard let source = news.attachments.first?.source else { return cell }
-            let url = URL(string: source) ?? URL (string: "")
             
-            queue.async {
-                if let data = try? Data (contentsOf: url!) {
-                    if let image = UIImage (data: data) {
-                        DispatchQueue.main.async {
-                            cell.imgView.image = image
-                        }
-                    }
+            getImage(firstImage: source, secondImage: nil, thirthImage: nil, fourthImage: nil) { images in
+                DispatchQueue.main.async {
+                    cell.imgView.image = images.first
                 }
             }
             
             cellConfigure(cell: cell, indexPath: indexPath)
             return cell
             
-            // 2 Images
+            //MARK:- 2 Images
         } else if news.attachments.count == 2, news.attachments.allSatisfy({$0.type == "photo"}) {
             tableView.register(UINib (nibName: "TwoImgTableViewCell", bundle: nil),forCellReuseIdentifier: "twoImg")
             let cell = tableView.dequeueReusableCell(withIdentifier: "twoImg", for: indexPath) as! TwoImgTableViewCell
             guard let fsource = news.attachments[0].source, let ssource = news.attachments[1].source else { return cell }
-            let fUrl = URL(string: fsource)
-            let sUrl = URL(string: ssource)
-            
-            queue.async {
-                if let data = try? Data (contentsOf: fUrl!) {
-                    if let image = UIImage (data: data) {
-                        DispatchQueue.main.async {
-                            cell.firstImg.image = image
-                        }
-                    }
+            getImage(firstImage: fsource, secondImage: ssource, thirthImage: nil, fourthImage: nil) {images in
+                DispatchQueue.main.async {
+                    cell.firstImg.image = images[0]
+                    cell.secondImg.image = images[1]
                 }
             }
-            
-            queue.async {
-                if let data = try? Data (contentsOf: sUrl!) {
-                    if let image = UIImage (data: data) {
-                        DispatchQueue.main.async {
-                            cell.secondImg.image = image
-                        }
-                    }
-                }
-            }
-            
             cellConfigure(cell: cell, indexPath: indexPath)
             
             return cell
             
-            //3 Images
+            //MARK:- 3 Images
         } else if news.attachments.count == 3, news.attachments.allSatisfy({$0.type == "photo"}){
             tableView.register(UINib (nibName: "ThreeImgTableViewCell", bundle: nil),forCellReuseIdentifier: "threeImg")
             let cell = tableView.dequeueReusableCell(withIdentifier: "threeImg", for: indexPath) as! ThreeImgTableViewCell
             guard let fsource = news.attachments[0].source, let ssource = news.attachments[1].source, let tsource = news.attachments[2].source else { return cell }
-            let fUrl = URL(string: fsource) ?? URL(string: "")!
-            let sUrl = URL(string: ssource) ?? URL(string: "")!
-            let tUrl = URL(string: tsource) ?? URL(string: "")!
-            
-            asyncImageLoad(url: fUrl) { image in
-                cell.firstImg.image = image
+            getImage(firstImage: fsource, secondImage: ssource, thirthImage: tsource, fourthImage: nil) {images in
+                DispatchQueue.main.async {
+                    cell.firstImg.image = images[0]
+                    cell.secondImg.image = images[1]
+                    cell.thirdImg.image = images[2]
+                }
             }
-            
-            asyncImageLoad(url: sUrl) { image in
-                cell.secondImg.image = image
-            }
-            
-            asyncImageLoad(url: tUrl) { image in
-                cell.thirdImg.image = image
-            }
-            
             cellConfigure(cell: cell, indexPath: indexPath)
             return cell
             
-            //4 and more Images
+            //MARK:- 4 and more Images
         } else if news.attachments.count >= 4, news.attachments.allSatisfy({$0.type == "photo"}){
             
             tableView.register(UINib (nibName: "FourImgTableViewCell", bundle: nil),forCellReuseIdentifier: "fourImg")
@@ -148,24 +119,14 @@ class FeedTableViewController: UITableViewController {
             
             guard let fsource = news.attachments[0].source, let ssource = news.attachments[1].source, let tsource = news.attachments[2].source, let frthsource = news.attachments[3].source else { return cell }
             
-            let fUrl = URL(string: fsource) ?? URL(string: "")!
-            let sUrl = URL(string: ssource) ?? URL(string: "")!
-            let tUrl = URL(string: tsource) ?? URL(string: "")!
-            let frthUrl = URL(string: frthsource) ?? URL(string: "")!
-            
-            asyncImageLoad(url: fUrl) { image in //MARK: - Как лучше сократить код в подобном случае?
-                cell.firstImg.image = image
+            getImage(firstImage: fsource, secondImage: ssource, thirthImage: tsource, fourthImage: frthsource) {images in
+                DispatchQueue.main.async {
+                    cell.firstImg.image = images[0]
+                    cell.secondImg.image = images[1]
+                    cell.thirdImg.image = images[2]
+                    cell.fourthImg.image = images[3]
+                }
             }
-            asyncImageLoad(url: sUrl) { image in
-                cell.secondImg.image = image
-            }
-            asyncImageLoad(url: tUrl) { image in
-                cell.thirdImg.image = image
-            }
-            asyncImageLoad(url: frthUrl) { image in
-                cell.fourthImg.image = image
-            }
-            
             cellConfigure(cell: cell, indexPath: indexPath)
             
             if news.attachments.count > 4 {
@@ -183,13 +144,32 @@ class FeedTableViewController: UITableViewController {
         return UITableViewCell ()
     }
     
-    //    //Отменяет загрузку GIF когда быстро пролистывается лента и GIF пропадает из вида, так и не загрузившись
-    //    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath)  {
-    //        if let cell = cell as? GifTableViewCell {
-    //            cell.gifView.sd_cancelCurrentImageLoad()
-    //        }
-    //    }
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let cell = cell as? GifTableViewCell {
+            if cell.gifView.image != nil {
+                cell.gifView.startAnimating()
+            }
+        }
+    }
     
+    override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath)  {
+        if let cell = cell as? GifTableViewCell {
+            cell.gifView.stopAnimating()
+            cell.gifView.sd_cancelCurrentImageLoad()
+        }
+    }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if let cell = tableView.cellForRow(at: indexPath) as? GifTableViewCell {
+            print ("Start GIF!!")
+            if cell.gifView.isAnimating != true {
+                cell.gifView.startAnimating()
+                
+            } else {
+                cell.gifView.stopAnimating()
+            }
+        }
+    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         tableView.reloadData()
@@ -234,20 +214,95 @@ class FeedTableViewController: UITableViewController {
         cell.postLabel.text = news.text
         cell.nameLabel.text = groupName
         cell.avatarView.sd_setImage(with: avatarUrl)
-        
     }
-    
-    func asyncImageLoad (url:URL, completion: @escaping (UIImage) -> Void) {
-        
-        queue.async {
-            
-            if let data = try? Data (contentsOf: url) {
-                
-                if let image = UIImage (data: data) {
-                    DispatchQueue.main.async {
-                        completion (image)
+}
+
+
+
+extension FeedTableViewController {
+    func getImage (firstImage:String,secondImage:String?,thirthImage:String?,fourthImage:String?, completion: @escaping ([UIImage]) -> Void) {
+        //Считаем кол-во картинок к загрузке
+        var imgCount:Int {
+            get {
+                if secondImage != nil, thirthImage != nil, fourthImage != nil {
+                    return 4
+                } else if secondImage != nil, thirthImage != nil {
+                    return 3
+                } else if secondImage != nil {
+                    return 2
+                } else {
+                    return 1
+                }
+            }
+        }
+        var imageArray:[UIImage] = []
+        //В зависимости от полученного кол-ва картинок проводим их загрузку
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            switch imgCount {
+            case 4:
+                let key = NSString(string: fourthImage!)
+                let url = URL(string: fourthImage!)
+                if let image = self?.cache.object (forKey: key) {
+                    imageArray.append(image)
+                } else {
+                    guard let url = url else { print ("URL is empty"); break}
+                    if let data = try? Data(contentsOf: url) {
+                        if let image = UIImage (data: data) {
+                            self?.cache.setObject(image, forKey: key)
+                            imageArray.append(image)
+                        }
                     }
                 }
+                fallthrough
+            case 3:
+                let key = NSString(string: thirthImage!)
+                let url = URL(string: thirthImage!)
+                if let image = self?.cache.object (forKey: key) {
+                    imageArray.append(image)
+                } else {
+                    guard let url = url else { print ("URL is empty"); break}
+                    if let data = try? Data(contentsOf: url) {
+                        if let image = UIImage (data: data) {
+                            self?.cache.setObject(image, forKey: key)
+                            imageArray.append(image)
+                        }
+                    }
+                }
+                fallthrough
+            case 2:
+                let key = NSString(string: secondImage!)
+                let url = URL(string: secondImage!)
+                if let image = self?.cache.object (forKey: key) {
+                    imageArray.append(image)
+                } else {
+                    guard let url = url else { print ("URL is empty"); break}
+                    if let data = try? Data(contentsOf: url) {
+                        if let image = UIImage (data: data) {
+                            self?.cache.setObject(image, forKey: key)
+                            imageArray.append(image)
+                        }
+                    }
+                }
+                fallthrough
+            case 1:
+                let key = NSString(string: firstImage)
+                let url = URL(string: firstImage)
+                if let image = self?.cache.object (forKey: key) {
+                    imageArray.append(image)
+                } else {
+                    guard let url = url else { print ("URL is empty"); break}
+                    if let data = try? Data(contentsOf: url) {
+                        if let image = UIImage (data: data) {
+                            self?.cache.setObject(image, forKey: key)
+                            imageArray.append(image)
+                        }
+                    }
+                }
+                //Выдаем получившийся массив картинок
+                completion (imageArray.reversed())
+                break
+            default:
+                break
             }
         }
     }

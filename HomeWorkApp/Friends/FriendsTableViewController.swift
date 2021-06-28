@@ -9,7 +9,7 @@ import RealmSwift
 import SDWebImage
 import FirebaseFirestore
 class FriendsTableViewController: UITableViewController {
-    
+
     let friendsRequest = FriendsRequest()
     let albumRequest = AlbumRequest()
     var user_id:Int = 0
