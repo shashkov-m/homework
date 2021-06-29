@@ -13,7 +13,7 @@ struct Scope:OptionSet {
 
 class VkAuth: UIViewController {
     let scope:Scope = [.friends, .photos, .audio, .wall, .groups]
-    @IBOutlet weak var webView: WKWebView!{
+    @IBOutlet private weak var webView: WKWebView!{
         didSet{
             webView.navigationDelegate = self
         }

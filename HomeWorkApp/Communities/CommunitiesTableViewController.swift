@@ -1,14 +1,15 @@
 import UIKit
 import RealmSwift
 class CommunitiesTableViewController: UITableViewController {
-    let communitiesRequest = CommunitiesRequest()
-    let realm = try! Realm ()
-    var community:Results<CommunitiesRealmEntity>?
-    var token:NotificationToken?
+    private let communitiesRequest = CommunitiesRequest()
+    private var realm = try? Realm ()
+    private var community:Results<CommunitiesRealmEntity>?
+    private var token:NotificationToken?
     override func viewDidLoad() {
         super.viewDidLoad()
         communitiesRequest.getGroupsList()
-        community = realm.objects(CommunitiesRealmEntity.self)
+        community = realm?.objects(CommunitiesRealmEntity.self)
+        tableView.register(UINib(nibName: "FriendsTableViewCell", bundle: nil), forCellReuseIdentifier: "FriendsCell")
         token = community?.observe { [weak self] changes in
             switch changes {
             case .initial(_):
@@ -30,7 +31,6 @@ class CommunitiesTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
@@ -40,20 +40,14 @@ class CommunitiesTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "favoriteCommunityCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "FriendsCell", for: indexPath) as! FriendsTableViewCell
         guard let communities = community else {return cell}
         let community = communities [indexPath.row]
-        cell.textLabel?.numberOfLines = community.type != nil ? 3 : 2
-        cell.textLabel?.text = community.type != nil ? "\(community.name)\n\(community.type!)" : community.name
-        cell.textLabel?.font = .systemFont(ofSize: 13)
+        cell.nameLabel.text = "\(community.name)"
+        cell.cityLabel.text = "\(community.type ?? "")"
         let url = URL (string: community.photo)
-        cell.imageView?.sd_setImage(with: url)
-        cell.imageView?.layer.cornerRadius = 25
-        cell.imageView?.layer.masksToBounds = true
+        cell.avatarView.sd_setImage(with: url)
         return cell
-    }
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50.0
     }
     
     deinit {

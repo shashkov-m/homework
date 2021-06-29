@@ -52,16 +52,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="favoriteCommunityCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="favoriteCommunityCell" id="ahJ-kD-mJl" customClass="ComunitiesTableViewCell" customModule="HomeWorkApp" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="24.333333969116211" width="390" height="43.666667938232422"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ahJ-kD-mJl" id="iol-vx-oxv">
-                                    <rect key="frame" x="0.0" y="0.0" width="390" height="43.666667938232422"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
                         <sections/>
                         <connections>
                             <outlet property="dataSource" destination="ZV9-Ps-pD6" id="xAK-Js-y3u"/>
@@ -98,13 +88,7 @@
                             <outlet property="delegate" destination="IlG-g7-tf9" id="6Hd-jr-qfK"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Friends" id="cKk-A4-e2y">
-                        <barButtonItem key="rightBarButtonItem" title="Reload data" id="eA4-dY-VrN">
-                            <connections>
-                                <action selector="reloadButton:" destination="IlG-g7-tf9" id="h7T-vH-KTB"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Friends" id="cKk-A4-e2y"/>
                     <connections>
                         <segue destination="g3k-xP-xro" kind="show" identifier="toAlbums" id="CzZ-MI-JzH"/>
                     </connections>

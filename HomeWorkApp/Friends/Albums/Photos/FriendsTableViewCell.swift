@@ -1,17 +1,16 @@
-//
-//  ComunitiesTableViewCell.swift
-//  HomeWorkApp
-//
-//  Created by Шашков Максим Алексеевич on 08.03.2021.
-//
-
 import UIKit
 
-class ComunitiesTableViewCell: UITableViewCell {
-
+class FriendsTableViewCell: UITableViewCell {
+    
+    @IBOutlet weak var avatarView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var cityLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        avatarView.layer.cornerRadius = 25
+        avatarView.layer.masksToBounds = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -20,9 +19,4 @@ class ComunitiesTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        textLabel?.text = ""
-    }
-
 }

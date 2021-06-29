@@ -2,13 +2,12 @@ import UIKit
 import RealmSwift
 import PromiseKit
 class FriendsRequest {
-    let requestManager = RequestManager ()
-    let queue = DispatchQueue (label: "FriendsRequestDataLoadQueue", qos: .userInteractive)
-    let dispatchGroup = DispatchGroup ()
+    private let requestManager = RequestManager ()
+    private let queue:DispatchQueue = DispatchQueue (label: "FriendsRequestQueue", qos: .utility, attributes: .concurrent)
     
-    func getFriendsListData () -> Promise <Data> {
+    private func getFriendsListData () -> Promise <Data> {
         
-        let url = self.requestManager.vkRequestUrl(path: .friendsGet,queryItems: [
+        let url = requestManager.vkRequestUrl(path: .friendsGet,queryItems: [
             URLQueryItem.init(name: "fields", value: "city,photo_100"),
             URLQueryItem.init(name: "order", value: "hints")
         ])
@@ -27,7 +26,7 @@ class FriendsRequest {
         return promise
     }
     
-    func parseFriendsListData (data:Data) -> Promise <[FriendsRequest.Items]> {
+    private func parseFriendsListData (data:Data) -> Promise <[FriendsRequest.Items]> {
         let promise = Promise <[Items]> {seal in
             let friends = try? JSONDecoder().decode(UserFriends.self, from: data)
             
@@ -40,7 +39,7 @@ class FriendsRequest {
         return promise
     }
     
-    func saveFriendsListData (items:[Items]) {
+    private func saveFriendsListData (items:[Items]) {
         self.countCheck(friendCount: items.count)
         items.forEach { item in
             let friend = FriendsRealmEntity()
@@ -53,17 +52,18 @@ class FriendsRequest {
     }
     
     func getFriendsList () {
-        firstly {
+        firstly () {
             getFriendsListData()
-        }.then {data in
+        }.then (on: queue) {data in
             self.parseFriendsListData(data: data)
-        }.done {items in
+        }.done (on: queue) {items in
             self.saveFriendsListData(items: items)
         }.catch {error in
-            print (error)
+            print (error.localizedDescription)
         }
     }
 }
+
 extension FriendsRequest {
     
     struct UserFriends:Decodable {
@@ -98,7 +98,7 @@ extension FriendsRequest {
 
 extension FriendsRequest {
     
-    func countCheck (friendCount:Int) {
+    private func countCheck (friendCount:Int) {
         do {
             let realm = try Realm ()
             let obj = realm.objects(FriendsRealmEntity.self)
@@ -112,7 +112,7 @@ extension FriendsRequest {
         }
     }
     
-    func saveFriendsData (friend: FriendsRealmEntity) {
+    private func saveFriendsData (friend: FriendsRealmEntity) {
         do {
             let realm = try Realm ()
             try realm.write () {

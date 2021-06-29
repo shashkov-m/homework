@@ -3,16 +3,14 @@ import RealmSwift
 import SDWebImage
 class NewsfeedTableViewController: UITableViewController {
     
-    let newsfeedRequest = NewsfeedRequest ()
-    var news:Results<NewsfeedRealmEntuty>?
-    var token:NotificationToken?
-    let queue = DispatchQueue (label: "NewsFeedCellQueue", qos: .userInteractive, attributes: .concurrent)
-    var realm = try? Realm ()
-    var date = Date()
-    var df = DateFormatter ()
-    let bgColorView = UIView()
-    
-    let cache = NSCache <NSString, UIImage> ()
+    private let newsfeedRequest = NewsfeedRequest ()
+    private var news:Results<NewsfeedRealmEntuty>?
+    private var token:NotificationToken?
+    private var realm = try? Realm ()
+    private var date = Date()
+    private var df = DateFormatter ()
+    private let bgColorView = UIView()
+    private let cache = NSCache <NSString, UIImage> ()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,8 +57,6 @@ class NewsfeedTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // guard let userNews = news else {return UITableViewCell ()}
-        // let news = userNews [indexPath.row]
         guard let userNews = news else {return UITableViewCell ()}
         let news = userNews [indexPath.section]
         
@@ -284,20 +280,6 @@ extension NewsfeedTableViewController {
         viewsLabel.topAnchor.constraint(equalTo: footerView.topAnchor,constant: 5).isActive = true
         viewsView.rightAnchor.constraint(equalTo: viewsLabel.leftAnchor, constant: -3).isActive = true
         viewsView.topAnchor.constraint(equalTo: footerView.topAnchor,constant: 5).isActive = true
-        
-        //        for i in 0..<viewsArray.count {
-        //            let view = viewsArray[i]
-        //            if i > 0 {
-        //                let previousIndex = i - 1
-        //                let previousView = viewsArray[previousIndex]
-        //                view.leftAnchor.constraint(equalTo: previousView.rightAnchor, constant: 6).isActive = true
-        //                view.topAnchor.constraint(equalTo: footerView.topAnchor, constant: 5).isActive = true
-        //            } else {
-        //                view.leftAnchor.constraint(equalTo: footerView.leftAnchor, constant: 6).isActive = true
-        //                view.topAnchor.constraint(equalTo: footerView.topAnchor, constant: 5).isActive = true
-        //            }
-        //        }
-        
         
         likeView.image = news.user_likes == 0 ? UIImage (systemName: "heart") : UIImage (systemName: "heart.fill")
         commentView.image = UIImage (systemName: "bubble.left")

@@ -1,22 +1,28 @@
 import UIKit
 import RealmSwift
-import Kingfisher
+
 class AlbumsCollectionViewController: UICollectionViewController {
     
     private let reuseIdentifier = "Cell"
-    let albumsRequest = AlbumRequest()
+    private let albumsRequest = AlbumRequest()
     var user_id:Int = 0
-    var album_id:Int = 0
-    var albumName:String = ""
-    let realm = try! Realm ()
-    var albums:Results<AlbumsRealmEntity>?
-    var token:NotificationToken?
+    private var album_id:Int = 0
+    private var albumName:String = ""
+    private var realm = try? Realm ()
+    private var albums:Results<AlbumsRealmEntity>?
+    private var token:NotificationToken?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         albumsRequest.getAlbums(owner_id: user_id)
         self.collectionView!.register(UINib(nibName: "AlbumsCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: reuseIdentifier)
-        albums = realm.objects(AlbumsRealmEntity.self).filter("owner_id == \(user_id)")
+        do {
+            realm = try Realm ()
+            albums = realm?.objects(AlbumsRealmEntity.self).filter("owner_id == \(user_id)")
+        } catch {
+            print (error.localizedDescription)
+        }
+        
         token = albums?.observe{[weak self] changes in
             switch changes {
             
@@ -45,17 +51,16 @@ class AlbumsCollectionViewController: UICollectionViewController {
         let album = albums [indexPath.item]
         cell.label.text = album.name
         let url = URL (string: album.photo)
-        cell.imageView.kf.setImage(with: url)
-        cell.imageView.contentMode = .scaleAspectFill
+        cell.imageView.sd_setImage(with: url)
         return cell
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let albums = albums else { return }
         let album = albums [indexPath.item]
-        self.album_id = album.id
-        self.albumName = album.name
-        self.performSegue(withIdentifier: "toPhotos", sender: self)
+        album_id = album.id
+        albumName = album.name
+        performSegue(withIdentifier: "toPhotos", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

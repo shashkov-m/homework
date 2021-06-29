@@ -1,30 +1,32 @@
 import Foundation
 import RealmSwift
 class NewsfeedRequest {
-    let requestManager = RequestManager()
-    let queue = DispatchQueue (label: "NewsfeedQueue", qos: .utility)
-    let dispatchGroup = DispatchGroup ()
+    
+    private let requestManager = RequestManager()
+    private let queue = DispatchQueue (label: "NewsfeedQueue", qos: .utility, attributes: .concurrent)
+    private let dispatchGroup = DispatchGroup ()
     
     func getNewsfeed () {
         var dataResponce:NewsfeedRequest.Response?
-        queue.async (group: dispatchGroup) {
-            let url = self.requestManager.vkRequestUrl(path: .newsFeedGet,queryItems: [
+        queue.async (group: dispatchGroup) { [weak self] in
+            let url = self?.requestManager.vkRequestUrl(path: .newsFeedGet,queryItems: [
                 URLQueryItem.init(name: "filters", value: "post")
             ])
-            self.dispatchGroup.enter()
+            self?.dispatchGroup.enter()
+            guard let url = url else {self?.dispatchGroup.leave(); return}
             let task = Session.session.urlSession.dataTask(with: url) {data, response, error in
-                guard let data = data else {return self.dispatchGroup.leave()}
+                guard let data = data else {self?.dispatchGroup.leave(); return}
                 let newsfeed = try? JSONDecoder().decode(Newsfeed.self, from: data)
                 dataResponce = newsfeed?.response
                 print (data )
-                self.dispatchGroup.leave()
+                self?.dispatchGroup.leave()
             }
             task.resume()
         }
         
-        dispatchGroup.notify(queue: queue) {
+        dispatchGroup.notify(queue: queue) { [weak self] in
             if let response = dataResponce {
-                self.deleteNewsfeed()
+                self?.deleteNewsfeed()
                 response.items?.forEach() { item in
                     guard item.marked_as_ads == 0 else {return}
                     let news = NewsfeedRealmEntuty ()
@@ -58,21 +60,21 @@ class NewsfeedRequest {
                             news.attachments.append(attach)
                         }
                     }
-                    self.saveNewsData(news: news)
+                    self?.saveNewsData(news: news)
                 }
                 response.groups?.forEach() {item in
                     let group = NewsfeedRealmOwner ()
                     group.id = item.id
                     group.name = item.name
                     group.photo = item.photo_50
-                    self.saveOwnerData(owner: group)
+                    self?.saveOwnerData(owner: group)
                 }
                 response.profiles?.forEach() {item in
                     let profile = NewsfeedRealmOwner ()
                     profile.id = item.id
                     profile.name = "\(item.first_name) \(item.last_name ?? "")"
                     profile.photo = item.photo_50
-                    self.saveOwnerData(owner: profile)
+                    self?.saveOwnerData(owner: profile)
                 }
             } else {
                 print ("Wrong JSON")
@@ -156,17 +158,10 @@ extension NewsfeedRequest {
     struct Views:Codable {
         let count:Int?
     }
-    //    struct Video:Codable {
-    //        let duration:Int
-    //
-    //    }
-    //    struct Link:Codable {
-    //
-    //    }
 }
 
 extension NewsfeedRequest {
-    func saveNewsData (news:NewsfeedRealmEntuty) {
+    private func saveNewsData (news:NewsfeedRealmEntuty) {
         do {
             let realm = try Realm ()
             try realm.write {
@@ -177,7 +172,7 @@ extension NewsfeedRequest {
         }
     }
     
-    func deleteNewsfeed () {
+    private func deleteNewsfeed () {
         do {
             let realm = try Realm ()
             let obj = realm.objects(NewsfeedRealmEntuty.self)
@@ -193,7 +188,7 @@ extension NewsfeedRequest {
         }
     }
     
-    func saveOwnerData (owner:NewsfeedRealmOwner) {
+    private func saveOwnerData (owner:NewsfeedRealmOwner) {
         do {
             let realm = try Realm ()
             try realm.write() {
