@@ -1,23 +1,28 @@
 import UIKit
 import RealmSwift
-import Kingfisher
+
 class FriendsPhotoCollectionViewController: UICollectionViewController {
     private let reuseIdentifier = "FriendPhotoItem"
-    let albumRequest = AlbumRequest ()
-    let realm = try! Realm ()
+    private let albumRequest = AlbumRequest ()
+    private var realm = try? Realm ()
     var user_id:Int = 0
     var album_id:Int = 0
-    var indexPath:Int = 0
+    private var currentIndex:Int = 0
     var albumName:String = ""
-    var photos:Results<PhotoRealmEntity>?
-    var token:NotificationToken?
+    private var photos:Results<PhotoRealmEntity>?
+    private var token:NotificationToken?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         albumRequest.getPhotos(owner_id: user_id, album_id: album_id)
-        photos = realm.objects(PhotoRealmEntity.self).filter("album_id == \(album_id) AND owner_id == \(user_id)")
+        do {
+            realm = try Realm ()
+            photos = realm?.objects(PhotoRealmEntity.self).filter("album_id == \(album_id) AND owner_id == \(user_id)")
+        } catch {
+            print (error.localizedDescription)
+        }
         self.title = albumName
-        token = photos?.observe {[weak self] changes in
+        token = photos?.observe { [weak self] changes in
             switch changes {
             
             case .initial(_):
@@ -43,13 +48,13 @@ class FriendsPhotoCollectionViewController: UICollectionViewController {
         guard let photos = photos else { return cell }
         let photo = photos [indexPath.row]
         let url = URL(string: photo.photo)
-        cell.imageView.kf.setImage(with: url)
+        cell.imageView.sd_setImage(with: url)
         cell.imageView.contentMode = .scaleAspectFill
         return cell
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.indexPath = indexPath.item
+        currentIndex = indexPath.item
         performSegue(withIdentifier: "toPhoto", sender: self)
         
     }
@@ -62,9 +67,9 @@ class FriendsPhotoCollectionViewController: UICollectionViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toPhoto",
            let photosVC = segue.destination as? PhotoViewController {
-            photosVC.selectedPhoto = self.indexPath
-            photosVC.album_id = self.album_id
-            photosVC.user_id = self.user_id
+            photosVC.selectedPhoto = currentIndex
+            photosVC.album_id = album_id
+            photosVC.user_id = user_id
         }
     }
     

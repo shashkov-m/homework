@@ -17,10 +17,14 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="emB-WV-YBX">
-                        <rect key="frame" x="0.0" y="0.0" width="170" height="95.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="170" height="100"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="170" id="mi3-0j-f3P"/>
+                            <constraint firstAttribute="height" constant="100" id="soJ-6b-8w9"/>
+                        </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Test text" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mba-qe-0Rk">
-                        <rect key="frame" x="0.0" y="100.5" width="170" height="19.5"/>
+                        <rect key="frame" x="0.0" y="105" width="170" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
