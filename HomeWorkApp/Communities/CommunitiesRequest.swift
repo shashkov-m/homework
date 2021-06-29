@@ -1,9 +1,9 @@
 import UIKit
 import RealmSwift
 class CommunitiesRequest {
-    let requestManager = RequestManager ()
-    let queue = DispatchQueue (label: "CommunitiesRequestQueue", qos: .utility, attributes: .concurrent)
-    let dispatchGroup = DispatchGroup ()
+    private let requestManager = RequestManager ()
+    private let queue = DispatchQueue (label: "CommunitiesRequestQueue", qos: .utility, attributes: .concurrent)
+    private let dispatchGroup = DispatchGroup ()
     
     func getGroupsList () {
         var groups:CommunitiesRequest.UserGroups?
@@ -20,16 +20,16 @@ class CommunitiesRequest {
             }
             task.resume()
         }
-        dispatchGroup.notify(queue: queue) {
+        dispatchGroup.notify(queue: queue) {[weak self] in
             if let items = groups?.response.items {
-                self.countCheck (communitiesCount: items.count)
+                self?.countCheck (communitiesCount: items.count)
                 items.forEach() {item in
                     let community = CommunitiesRealmEntity ()
                     community.id = item.id
                     community.name = item.name
                     community.type = item.activity
                     community.photo = item.photo_50
-                    self.saveCommunitiesData(community: community)
+                    self?.saveCommunitiesData(community: community)
                 }
             } else {
                 print ("Wrong JSON")
@@ -61,7 +61,7 @@ extension CommunitiesRequest {
 }
 
 extension CommunitiesRequest {
-    func countCheck (communitiesCount:Int) {
+    private func countCheck (communitiesCount:Int) {
         do {
             let realm = try Realm ()
             let obj = realm.objects(CommunitiesRealmEntity.self)
@@ -75,7 +75,7 @@ extension CommunitiesRequest {
         }
     }
     
-    func saveCommunitiesData (community: CommunitiesRealmEntity) {
+    private func saveCommunitiesData (community: CommunitiesRealmEntity) {
         do {
             let realm = try Realm ()
             try realm.write() {

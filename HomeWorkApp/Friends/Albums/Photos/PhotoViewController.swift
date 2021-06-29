@@ -1,19 +1,25 @@
 import UIKit
 import RealmSwift
-import Kingfisher
+
 class PhotoViewController: UIViewController {
     @IBOutlet weak var photoView: UIImageView!
     var user_id:Int = 0
     var album_id:Int = 0
     var selectedPhoto:Int = 0
-    let realm = try! Realm()
-    var photosList:Results<PhotoRealmEntity>?
+    private var realm = try? Realm()
+    private var photosList:Results<PhotoRealmEntity>?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        photosList = realm.objects(PhotoRealmEntity.self).filter("album_id == \(album_id) AND owner_id == \(user_id)")
+        do {
+            realm = try Realm ()
+            photosList = realm?.objects(PhotoRealmEntity.self).filter("album_id == \(album_id) AND owner_id == \(user_id)")
+        } catch {
+            print (error.localizedDescription)
+        }
         guard let photosList = photosList else { return }
         let url = URL(string: photosList[selectedPhoto].photo)
-        photoView.kf.setImage(with: url)
+        photoView.sd_setImage(with: url)
         let rightSwipe = UISwipeGestureRecognizer (target: self, action: #selector(moveToNextItem(_:)))
         let leftSwipe = UISwipeGestureRecognizer (target: self, action: #selector(moveToNextItem(_:)))
         rightSwipe.direction = .right
@@ -39,14 +45,14 @@ class PhotoViewController: UIViewController {
             newImage.frame = CGRect (x: photoView.layer.frame.origin.x + 420, y: photoView.layer.frame.origin.y, width: photoView.frame.width, height: photoView.frame.height)
             newImage.contentMode = .scaleAspectFit
             let url = URL(string: photosList[selectedPhoto].photo)
-            newImage.kf.setImage(with: url)
+            newImage.sd_setImage(with: url)
             view.addSubview(newImage)
             UIView.animate(withDuration: 0.8, delay: 0, options:.transitionCrossDissolve, animations: {
                 self.photoView.transform = CGAffineTransform (translationX: -420, y: 0)
                 newImage.transform = CGAffineTransform (translationX: -420, y: 0)
-            }, completion: {finished in
+            }, completion: { finished in
                 self.photoView.transform = .identity
-                self.photoView.kf.setImage(with: url)
+                self.photoView.sd_setImage(with: url)
                 newImage.removeFromSuperview()
                 self.animateIsActive = false
             })
@@ -59,7 +65,7 @@ class PhotoViewController: UIViewController {
             newImage.frame = CGRect (x: photoView.layer.frame.origin.x - 420, y: photoView.layer.frame.origin.y, width: photoView.frame.width, height: photoView.frame.height)
             newImage.contentMode = .scaleAspectFit
             let url = URL(string: photosList[selectedPhoto].photo)
-            newImage.kf.setImage(with: url)
+            newImage.sd_setImage(with: url)
             view.addSubview(newImage)
             UIView.animate(withDuration: 0.8, delay: 0, options:.transitionCrossDissolve, animations: {
 
@@ -68,7 +74,7 @@ class PhotoViewController: UIViewController {
             
             }, completion: {finished in
                 self.photoView.transform = .identity
-                self.photoView.kf.setImage(with: url)
+                self.photoView.sd_setImage(with: url)
                 newImage.removeFromSuperview()
                 self.animateIsActive = false
             })
