@@ -329,7 +329,6 @@ PODS:
     - BoringSSL-GRPC (= 0.0.7)
     - gRPC-Core/Interface (= 1.28.2)
   - gRPC-Core/Interface (1.28.2)
-  - Kingfisher (6.3.0)
   - leveldb-library (1.22.1)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
@@ -358,7 +357,6 @@ PODS:
 DEPENDENCIES:
   - Firebase/Analytics
   - FirebaseFirestore (~> 8.0)
-  - Kingfisher (~> 6.3)
   - PromiseKit (~> 6.8)
   - RealmSwift (~> 10.7)
   - SDWebImage (~> 5.11)
@@ -378,7 +376,6 @@ SPEC REPOS:
     - GoogleUtilities
     - "gRPC-C++"
     - gRPC-Core
-    - Kingfisher
     - leveldb-library
     - nanopb
     - PromiseKit
@@ -401,7 +398,6 @@ SPEC CHECKSUMS:
   GoogleUtilities: 45dbb24a7f351d69d0a601482b39ad6c32e30dab
   "gRPC-C++": 13d8ccef97d5c3c441b7e3c529ef28ebee86fad2
   gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5
-  Kingfisher: 6c3df386db71d82c0817a429d2c9421a77396529
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromiseKit: 3b2b6995e51a954c46dbc550ce3da44fbfb563c5
@@ -410,6 +406,6 @@ SPEC CHECKSUMS:
   RealmSwift: 2a3c75ecbf5a3b04080ff5f6f0554cf6337b4764
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
 
-PODFILE CHECKSUM: 759b697be517b0f86b01f21357712200b0a96bee
+PODFILE CHECKSUM: da594e8b181c0779865375fc8663f4b6b8691a42
 
 COCOAPODS: 1.10.1

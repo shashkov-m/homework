@@ -22,7 +22,7 @@ class NewsfeedTableViewController: UITableViewController {
         df.doesRelativeDateFormatting = true
         
         bgColorView.backgroundColor = UIColor.clear
-        
+        setupRefreshControl()
         do {
             realm = try Realm ()
             news = realm?.objects(NewsfeedRealmEntuty.self)
@@ -295,5 +295,19 @@ extension NewsfeedTableViewController {
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 30
+    }
+}
+
+extension NewsfeedTableViewController {
+    private func setupRefreshControl () {
+        refreshControl = UIRefreshControl ()
+        refreshControl?.tintColor = .gray
+        refreshControl?.addTarget(self, action: #selector(refreshNews), for: .valueChanged)
+    }
+    
+    @objc private func refreshNews () {
+        self.refreshControl?.beginRefreshing()
+        newsfeedRequest.getNewsfeed()
+        self.refreshControl?.endRefreshing()
     }
 }
