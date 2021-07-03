@@ -5,40 +5,35 @@ class NewsfeedRequest {
     private let requestManager = RequestManager()
     private let queue = DispatchQueue (label: "NewsfeedQueue", qos: .utility, attributes: .concurrent)
     private let dispatchGroup = DispatchGroup ()
+    private let defaultDate = Date ()
+    static var nextFrom:String?
     
-    func getNewsfeed () {
+    func getNewsfeed (startFrom:String?, completion: @escaping (Bool) -> Void) {
         var dataResponce:NewsfeedRequest.Response?
+        print (defaultDate)
         queue.async (group: dispatchGroup) { [weak self] in
-            let url = self?.requestManager.vkRequestUrl(path: .newsFeedGet,queryItems: [
-                URLQueryItem.init(name: "filters", value: "post")
-            ])
+            var queryItems:[URLQueryItem] = [URLQueryItem.init(name: "filters", value: "post"), URLQueryItem.init(name: "count", value: "20")]
+            if startFrom != nil {
+                queryItems.append(URLQueryItem.init(name: "start_from", value: startFrom))
+            }
+            let url = self?.requestManager.vkRequestUrl(path: .newsFeedGet,queryItems: queryItems)
             self?.dispatchGroup.enter()
             guard let url = url else {self?.dispatchGroup.leave(); return}
             let task = Session.session.urlSession.dataTask(with: url) {data, response, error in
                 guard let data = data else {self?.dispatchGroup.leave(); return}
                 let newsfeed = try? JSONDecoder().decode(Newsfeed.self, from: data)
                 dataResponce = newsfeed?.response
-                print (data )
                 self?.dispatchGroup.leave()
             }
             task.resume()
         }
-        
         dispatchGroup.notify(queue: queue) { [weak self] in
             if let response = dataResponce {
-                self?.deleteNewsfeed()
+                if NewsfeedRequest.nextFrom == nil { self?.deleteNewsfeed() }
+                NewsfeedRequest.nextFrom = response.next_from ?? ""
                 response.items?.forEach() { item in
                     guard item.marked_as_ads == 0 else {return}
-                    let news = NewsfeedRealmEntuty ()
-                    news.id = abs(item.source_id ?? 0)
-                    news.date = item.date ?? 0
-                    news.text = item.text
-                    news.marked_as_ads = item.marked_as_ads ?? 0
-                    news.likes = item.likes?.count ?? 0
-                    news.user_likes = item.likes?.user_likes ?? 0
-                    news.comments = item.comments?.count ?? 0
-                    news.reposts = item.reposts?.count ?? 0
-                    news.views = item.views?.count ?? 0
+                    let news = NewsfeedRealmEntuty (item: item)
                     if let attachments = item.attachments {
                         for i in 0 ..< attachments.count {
                             let attach = NewsfeedRealmAttachment ()
@@ -55,29 +50,23 @@ class NewsfeedRequest {
                             default:
                                 break
                             }
-                            
-                            
                             news.attachments.append(attach)
                         }
                     }
                     self?.saveNewsData(news: news)
                 }
                 response.groups?.forEach() {item in
-                    let group = NewsfeedRealmOwner ()
-                    group.id = item.id
-                    group.name = item.name
-                    group.photo = item.photo_50
+                    let group = NewsfeedRealmOwner (item: item)
                     self?.saveOwnerData(owner: group)
                 }
                 response.profiles?.forEach() {item in
-                    let profile = NewsfeedRealmOwner ()
-                    profile.id = item.id
-                    profile.name = "\(item.first_name) \(item.last_name ?? "")"
-                    profile.photo = item.photo_50
+                    let profile = NewsfeedRealmOwner (item: item)
                     self?.saveOwnerData(owner: profile)
                 }
+                completion (true)
             } else {
                 print ("Wrong JSON")
+                completion (false)
             }
         }
     }

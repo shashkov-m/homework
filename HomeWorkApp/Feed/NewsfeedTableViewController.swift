@@ -11,26 +11,31 @@ class NewsfeedTableViewController: UITableViewController {
     private var df = DateFormatter ()
     private let bgColorView = UIView()
     private let cache = NSCache <NSString, UIImage> ()
+    private var isLoading = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.allowsSelection = true
-        newsfeedRequest.getNewsfeed()
-        //df.dateFormat = "dd.MM.yyyy HH:mm"
+        isLoading = true
+        newsfeedRequest.getNewsfeed(startFrom: nil) {[weak self] completion in
+            if completion == true  { self?.isLoading = false }
+        }
         df.dateStyle = .medium
         df.timeStyle = .short
         df.doesRelativeDateFormatting = true
-        
+        tableView.prefetchDataSource = self
         bgColorView.backgroundColor = UIColor.clear
+        setupRefreshControl()
         
         do {
             realm = try Realm ()
             news = realm?.objects(NewsfeedRealmEntuty.self)
+            print (realm?.configuration.fileURL)
         } catch {
             print (error.localizedDescription)
         }
         
-        token = news?.observe {[weak self] changes in
+        token = news?.observe { [weak self] changes in
             switch changes {
             case .initial:
                 self?.tableView.reloadData()
@@ -193,7 +198,7 @@ extension NewsfeedTableViewController {
         let owner = realm?.objects(NewsfeedRealmOwner.self).filter("id == \(news.id)")
         
         let headerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 50))
-        headerView.backgroundColor = .white
+        headerView.backgroundColor = .systemBackground
         let avatarView = UIImageView.init(frame: CGRect.init(x: 6, y: 0, width: 50, height: 50))
         let avatarLabel = UILabel ()
         let dateLabel = UILabel ()
@@ -235,7 +240,7 @@ extension NewsfeedTableViewController {
         guard let userNews = news else { return nil}
         let news = userNews [section]
         let footerView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.width, height: 30))
-        footerView.backgroundColor = .white
+        footerView.backgroundColor = .systemBackground
         
         let likeView = UIImageView()
         let likeLabel = UILabel()
@@ -296,4 +301,29 @@ extension NewsfeedTableViewController {
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 30
     }
+}
+
+extension NewsfeedTableViewController: UITableViewDataSourcePrefetching {
+    private func setupRefreshControl () {
+        refreshControl = UIRefreshControl ()
+        refreshControl?.tintColor = .gray
+        refreshControl?.addTarget(self, action: #selector(refreshNews), for: .valueChanged)
+    }
+    
+    @objc private func refreshNews () {
+        self.refreshControl?.beginRefreshing()
+        //newsfeedRequest.getNewsfeed(startFrom: nil)
+        self.refreshControl?.endRefreshing()
+    }
+    
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        guard let maxSection = indexPaths.map({ $0.section }).max(), let news = news else { return }
+        if maxSection > news.count - 4, !isLoading {
+            isLoading = true
+            newsfeedRequest.getNewsfeed(startFrom: NewsfeedRequest.nextFrom) {[weak self] completion in
+                if completion == true  { self?.isLoading = false }
+            }
+        }
+    }
+    
 }
