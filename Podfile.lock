@@ -345,11 +345,11 @@ PODS:
   - PromiseKit/UIKit (6.15.3):
     - PromiseKit/CorePromise
   - PromisesObjC (1.2.12)
-  - Realm (10.8.1):
-    - Realm/Headers (= 10.8.1)
-  - Realm/Headers (10.8.1)
-  - RealmSwift (10.8.1):
-    - Realm (= 10.8.1)
+  - Realm (10.9.0):
+    - Realm/Headers (= 10.9.0)
+  - Realm/Headers (10.9.0)
+  - RealmSwift (10.9.0):
+    - Realm (= 10.9.0)
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
   - SDWebImage/Core (5.11.1)
@@ -402,8 +402,8 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   PromiseKit: 3b2b6995e51a954c46dbc550ce3da44fbfb563c5
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
-  Realm: a2db54d9dcceddeba936b429f5b3d6610a109686
-  RealmSwift: 2a3c75ecbf5a3b04080ff5f6f0554cf6337b4764
+  Realm: 9feef41ab8230ed706c4dc503fc292594915bf9a
+  RealmSwift: 91246183b772e0ea1bf777116c4b8d9939f983b3
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
 
 PODFILE CHECKSUM: da594e8b181c0779865375fc8663f4b6b8691a42
