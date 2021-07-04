@@ -5,12 +5,10 @@ class NewsfeedRequest {
     private let requestManager = RequestManager()
     private let queue = DispatchQueue (label: "NewsfeedQueue", qos: .utility, attributes: .concurrent)
     private let dispatchGroup = DispatchGroup ()
-    private let defaultDate = Date ()
     static var nextFrom:String?
     
     func getNewsfeed (startFrom:String?, completion: @escaping (Bool) -> Void) {
         var dataResponce:NewsfeedRequest.Response?
-        print (defaultDate)
         queue.async (group: dispatchGroup) { [weak self] in
             var queryItems:[URLQueryItem] = [URLQueryItem.init(name: "filters", value: "post"), URLQueryItem.init(name: "count", value: "20")]
             if startFrom != nil {

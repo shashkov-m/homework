@@ -12,6 +12,7 @@ class NewsfeedTableViewController: UITableViewController {
     private let bgColorView = UIView()
     private let cache = NSCache <NSString, UIImage> ()
     private var isLoading = false
+    private var startTime:Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +31,7 @@ class NewsfeedTableViewController: UITableViewController {
         do {
             realm = try Realm ()
             news = realm?.objects(NewsfeedRealmEntuty.self)
+            startTime = news?.first?.date ?? 0
             print (realm?.configuration.fileURL)
         } catch {
             print (error.localizedDescription)
@@ -71,6 +73,7 @@ class NewsfeedTableViewController: UITableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "gifCell", for: indexPath) as! GifTableViewCell
             cell.selectedBackgroundView = bgColorView
             cell.postLabel.text = news.text
+            cell.backgroundColor = .systemBackground
             cell.gifView.frame = cell.view.bounds
             cell.view.addSubview(cell.gifView)
             guard let source = news.attachments.first?.source else { return cell }
@@ -89,6 +92,7 @@ class NewsfeedTableViewController: UITableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "newsfeedTableViewCell", for: indexPath) as! NewsfeedUITableViewCell
             cell.selectedBackgroundView = bgColorView
             cell.postLabel.text = news.text
+            cell.backgroundColor = .systemBackground
             return cell
             //MARK: Default
         } else {
@@ -96,6 +100,7 @@ class NewsfeedTableViewController: UITableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell", for: indexPath) as! DefaultTableViewCell
             cell.selectedBackgroundView = bgColorView
             cell.postLabel.text = news.text
+            cell.backgroundColor = .systemBackground
             return cell
         }
     }
@@ -299,7 +304,7 @@ extension NewsfeedTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 30
+        return 50
     }
 }
 
@@ -312,8 +317,13 @@ extension NewsfeedTableViewController: UITableViewDataSourcePrefetching {
     
     @objc private func refreshNews () {
         self.refreshControl?.beginRefreshing()
-        //newsfeedRequest.getNewsfeed(startFrom: nil)
-        self.refreshControl?.endRefreshing()
+        NewsfeedRequest.nextFrom = nil
+        newsfeedRequest.getNewsfeed(startFrom: nil) {_ in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
