@@ -2,7 +2,7 @@
 #  platform :ios, '9.0'
 #arch -x86_64 pod install
   use_frameworks!
-target 'HomeWorkApp' do
+target 'Client' do
 pod 'RealmSwift', '~> 10.7'
 pod 'Firebase/Analytics'
 pod 'FirebaseFirestore', '~> 8.0'
